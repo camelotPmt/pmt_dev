@@ -6,6 +6,9 @@ import com.camelot.pmt.task.model.Task;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Mapper;
+
+
 public interface TaskMapper {
     int deleteByPrimaryKey(Long id);
 

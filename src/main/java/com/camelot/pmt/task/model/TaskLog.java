@@ -1,8 +1,9 @@
 package com.camelot.pmt.task.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class TaskLog {
+public class TaskLog implements Serializable{
     private Long id;
 
     private Long taskId;

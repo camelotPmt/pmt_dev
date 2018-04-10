@@ -50,6 +50,7 @@ public class TaskOverdueServiceImpl implements TaskOverdueService {
             Long total = taskMapper.queryCount();
             dg.setTotal(total);
             result.setResult(dg);
+            
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

@@ -39,7 +39,7 @@ import springfox.documentation.annotations.ApiIgnore;
  */
 @RestController
 @RequestMapping("/task")
-@Api(value = "任务管理接口", description = "任务管理接口")
+@Api(value = "延期任务管理接口", description = "延期任务管理接口")
 public class TaskOverdueController {
 	
 	@Autowired

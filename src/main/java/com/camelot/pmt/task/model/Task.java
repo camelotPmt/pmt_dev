@@ -1,8 +1,9 @@
 package com.camelot.pmt.task.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Task {
+public class Task implements Serializable{
     private Long id;
 
     private String taskName;
@@ -342,4 +343,69 @@ public class Task {
     public void setColumn5(String column5) {
         this.column5 = column5 == null ? null : column5.trim();
     }
+
+	@Override
+	public String toString() {
+		return "Task [id=" + id + ", taskName=" + taskName + ", taskParentId=" + taskParentId + ", projectId="
+				+ projectId + ", demandId=" + demandId + ", priority=" + priority + ", assignUserId=" + assignUserId
+				+ ", beassignUserId=" + beassignUserId + ", assignTime=" + assignTime + ", estimateStartTime="
+				+ estimateStartTime + ", estimateEndTime=" + estimateEndTime + ", actualStartTime=" + actualStartTime
+				+ ", actualEndTime=" + actualEndTime + ", taskType=" + taskType + ", taskSpeed=" + taskSpeed
+				+ ", status=" + status + ", abnormalStatus=" + abnormalStatus + ", taskDescribe=" + taskDescribe
+				+ ", abnormalDescribe=" + abnormalDescribe + ", estimateHour=" + estimateHour + ", consumeHour="
+				+ consumeHour + ", remainHour=" + remainHour + ", taskMileage=" + taskMileage + ", createUserId="
+				+ createUserId + ", modifyUserId=" + modifyUserId + ", createTime=" + createTime + ", modifyTime="
+				+ modifyTime + ", warningHour=" + warningHour + ", warningStatus=" + warningStatus + ", column1="
+				+ column1 + ", column2=" + column2 + ", column3=" + column3 + ", column4=" + column4 + ", column5="
+				+ column5 + "]";
+	}
+
+	public Task(Long id, String taskName, Long taskParentId, Long projectId, Long demandId, String priority,
+			String assignUserId, String beassignUserId, Date assignTime, Date estimateStartTime, Date estimateEndTime,
+			Date actualStartTime, Date actualEndTime, String taskType, String taskSpeed, String status,
+			String abnormalStatus, String taskDescribe, String abnormalDescribe, Integer estimateHour,
+			Integer consumeHour, Integer remainHour, String taskMileage, String createUserId, String modifyUserId,
+			Date createTime, Date modifyTime, Integer warningHour, Integer warningStatus, String column1,
+			String column2, String column3, String column4, String column5) {
+		super();
+		this.id = id;
+		this.taskName = taskName;
+		this.taskParentId = taskParentId;
+		this.projectId = projectId;
+		this.demandId = demandId;
+		this.priority = priority;
+		this.assignUserId = assignUserId;
+		this.beassignUserId = beassignUserId;
+		this.assignTime = assignTime;
+		this.estimateStartTime = estimateStartTime;
+		this.estimateEndTime = estimateEndTime;
+		this.actualStartTime = actualStartTime;
+		this.actualEndTime = actualEndTime;
+		this.taskType = taskType;
+		this.taskSpeed = taskSpeed;
+		this.status = status;
+		this.abnormalStatus = abnormalStatus;
+		this.taskDescribe = taskDescribe;
+		this.abnormalDescribe = abnormalDescribe;
+		this.estimateHour = estimateHour;
+		this.consumeHour = consumeHour;
+		this.remainHour = remainHour;
+		this.taskMileage = taskMileage;
+		this.createUserId = createUserId;
+		this.modifyUserId = modifyUserId;
+		this.createTime = createTime;
+		this.modifyTime = modifyTime;
+		this.warningHour = warningHour;
+		this.warningStatus = warningStatus;
+		this.column1 = column1;
+		this.column2 = column2;
+		this.column3 = column3;
+		this.column4 = column4;
+		this.column5 = column5;
+	}
+
+	public Task() {
+		super();
+	}
+    
 }
