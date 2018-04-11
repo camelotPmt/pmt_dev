@@ -469,54 +469,62 @@
       Column_5 = #{column5,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
-  
 
+  <!--zlh-->
+  <!--映射TaskMagager实体-->
+  <resultMap id="TaskManagerResultMap" type="com.camelot.pmt.task.model.TaskManager" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="task_name" property="taskName" jdbcType="VARCHAR" />
+    <result column="priority" property="priority" jdbcType="VARCHAR" />
+    <result column="assign_time" property="assignTime" jdbcType="TIMESTAMP" />
+    <result column="estimate_start_time" property="estimateStartTime" jdbcType="TIMESTAMP" />
+    <result column="estimate_end_time" property="estimateEndTime" jdbcType="TIMESTAMP" />
+    <result column="actual_start_time" property="actualStartTime" jdbcType="TIMESTAMP" />
+    <result column="actual_end_time" property="actualEndTime" jdbcType="TIMESTAMP" />
+    <result column="task_type" property="taskType" jdbcType="VARCHAR" />
+    <result column="task_speed" property="taskSpeed" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="abnormal_status" property="abnormalStatus" jdbcType="VARCHAR" />
+    <result column="task_mileage" property="taskMileage" jdbcType="VARCHAR" />
+    <association property="assignUser" javaType="com.camelot.pmt.platform.user.model.UserModel">
+      <id column="user_id" property="userId" jdbcType="VARCHAR" />
+      <result column="user_name" property="username" jdbcType="VARCHAR" />
+    </association>
+    <association property="beassignUser" javaType="com.camelot.pmt.platform.user.model.UserModel">
+      <id column="user_id" property="userId" jdbcType="VARCHAR" />
+      <result column="user_name" property="username" jdbcType="VARCHAR" />
+    </association>
+    <association property="createUser" javaType="com.camelot.pmt.platform.user.model.UserModel">
+      <id column="user_id" property="userId" jdbcType="VARCHAR" />
+      <result column="user_name" property="username" jdbcType="VARCHAR" />
+    </association>
+  </resultMap>
 
-
-  <sql id="Base_Column_List2" >
-    id, task_name, priority, assign_user_id,
-    beassign_user_id, assign_time, estimate_start_time, estimate_end_time,
-    actual_start_time, actual_end_time, task_type, task_speed, status, abnormal_status,
-    task_mileage, create_user_id
-  </sql> 
-
-
-
-  
-  
-  <!-- 查询数量公共sql -->
-	<sql id="count_Tail">
-		select count(1) from task where abnormal_status = 0
-	</sql>
-	
-	<!-- 查询总数量 -->
-	<select id="queryCount" resultType="long">
-		<include refid="count_Tail"></include>
-	</select>
-	
-	<!-- 分页公共sql -->
-	<sql id="pagination_tail">
-	    limit #{page.pageOffset} , #{page.rows}
-	</sql>
-	
-    <!-- 分页查询所有用户列表 -->
-    <select id="queryOverdueTask" resultMap="BaseResultMap">
-        select
-        <include refid="Base_Column_List"/>
-            from task where abnormal_status = 0
-        <if test="page!=null">
-			<include refid="pagination_tail" />
-		</if>
-    </select>
+  <!--zlh-->
+  <!--任务管理展示字段-->
+  <sql id="TaskManager_Column_List" >
+    t.id, t.task_name, u2.user_id, u2.user_name, t.estimate_start_time, t.estimate_end_time,
+    t.actual_start_time, t.actual_end_time, t.task_speed, t.status,
+    t.abnormal_status, t.task_type, t.task_mileage, t.priority, u3.user_id, u3.user_name,
+    u1.user_id, u1.user_name, t.assign_time
+  </sql>
 
   <!--zlh-->
   <!--查询所有任务列表-->
-  <select id="queryAllTask" resultMap="BaseResultMap">
+  <select id="queryAllTask" resultMap="TaskManagerResultMap">
     select
-    <include refid="Base_Column_List2" />
-    from task
+    <include refid="TaskManager_Column_List" />
+    from task t LEFT JOIN platform_user u1
+--     指派人
+      ON t.assign_user_id = u1.user_id
+      LEFT JOIN platform_user u2
+--     被指派人
+      ON t.beassign_user_id = u2.user_id
+      LEFT JOIN platform_user u3
+--     创建人
+      on t.create_user_id = u3.user_id
   </select>
-  
+
   <!-- gxl开始 -->
   <!-- 查询整个任务表 -->
   <select id="queryAllTaskList" resultMap="BaseResultMap">
@@ -524,16 +532,16 @@
     <include refid="Base_Column_List" />
     from task
   </select>
-  
+
   <!-- 查询此任务下的一级子任务 -->
   <select id="queryTaskListNodeByParentId" resultMap="BaseResultMap">
-    select <include refid="Base_Column_List" /> 
-    from task t 
+    select <include refid="Base_Column_List" />
+    from task t
     where t.task_parent_id = #{taskParentId,jdbcType=BIGINT}
   </select>
   <!-- gxl结束 -->
-  
-  
+
+
   <!--&lt;!&ndash;zlh&ndash;&gt;-->
   <!--&lt;!&ndash;根据条件模糊查询&ndash;&gt;-->
   <!--<select id="queryAllTask" resultMap="BaseResultMap" parameterType="com.camelot.pmt.task.model.Task">-->
@@ -544,7 +552,7 @@
       <!--<if test=""></if>-->
     <!--</where>-->
   <!--</select>-->
-  
+
   <!--myp开始-->
   <!--查询正在进行的任务-->
   <select id="listTaskRunning" resultType="java.util.Map">
