@@ -90,10 +90,25 @@ public interface TaskMapper {
 	List<Map<String,Object>> listTaskRunning(@Param(value = "page") Pager page);
 
 	/**
-	 * 查询正在进行任务个数 @Title: queryCount @Description: TODO @param @return @return
-	 * Long @throws
-	 * myp
-	 */
-	Long queryRunningCount();
+     * 查询正在进行任务个数 @Title: queryCount @Description: TODO @param @return @return
+     * Long @throws
+     * myp
+     */
+    Long queryRunningCount();
+
+
+    /**
+     * 根据id关闭任务 @Title: queryCount @Description: TODO @param @return @return
+     * Long @throws
+     * myp
+     */
+    Long updateStatus(String id);
+
+    /**
+     * 根据id关闭任务，修改为异常状态 @Title: queryCount @Description: TODO @param @return @return
+     * Long @throws
+     * myp
+     */
+    Long updateAbnormal_Status(String id);
 
 }
