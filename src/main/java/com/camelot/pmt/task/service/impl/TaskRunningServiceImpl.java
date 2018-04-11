@@ -1,5 +1,6 @@
 package com.camelot.pmt.task.service.impl;
 
+import com.camelot.pmt.platform.user.model.UserModel;
 import com.camelot.pmt.platform.utils.DataGrid;
 import com.camelot.pmt.platform.utils.ExecuteResult;
 import com.camelot.pmt.platform.utils.Pager;
@@ -49,6 +50,57 @@ public class TaskRunningServiceImpl implements TaskRunningService{
             dg.setTotal(total);
             result.setResult(dg);
         } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return result;
+    }
+
+    /**
+     * <p>
+     * Description:[根据id关闭任务]
+     * <p>
+     *
+     * @return ExecuteResult<long>
+     */
+    @Override
+    public ExecuteResult<Long> updateStatus(String id) {
+        ExecuteResult<Long> result = new ExecuteResult<Long>();
+        try {
+            if (!id.equals("") && !id.equals("0")) {
+                Long updateStatusResult = taskMapper.updateStatus(id);
+                Long updateAbnormal_StatusResult = taskMapper.updateAbnormal_Status(id);
+                result.setResult(updateStatusResult);
+                result.setResult(updateAbnormal_StatusResult);
+                return result;
+            }
+            result.addErrorMessage("关闭失败！");
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage());
+            throw new RuntimeException(e);
+        }
+        return result;
+    }
+
+
+    /**
+     * <p>
+     * Description:[完成任务完成功能]
+     * <p>
+     *
+     * @return ExecuteResult<long>
+     */
+    @Override
+    public ExecuteResult<Long> updateStatusFinish(String id) {
+        ExecuteResult<Long> result = new ExecuteResult<Long>();
+        try {
+            if (!id.equals("") && !id.equals("0")) {
+                Long updateStatusResult = taskMapper.updateStatus(id);
+                result.setResult(updateStatusResult);
+                return result;
+            }
+            result.addErrorMessage("完成失败！");
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage());
             throw new RuntimeException(e);
         }
         return result;
