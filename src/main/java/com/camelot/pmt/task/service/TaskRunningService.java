@@ -11,7 +11,6 @@ import java.util.Map;
  * @author muyuanpei
  * @date 2018/4/10    15:19
  */
-@Service
 public interface TaskRunningService {
 
     /**
