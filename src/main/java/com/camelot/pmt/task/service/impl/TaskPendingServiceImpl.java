@@ -8,6 +8,7 @@ import com.camelot.pmt.task.utils.RRException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -19,6 +20,7 @@ import java.util.List;
 * @date 2018年4月9日 下午5:31:16
 *
  */
+@Service
 public class TaskPendingServiceImpl implements TaskPendingService{
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(TaskPendingServiceImpl.class);
@@ -50,6 +52,27 @@ public class TaskPendingServiceImpl implements TaskPendingService{
 			LOGGER.error(e.getMessage());
             throw new RRException(e.getMessage(),e);
 		}
+		return result;
+	}
+	
+	/**
+	 * 
+	* @Title: update 
+	* @Description: TODO(修改任务) 
+	* @param @param task
+	* @param @return    设定文件 
+	* @return ExecuteResult<String>    返回类型 
+	* @throws
+	 */
+	@Override
+	public ExecuteResult<String> update(Task task) {
+		ExecuteResult<String> result = new ExecuteResult<String>();
+		if(task==null||task.getId() == null){
+			result.addErrorMessage("传入的任务实体或者任务Id有误!");
+			return result;
+		}
+		taskMapper.updateByPrimaryKeySelective(task);
+		result.setResult("修改任务成功！");
 		return result;
 	}
 	
@@ -95,6 +118,81 @@ public class TaskPendingServiceImpl implements TaskPendingService{
 	/**
 	 * 
 	* @Title: delete 
+	* @Description: TODO(根据taskId删除该任务，若删除该任务下的所有子任务请调用deleteTaskTreeById（）方法) 
+	* @param @param taskId
+	* @param @return    设定文件 
+	* @return ExecuteResult<String>    返回类型 
+	* @throws
+	 */
+	@Override
+	public ExecuteResult<String> delete(Long taskId){
+		ExecuteResult<String> result = new ExecuteResult<String>();
+		try{
+			if(taskId==null){
+				result.addErrorMessage("删除任务时，taskId不能为空!");
+				return result;
+			}
+			//查询所有的Task任务列表
+			taskMapper.deleteByPrimaryKey(taskId);
+		}catch (Exception e) {
+			LOGGER.error(e.getMessage());
+            throw new RRException(e.getMessage(),e);
+		}
+		return result;
+	}
+	
+	/**
+	 * 
+	* @Title: queryAllTaskList 
+	* @Description: TODO(查询所有的Task任务列表) 
+	* @param @return    设定文件 
+	* @return ExecuteResult<List<Task>>    返回类型 
+	* @throws
+	 */
+	@Override
+	public ExecuteResult<List<Task>> queryAllTaskList(){
+		ExecuteResult<List<Task>> result = new ExecuteResult<List<Task>>();
+		try{
+			//查询所有的Task任务列表
+			List<Task> allTaskList = taskMapper.queryAllTaskList();
+			result.setResult(allTaskList);
+		}catch (Exception e) {
+			LOGGER.error(e.getMessage());
+            throw new RRException(e.getMessage(),e);
+		}
+		return result;
+	}
+	
+	/**
+	 * 
+	* @Title: queryTaskListNodeByParentId 
+	* @Description: TODO(查询taskId下的一级子节点) 
+	* @param @param taskId
+	* @param @return    设定文件 
+	* @return ExecuteResult<List<Task>>    返回类型 
+	* @throws
+	 */
+	public ExecuteResult<List<Task>> queryTaskListNodeByParentId(Long taskId){
+		ExecuteResult<List<Task>> result = new ExecuteResult<List<Task>>();
+		try{
+			//对象检查是否为空
+			if(taskId==null){
+				result.addErrorMessage("查询一级子任务时，taskId不能为空!");
+				return result;
+			}
+			List<Task> taskList = taskMapper.queryTaskListNodeByParentId(taskId);
+			result.setResult(taskList);
+		}
+		catch (Exception e) {
+			LOGGER.error(e.getMessage());
+            throw new RRException(e.getMessage(),e);
+		}
+		return result;
+	}
+	
+	/**
+	 * 
+	* @Title: delete 
 	* @Description: TODO(根据Id删除该任务及以下的所有node节点，调用递归方法，taskId不能为空) 
 	* @param @param task
 	* @param @return    设定文件 
@@ -107,7 +205,6 @@ public class TaskPendingServiceImpl implements TaskPendingService{
 		ExecuteResult<List<Task>> result = new ExecuteResult<List<Task>>();
 		
 		try{
-			Task taskNode = new Task();
 			//判断删除的任务Id是否存在
 			if(taskId==null){
 				result.addErrorMessage("删除任务时，taskId不能为空!");
