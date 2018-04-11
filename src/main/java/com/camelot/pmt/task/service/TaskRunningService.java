@@ -1,5 +1,6 @@
 package com.camelot.pmt.task.service;
 
+import com.camelot.pmt.platform.user.model.UserModel;
 import com.camelot.pmt.platform.utils.DataGrid;
 import com.camelot.pmt.platform.utils.ExecuteResult;
 import com.camelot.pmt.platform.utils.Pager;
@@ -15,10 +16,24 @@ public interface TaskRunningService {
 
     /**
      *
-     * @Title: queryoverdueTask @Description: TODO @param @param
-     * page @param @return @return ExecuteResult<DataGrid<UserModel>> @throws
+     * @Title: queryoverdueTaskRunning @Description: TODO @param @param
+     * page @param @return @return ExecuteResult<DataGrid<Map<String, Object>>> @throws
      */
     ExecuteResult<DataGrid<Map<String, Object>>> queryoverdueTaskRunning(Pager page);
+
+    /**
+     *
+     * @Title: updateStatus @Description: TODO @param @param
+     * page @param @return @return ExecuteResult<DataGrid<Long>> @throws
+     */
+    ExecuteResult<Long> updateStatus(String id);
+
+    /**
+     *
+     * @Title: updateStatusFinish @Description: TODO @param @param
+     * page @param @return @return ExecuteResult<DataGrid<Long>> @throws
+     */
+    ExecuteResult<Long> updateStatusFinish(String id);
 
 
 }
