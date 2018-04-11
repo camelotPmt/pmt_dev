@@ -9,6 +9,7 @@ import com.camelot.pmt.task.model.Task;
 import java.util.List;
 import java.util.Map;
 
+import com.camelot.pmt.task.model.TaskManager;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -32,11 +33,11 @@ public interface TaskMapper {
      * @description: 查询所有任务列表
      * @date: 16:54 2018/4/9
      */
-    List<Task> queryAllTask();
+    List<TaskManager> queryAllTask();
 
     /**
-     * @param task
-     *            模糊查询的条件
+	 * @author: zlh
+     * @param task 模糊查询的条件
      * @description: 根据条件查询任务
      * @return
      */

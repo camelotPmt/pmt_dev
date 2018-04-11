@@ -1,7 +1,10 @@
 package com.camelot.pmt;
 
+import java.util.List;
 import java.util.UUID;
 
+import com.camelot.pmt.task.mapper.TaskMapper;
+import com.camelot.pmt.task.model.TaskManager;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mybatis.spring.annotation.MapperScan;
@@ -21,6 +24,9 @@ public class PmtApplicationTests {
     @Autowired
     MenuService menuService;
 
+    @Autowired
+    TaskMapper taskMapper;
+
     @Test
     public void contextLoads() {
         String uuid = UUID.randomUUID().toString().replaceAll("-", "");
@@ -37,4 +43,11 @@ public class PmtApplicationTests {
 
     }
 
+    @Test
+    public void taskManagerTest() {
+        List<TaskManager> tasks = taskMapper.queryAllTask();
+        for (TaskManager task : tasks) {
+            System.out.println(task);
+        }
+    }
 }

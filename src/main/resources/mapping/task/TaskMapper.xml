@@ -469,14 +469,60 @@
       Column_5 = #{column5,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
-  
+
+  <!--zlh-->
+  <!--映射TaskMagager实体-->
+  <resultMap id="TaskManagerResultMap" type="com.camelot.pmt.task.model.TaskManager" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="task_name" property="taskName" jdbcType="VARCHAR" />
+    <result column="priority" property="priority" jdbcType="VARCHAR" />
+    <result column="assign_time" property="assignTime" jdbcType="TIMESTAMP" />
+    <result column="estimate_start_time" property="estimateStartTime" jdbcType="TIMESTAMP" />
+    <result column="estimate_end_time" property="estimateEndTime" jdbcType="TIMESTAMP" />
+    <result column="actual_start_time" property="actualStartTime" jdbcType="TIMESTAMP" />
+    <result column="actual_end_time" property="actualEndTime" jdbcType="TIMESTAMP" />
+    <result column="task_type" property="taskType" jdbcType="VARCHAR" />
+    <result column="task_speed" property="taskSpeed" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="abnormal_status" property="abnormalStatus" jdbcType="VARCHAR" />
+    <result column="task_mileage" property="taskMileage" jdbcType="VARCHAR" />
+    <association property="assignUser" javaType="com.camelot.pmt.platform.user.model.UserModel">
+      <id column="user_id" property="userId" jdbcType="VARCHAR" />
+      <result column="user_name" property="username" jdbcType="VARCHAR" />
+    </association>
+    <association property="beassignUser" javaType="com.camelot.pmt.platform.user.model.UserModel">
+      <id column="user_id" property="userId" jdbcType="VARCHAR" />
+      <result column="user_name" property="username" jdbcType="VARCHAR" />
+    </association>
+    <association property="createUser" javaType="com.camelot.pmt.platform.user.model.UserModel">
+      <id column="user_id" property="userId" jdbcType="VARCHAR" />
+      <result column="user_name" property="username" jdbcType="VARCHAR" />
+    </association>
+  </resultMap>
+
+  <!--zlh-->
+  <!--任务管理展示字段-->
+  <sql id="TaskManager_Column_List" >
+    t.id, t.task_name, u2.user_id, u2.user_name, t.estimate_start_time, t.estimate_end_time,
+    t.actual_start_time, t.actual_end_time, t.task_speed, t.status,
+    t.abnormal_status, t.task_type, t.task_mileage, t.priority, u3.user_id, u3.user_name,
+    u1.user_id, u1.user_name, t.assign_time
+  </sql>
 
   <!--zlh-->
   <!--查询所有任务列表-->
-  <select id="queryAllTask" resultMap="BaseResultMap">
+  <select id="queryAllTask" resultMap="TaskManagerResultMap">
     select
-    <include refid="Base_Column_List" />
-    from task
+    <include refid="TaskManager_Column_List" />
+    from task t LEFT JOIN platform_user u1
+--     指派人
+      ON t.assign_user_id = u1.user_id
+      LEFT JOIN platform_user u2
+--     被指派人
+      ON t.beassign_user_id = u2.user_id
+      LEFT JOIN platform_user u3
+--     创建人
+      on t.create_user_id = u3.user_id
   </select>
 
   <!-- gxl开始 -->
