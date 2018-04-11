@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.camelot.pmt.task.mapper.TaskMapper;
 import com.camelot.pmt.task.model.Task;
+import com.camelot.pmt.task.model.TaskDetail;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,7 +59,51 @@ public class TaskOverdueServiceImpl implements TaskOverdueService {
         }
         return result;
     }
-
+    /**
+     * 查询延期任务详情
+     */
+	@Override
+	public ExecuteResult<TaskDetail> queryOverdueTaskDetailByTaskId(String taskId) {
+		 ExecuteResult<TaskDetail> result = new ExecuteResult<TaskDetail>();
+	        try {
+	            if (!taskId.equals("") && !taskId.equals("0")) {
+	            	TaskDetail queryResult = taskMapper.queryOverdueTaskDetailByTaskId(taskId);
+	                result.setResult(queryResult);
+	                return result;
+	            }
+	            result.addErrorMessage("查询失败！");
+	        } catch (Exception e) {
+	            LOGGER.error(e.getMessage());
+	            throw new RuntimeException(e);
+	        }
+	        return result;
+	}
+	
+	/**
+	 * 添加延期描述,预计开始时间
+	 */
+	@Override
+	public ExecuteResult<String> insertOverduMessage(Task task) {
+		 ExecuteResult<String> result = new ExecuteResult<String>();
+		     try{
+			     if( task.getId() == 0 || task.getId() == null){
+			     result.setResult("该用户不存在!");
+			     return result;
+			     }
+			     Integer count = taskMapper.insertOverduMessage(task);
+			      if(count == 0){
+			      result.setResult("更新用户失败!");
+			      return result;
+			      }
+		     }
+		     catch(Exception e){
+			     LOGGER.error(e.getMessage());
+			     throw new RuntimeException(e);
+		     }
+		     result.setResult("更新用户成功!");
+		     return result;
+	}
+	
 	
 
 }

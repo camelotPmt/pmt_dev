@@ -5,6 +5,7 @@ import com.camelot.pmt.platform.user.model.UserModel;
 import com.camelot.pmt.platform.utils.ExecuteResult;
 import com.camelot.pmt.platform.utils.Pager;
 import com.camelot.pmt.task.model.Task;
+import com.camelot.pmt.task.model.TaskDetail;
 
 import java.util.List;
 import java.util.Map;
@@ -93,5 +94,29 @@ public interface TaskMapper {
 	 * Long @throws
 	 */
 	Long queryRunningCount();
+	
+	/**
+	 * 查询延期任务信息详情
+	* @Title: queryOverdueTaskDetailByTaskId
+	* @Description: TODO
+	* @param @param taskId
+	* @param @return
+	* @return TaskDetail 
+	* @throws
+	 */
+	TaskDetail queryOverdueTaskDetailByTaskId(String taskId);
+	
+	/**
+	 * 添加延期信息与预定开始时间
+	* @Title: insertOverduMessage
+	* @Description: TODO
+	* @param @param task
+	* @param @return
+	* @return Integer 
+	* @throws
+	 */
+	Integer insertOverduMessage(Task task);
+	
+	
 
 }
