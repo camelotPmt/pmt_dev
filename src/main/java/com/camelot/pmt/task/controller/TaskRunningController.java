@@ -1,8 +1,22 @@
 package com.camelot.pmt.task.controller;
 
+import com.alibaba.fastjson.JSONObject;
+import com.camelot.pmt.platform.common.ApiResponse;
+import com.camelot.pmt.platform.utils.DataGrid;
+import com.camelot.pmt.platform.utils.ExecuteResult;
+import com.camelot.pmt.platform.utils.Pager;
+import com.camelot.pmt.task.service.TaskRunningService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import springfox.documentation.annotations.ApiIgnore;
+
+import java.util.Map;
 
 /**
  * @author muyuanpei
@@ -10,9 +24,38 @@ import org.springframework.web.bind.annotation.RestController;
  */
 
 @RestController
-@RequestMapping("/task/taskAlready")
+@RequestMapping("/task/taskRunning")
 @Api(value = "我的工作台-正在进行-接口", description = "我的工作台-正在进行-接口")
 public class TaskRunningController {
+
+    @Autowired
+    private TaskRunningService taskRunningService;
+
+    /**
+     *
+     * @Title: queryUserAll @Description: TODO查询所有任务 @param @return @return
+     *         JSONObject @throws
+     */
+    @ApiOperation(value = "查询所有正在进行的任务", notes = "查询所有正在进行的任务")
+    @RequestMapping(value = "/queryoverdueTaskRunning", method = RequestMethod.GET)
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "page", value = "页码", required = true, paramType = "query", dataType = "int"),
+            @ApiImplicitParam(name = "rows", value = "每页数量", required = true, paramType = "query", dataType = "int") })
+    public JSONObject queryoverdueTaskRunning(@ApiIgnore Pager page) {
+        ExecuteResult<DataGrid<Map<String, Object>>> result = new ExecuteResult<DataGrid<Map<String, Object>>>();
+        try {
+            if (page == null) {
+                return ApiResponse.errorPara();
+            }
+            result = taskRunningService.queryoverdueTaskRunning(page);
+            if (result.isSuccess()) {
+                return ApiResponse.success(result.getResult());
+            }
+            return ApiResponse.error();
+        } catch (Exception e) {
+            return ApiResponse.error();
+        }
+    }
 
 
 }
