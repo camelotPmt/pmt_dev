@@ -21,7 +21,7 @@ import java.util.Map;
  */
 
 @Service
-public class TaskRunningServiceImpl {
+public class TaskRunningServiceImpl implements TaskRunningService{
 
     @Autowired
     private TaskMapper taskMapper;
