@@ -472,17 +472,13 @@
   
 
 
-<!-- <sql id="Base_Column_List2" >
-    task_id, task_name, priority, assign_user_name,
-    beassign_user_name, assign_time, estimate_start_time, estimate_end_time,
-=======
+
   <sql id="Base_Column_List2" >
     id, task_name, priority, assign_user_id,
     beassign_user_id, assign_time, estimate_start_time, estimate_end_time,
->>>>>>> branch 'dev' of https://github.com/camelotPmt/pmt_dev.git
     actual_start_time, actual_end_time, task_type, task_speed, status, abnormal_status,
     task_mileage, create_user_id
-  </sql> -->
+  </sql> 
 
 
 
@@ -500,7 +496,7 @@
 	
 	<!-- 分页公共sql -->
 	<sql id="pagination_tail">
-	  limit #{page.pageOffset} , #{page.rows}
+	    limit #{page.pageOffset} , #{page.rows}
 	</sql>
 	
     <!-- 分页查询所有用户列表 -->
@@ -528,6 +524,7 @@
     <include refid="Base_Column_List" />
     from task
   </select>
+  
   <!-- 查询此任务下的一级子任务 -->
   <select id="queryTaskListNodeByParentId" resultMap="BaseResultMap">
     select <include refid="Base_Column_List" /> 
