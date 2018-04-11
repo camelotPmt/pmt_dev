@@ -86,12 +86,14 @@ public interface TaskMapper {
 
 	/**
 	 * 查询正在进行的任务
+	 * myp
 	 * */
 	List<Map<String,Object>> listTaskRunning(@Param(value = "page") Pager page);
 
 	/**
 	 * 查询正在进行任务个数 @Title: queryCount @Description: TODO @param @return @return
 	 * Long @throws
+	 * myp
 	 */
 	Long queryRunningCount();
 
