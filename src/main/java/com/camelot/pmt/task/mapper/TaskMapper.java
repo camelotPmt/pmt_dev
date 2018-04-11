@@ -1,11 +1,13 @@
 package com.camelot.pmt.task.mapper;
 
+import com.camelot.pmt.platform.user.model.UserModel;
 import com.camelot.pmt.platform.utils.Pager;
 import com.camelot.pmt.task.model.Task;
 
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 
 public interface TaskMapper {
@@ -54,5 +56,5 @@ public interface TaskMapper {
 	* @return List<Task> 
 	* @throws
 	 */
-	List<Task> queryOverdueTask(Pager page);
+	 List<Task> queryOverdueTask(@Param(value = "page") Pager page);
 }
