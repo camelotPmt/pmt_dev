@@ -9,7 +9,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.alibaba.fastjson.JSONObject;
 		import com.camelot.pmt.platform.common.ApiResponse;
-		import com.camelot.pmt.platform.utils.DataGrid;
+import com.camelot.pmt.platform.user.model.UserModel;
+import com.camelot.pmt.platform.utils.DataGrid;
 import com.camelot.pmt.platform.utils.ExecuteResult;
 import com.camelot.pmt.platform.utils.Pager;
 import com.camelot.pmt.task.service.TaskOverdueService;
@@ -30,7 +31,7 @@ import io.swagger.annotations.ApiOperation;
  */
 @RestController
 @RequestMapping("/task")
-@Api(value = "任务管理接口", description = "任务管理接口")
+@Api(value = "延期任务管理接口", description = "延期任务管理接口")
 public class TaskOverdueController {
 	
 	@Autowired
@@ -52,19 +53,19 @@ public class TaskOverdueController {
 	  })
 	public JSONObject queryOverdueTask(@ApiIgnore Pager page){
 		ExecuteResult<DataGrid<Task>> result = new ExecuteResult<DataGrid<Task>>();
-		try {
-			if(page == null) {
-    			return ApiResponse.errorPara();
-    		}
-			result = taskService.queryOverdueTask(page);
-			if (result.isSuccess()) {
-				return ApiResponse.success(result.getResult());
-			}
-			return ApiResponse.error();
-		} catch (Exception e) {
-			return ApiResponse.error();
-		}
-	}
+        try {
+            if (page == null) {
+                return ApiResponse.errorPara();
+            }
+            result = taskService.queryOverdueTask(page);
+            if (result.isSuccess()) {
+                return ApiResponse.success(result.getResult());
+            }
+            return ApiResponse.error();
+        } catch (Exception e) {
+            return ApiResponse.error();
+        }
+	   }
 	
 }
 	

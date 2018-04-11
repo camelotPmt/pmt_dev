@@ -471,7 +471,6 @@
   </update>
   
 
-
   <!--zlh-->
   <!--查询所有任务列表-->
   <select id="queryAllTask" resultMap="BaseResultMap">
@@ -479,6 +478,22 @@
     <include refid="Base_Column_List" />
     from task
   </select>
+
+  <!-- gxl开始 -->
+  <!-- 查询整个任务表 -->
+  <select id="queryAllTaskList" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from task
+  </select>
+  <!-- 查询此任务下的一级子任务 -->
+  <select id="queryTaskListNodeByParentId" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List" />
+    from task t
+    where t.task_parent_id = #{taskParentId,jdbcType=BIGINT}
+  </select>
+  <!-- gxl结束 -->
+
 
   <!--&lt;!&ndash;zlh&ndash;&gt;-->
   <!--&lt;!&ndash;根据条件模糊查询&ndash;&gt;-->

@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import com.camelot.pmt.platform.user.model.UserModel;
 import com.camelot.pmt.platform.utils.DataGrid;
 import com.camelot.pmt.platform.utils.ExecuteResult;
 import com.camelot.pmt.platform.utils.Pager;
@@ -34,11 +35,12 @@ public class TaskOverdueServiceImpl implements TaskOverdueService {
     /**
      * 查询所有逾期任务+分页   
      */
+    @Override
     public ExecuteResult<DataGrid<Task>> queryOverdueTask(Pager page) {
         ExecuteResult<DataGrid<Task>> result = new ExecuteResult<DataGrid<Task>>();
         try {
             List<Task> list = taskMapper.queryOverdueTask(page);
-            //  如果没有查询到数据，不继续进行
+            // 如果没有查询到数据，不继续进行
             if (CollectionUtils.isEmpty(list)) {
                 DataGrid<Task> dg = new DataGrid<Task>();
                 result.setResult(dg);
