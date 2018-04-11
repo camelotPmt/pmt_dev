@@ -470,18 +470,13 @@
     where id = #{id,jdbcType=BIGINT}
   </update>
   
-  <sql id="Base_Column_List2" >
-    id, task_name, priority, assign_user_name,
-    beassign_user_name, assign_time, estimate_start_time, estimate_end_time,
-    actual_start_time, actual_end_time, task_type, task_speed, status, abnormal_status,
-    task_mileage, create_user_id
-  </sql>
+
 
   <!--zlh-->
   <!--查询所有任务列表-->
   <select id="queryAllTask" resultMap="BaseResultMap">
     select
-    <include refid="Base_Column_List2" />
+    <include refid="Base_Column_List" />
     from task
   </select>
 
