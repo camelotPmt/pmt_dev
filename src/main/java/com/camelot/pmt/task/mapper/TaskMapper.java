@@ -1,6 +1,8 @@
 package com.camelot.pmt.task.mapper;
 
+
 import com.camelot.pmt.platform.user.model.UserModel;
+import com.camelot.pmt.platform.utils.ExecuteResult;
 import com.camelot.pmt.platform.utils.Pager;
 import com.camelot.pmt.task.model.Task;
 
@@ -57,4 +59,27 @@ public interface TaskMapper {
 	* @throws
 	 */
 	 List<Task> queryOverdueTask(@Param(value = "page") Pager page);
+
+	
+	/**
+	 * 
+	* @Title: queryTaskTreeByTaskId 
+	* @Description: TODO(查询taskId下的一级子节点) 
+	* @param @param taskId
+	* @param @return    设定文件 
+	* @return List<Task>    返回类型 
+	* @throws
+	 */
+	List<Task> queryTaskListNodeByParentId(Long taskId);
+	
+	/**
+	 * 
+	* @Title: queryAllTaskList 
+	* @Description: TODO(查询整个任务表) 
+	* @param @return    设定文件 
+	* @return List<Task>    返回类型 
+	* @throws
+	 */
+	List<Task> queryAllTaskList();
+
 }

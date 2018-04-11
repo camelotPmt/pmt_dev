@@ -471,12 +471,19 @@
   </update>
   
 
+
 <!-- <sql id="Base_Column_List2" >
     task_id, task_name, priority, assign_user_name,
     beassign_user_name, assign_time, estimate_start_time, estimate_end_time,
+=======
+  <sql id="Base_Column_List2" >
+    id, task_name, priority, assign_user_id,
+    beassign_user_id, assign_time, estimate_start_time, estimate_end_time,
+>>>>>>> branch 'dev' of https://github.com/camelotPmt/pmt_dev.git
     actual_start_time, actual_end_time, task_type, task_speed, status, abnormal_status,
     task_mileage, create_user_id
   </sql> -->
+
 
 
   
@@ -505,4 +512,40 @@
 			<include refid="pagination_tail" />
 		</if>
     </select>
+
+  <!--zlh-->
+  <!--查询所有任务列表-->
+  <select id="queryAllTask" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List2" />
+    from task
+  </select>
+  
+  <!-- gxl开始 -->
+  <!-- 查询整个任务表 -->
+  <select id="queryAllTaskList" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from task
+  </select>
+  <!-- 查询此任务下的一级子任务 -->
+  <select id="queryTaskListNodeByParentId" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List" /> 
+    from task t 
+    where t.task_parent_id = #{taskParentId,jdbcType=BIGINT}
+  </select>
+  <!-- gxl结束 -->
+  
+  
+  <!--&lt;!&ndash;zlh&ndash;&gt;-->
+  <!--&lt;!&ndash;根据条件模糊查询&ndash;&gt;-->
+  <!--<select id="queryAllTask" resultMap="BaseResultMap" parameterType="com.camelot.pmt.task.model.Task">-->
+    <!--select-->
+    <!--<include refid="Base_Column_List2" />-->
+    <!--from pmt_task-->
+    <!--<where>-->
+      <!--<if test=""></if>-->
+    <!--</where>-->
+  <!--</select>-->
+
 </mapper>

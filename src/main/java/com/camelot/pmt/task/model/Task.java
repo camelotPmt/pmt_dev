@@ -1,7 +1,9 @@
 package com.camelot.pmt.task.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class Task implements Serializable{
 
@@ -80,6 +82,8 @@ public class Task implements Serializable{
     private String column4;
 
     private String column5;
+    
+    private List<Task> children = new ArrayList<Task>();
 
    
 
@@ -439,8 +443,23 @@ public class Task implements Serializable{
 		this.column5 = column5;
 	}
 
+
+
+
+	public List<Task> getChildren() {
+		return children;
+	}
+
+	public void setChildren(List<Task> children) {
+		this.children = children;
+	}
+
+
+
 	public Task() {
 		super();
 	}
-    
+	
+	
+
 }
