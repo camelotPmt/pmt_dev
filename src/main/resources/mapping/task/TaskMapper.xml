@@ -554,7 +554,8 @@
     ta.task_type, ta.task_speed, ta.status, ta.abnormal_status, ta.task_describe, ta.abnormal_describe,
     ta.estimate_hour, ta.consume_hour, ta.remain_hour, ta.task_mileage, ta.create_user_id, ta.modify_user_id,
     ta.create_time, ta.modify_time, ta.warning_hour, ta.warning_status, ta.comment, ta.filepath, ta.filename,
-    ta.Column_1, ta.Column_2, ta.Column_3, ta.Column_4, ta.Column_5, de.demand_name, pro.project_name,pl.user_name, pla.user_name
+    ta.Column_1, ta.Column_2, ta.Column_3, ta.Column_4, ta.Column_5, de.demand_name, pro.project_name,pl.user_name AS assign_user_name,
+    pla.user_name AS beassign_user_name
     FROM task ta
     LEFT JOIN platform_user pl ON ta.assign_user_id = pl.user_id
     LEFT JOIN platform_user pla ON ta.beassign_user_id = pla.user_id
