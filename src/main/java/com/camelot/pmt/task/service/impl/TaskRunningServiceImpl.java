@@ -65,7 +65,7 @@ public class TaskRunningServiceImpl implements TaskRunningService{
      * @return ExecuteResult<long>
      */
     @Override
-    public ExecuteResult<Long> updateStatus(String id) {
+    public ExecuteResult<Long> updateStatus(Long id) {
         ExecuteResult<Long> result = new ExecuteResult<Long>();
         try {
             if (!id.equals("") && !id.equals("0")) {
@@ -90,7 +90,7 @@ public class TaskRunningServiceImpl implements TaskRunningService{
      * @return ExecuteResult<long>
      */
     @Override
-    public ExecuteResult<Long> updateStatusFinish(String id) {
+    public ExecuteResult<Long> updateStatusFinish(Long id) {
         ExecuteResult<Long> result = new ExecuteResult<Long>();
         try {
             if (!id.equals("") && !id.equals("0")) {
@@ -114,7 +114,7 @@ public class TaskRunningServiceImpl implements TaskRunningService{
      * @return ExecuteResult<Task>
      */
     @Override
-    public ExecuteResult<Task> queryTaskById(String id) {
+    public ExecuteResult<Task> queryTaskById(Long id) {
         ExecuteResult<Task> result = new ExecuteResult<Task>();
         try {
             if (!id.equals("") && !id.equals("0")) {
