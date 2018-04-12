@@ -35,10 +35,10 @@ public class TaskRunningServiceImpl implements TaskRunningService{
     private static final Logger LOGGER = LoggerFactory.getLogger(TaskRunningServiceImpl.class);
 
 
-    public ExecuteResult<DataGrid<Map<String, Object>>> queryoverdueTaskRunning(Pager page) {
+    public ExecuteResult<DataGrid<Map<String, Object>>> queryoverdueTaskRunning(Pager page, Long id) {
         ExecuteResult<DataGrid<Map<String, Object>>> result = new ExecuteResult<DataGrid<Map<String, Object>>>();
         try {
-            List<Map<String, Object>> list = taskMapper.listTaskRunning(page);
+            List<Map<String, Object>> list = taskMapper.listTaskRunning(page, id);
             // 如果没有查询到数据，不继续进行
             if (CollectionUtils.isEmpty(list)) {
                 DataGrid<Map<String, Object>> dg = new DataGrid<Map<String, Object>>();
