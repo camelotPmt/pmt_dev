@@ -2,6 +2,7 @@ package com.camelot.pmt.task.service;
 
 import com.alibaba.fastjson.JSONObject;
 import com.camelot.pmt.task.model.Task;
+import com.camelot.pmt.task.model.TaskManager;
 
 /**
  * @author zlh
@@ -22,5 +23,5 @@ public interface TaskManagerService {
      * @description: 根据条件查询任务
      * @return
      */
-    JSONObject queryTaskByTask(Task task);
+    JSONObject queryTaskByTask(TaskManager taskManager);
 }

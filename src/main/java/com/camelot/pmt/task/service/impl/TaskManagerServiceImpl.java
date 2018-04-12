@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.camelot.pmt.platform.common.ApiResponse;
 import com.camelot.pmt.task.mapper.TaskMapper;
 import com.camelot.pmt.task.model.Task;
+import com.camelot.pmt.task.model.TaskManager;
 import com.camelot.pmt.task.service.TaskManagerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,12 +34,12 @@ public class TaskManagerServiceImpl implements TaskManagerService {
     }
 
     /**
+     * @author: zlh
      * @param task 模糊查询的条件
      * @description: 根据条件查询任务
-     * @return
      */
     @Override
-    public JSONObject queryTaskByTask(Task task) {
-        return null;
+    public JSONObject queryTaskByTask(TaskManager taskManager) {
+        return ApiResponse.success(taskMapper.queryTaskByTask(taskManager));
     }
 }

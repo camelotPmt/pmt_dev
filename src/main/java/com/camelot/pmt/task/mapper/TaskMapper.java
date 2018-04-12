@@ -37,11 +37,12 @@ public interface TaskMapper {
 
     /**
 	 * @author: zlh
-     * @param task 模糊查询的条件
+     * @param taskManager 模糊查询的条件
      * @description: 根据条件查询任务
      * @return
      */
-    List<Task> queryTaskByTask(Task task);
+
+    List<TaskManager> queryTaskByTask(TaskManager taskManager);
     /**
      * 查询延期任务个数
     * @Title: queryCount

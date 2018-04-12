@@ -1,6 +1,7 @@
 package com.camelot.pmt.task.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.camelot.pmt.task.model.TaskManager;
 import com.camelot.pmt.task.service.TaskManagerService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -25,5 +26,11 @@ public class TaskManagerController {
     @ApiOperation(value = "查询所有任务列表", notes = "查询所有任务列表")
     public JSONObject queryAllTask(){
         return taskManagerService.queryAllTask();
+    }
+
+    @PostMapping(value = "/queryTaskByTask")
+    @ApiOperation(value = "查询所有任务列表", notes = "查询所有任务列表")
+    public JSONObject queryTaskByTask(TaskManager taskManager){
+        return taskManagerService.queryTaskByTask(taskManager);
     }
 }
