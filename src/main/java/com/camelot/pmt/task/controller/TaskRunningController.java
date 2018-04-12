@@ -41,14 +41,15 @@ public class TaskRunningController {
     @RequestMapping(value = "/queryoverdueTaskRunning", method = RequestMethod.GET)
     @ApiImplicitParams({
             @ApiImplicitParam(name = "page", value = "页码", required = true, paramType = "query", dataType = "int"),
-            @ApiImplicitParam(name = "rows", value = "每页数量", required = true, paramType = "query", dataType = "int") })
-    public JSONObject queryoverdueTaskRunning(@ApiIgnore Pager page) {
+            @ApiImplicitParam(name = "rows", value = "每页数量", required = true, paramType = "query", dataType = "int"),
+            @ApiImplicitParam(name = "id", value = "用户id", required = true, paramType = "query", dataType = "Long")})
+    public JSONObject queryoverdueTaskRunning(@ApiIgnore Pager page, @ApiIgnore Long id) {
         ExecuteResult<DataGrid<Map<String, Object>>> result = new ExecuteResult<DataGrid<Map<String, Object>>>();
         try {
             if (page == null) {
                 return ApiResponse.errorPara();
             }
-            result = taskRunningService.queryoverdueTaskRunning(page);
+            result = taskRunningService.queryoverdueTaskRunning(page,id);
             if (result.isSuccess()) {
                 return ApiResponse.success(result.getResult());
             }
