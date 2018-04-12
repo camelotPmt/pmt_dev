@@ -103,7 +103,24 @@ public class TaskOverdueServiceImpl implements TaskOverdueService {
 		     result.setResult("更新用户成功!");
 		     return result;
 	}
-	
-	
+	/**
+	 * 根据userId查询个人是否有延期任务
+	 */
+	@Override
+	public ExecuteResult<Integer> queryOverdueTaskUserId(String userId) {
+		ExecuteResult<Integer> result = new ExecuteResult<Integer>();
+        try {
+            if (!userId.equals("") && !userId.equals("0")) {
+            	int count = taskMapper.queryOverdueTaskUserId(userId);
+                result.setResult(count);
+                return result;
+            }
+            result.addErrorMessage("查询失败！");
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage());
+            throw new RuntimeException(e);
+        }
+        return result;
+	}
 
 }

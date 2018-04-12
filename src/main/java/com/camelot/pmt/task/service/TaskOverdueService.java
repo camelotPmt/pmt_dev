@@ -44,6 +44,16 @@ public interface TaskOverdueService {
 	* @throws
 	 */
 	ExecuteResult<String> insertOverduMessage(Task task);
+	/**
+	 * 根据userId查询是否有延期任务
+	* @Title: queryOverdueTaskUserId
+	* @Description: TODO
+	* @param @param userId
+	* @param @return
+	* @return ExecuteResult<Integer> 
+	* @throws
+	 */
+	ExecuteResult<Integer> queryOverdueTaskUserId(String userId);
     
     
    

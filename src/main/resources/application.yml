@@ -23,6 +23,21 @@ spring:
         testOnReturn: false
         poolPreparedStatements: true
         maxOpenPreparedStatements: 20
+      
+    mail:
+      host: smtp.163.com
+      port: 465
+      username: m15043775855@163.com
+      password: ao123456
+      properties:
+        mail:
+          smtp:
+            auth: true
+            starttls:
+              enable: true
+              required: true
+            ssl:
+              enable: true
 mybatis:
   mapper-locations: classpath:mapping/**/*.xml
   type-aliases-package: com.camelot.pmt

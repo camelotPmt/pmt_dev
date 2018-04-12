@@ -119,6 +119,17 @@ public interface TaskMapper {
 	 */
 	Integer insertOverduMessage(Task task);
 	
+	/**
+	 * 根据userId查询个人是否有延期任务
+	* @Title: queryOverdueTaskUserId
+	* @Description: TODO
+	* @param @param userId
+	* @param @return
+	* @return int 
+	* @throws
+	 */
+	int queryOverdueTaskUserId(String userId);
+	
 	
 
 }
