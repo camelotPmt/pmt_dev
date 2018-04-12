@@ -6,6 +6,7 @@ import com.camelot.pmt.platform.user.model.UserModel;
 import com.camelot.pmt.platform.utils.DataGrid;
 import com.camelot.pmt.platform.utils.ExecuteResult;
 import com.camelot.pmt.platform.utils.Pager;
+import com.camelot.pmt.task.model.Task;
 import com.camelot.pmt.task.service.TaskRunningService;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -98,6 +99,31 @@ public class TaskRunningController {
         ExecuteResult<Long> result = new ExecuteResult<Long>();
         try {
             result = taskRunningService.updateStatusFinish(id);
+            if (result.isSuccess()) {
+                return ApiResponse.success(result.getResult());
+            }
+            return ApiResponse.error();
+        } catch (Exception e) {
+            return ApiResponse.error();
+        }
+    }
+
+    /**
+     * <p>
+     * Description:[查询单个任务明细]
+     * </p>
+     *
+     * @param id
+     *            任务id
+     * @return {"status": {"message": "请求处理成功.","code": 200}, "data": {Task}]
+     */
+    @ApiOperation(value = "根据id查询单个任务明细", notes = "根据id查询单个任务明细")
+    @RequestMapping(value = "user/queryTaskById", method = RequestMethod.POST)
+    public JSONObject queryTaskById(
+            @ApiParam(name = "id", value = "任务id", required = true) @RequestParam(required = true) String id) {
+        ExecuteResult<Task> result = new ExecuteResult<Task>();
+        try {
+            result = taskRunningService.queryTaskById(id);
             if (result.isSuccess()) {
                 return ApiResponse.success(result.getResult());
             }
