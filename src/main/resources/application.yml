@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 server:
   port: 8080
 
@@ -50,7 +49,6 @@ pagehelper:
     params: count=countSql
 
 
-=======
 server:
   port: 8080
 
@@ -87,4 +85,3 @@ pagehelper:
     params: count=countSql
 
 
->>>>>>> branch 'dev' of https://github.com/camelotPmt/pmt_dev.git
