@@ -10,6 +10,7 @@ import com.camelot.pmt.task.model.TaskDetail;
 import java.util.List;
 import java.util.Map;
 
+import com.camelot.pmt.task.model.TaskManager;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -33,11 +34,11 @@ public interface TaskMapper {
      * @description: 查询所有任务列表
      * @date: 16:54 2018/4/9
      */
-    List<Task> queryAllTask();
+    List<TaskManager> queryAllTask();
 
     /**
-     * @param task
-     *            模糊查询的条件
+	 * @author: zlh
+     * @param task 模糊查询的条件
      * @description: 根据条件查询任务
      * @return
      */
@@ -85,17 +86,36 @@ public interface TaskMapper {
 	List<Task> queryAllTaskList();
 
 	/**
-	 * 查询正在进行的任务
+	 * 查询正在进行的任务，根据时间和优先级进行排序
 	 * myp
 	 * */
 	List<Map<String,Object>> listTaskRunning(@Param(value = "page") Pager page);
 
 	/**
-	 * 查询正在进行任务个数 @Title: queryCount @Description: TODO @param @return @return
-	 * Long @throws
-	 * myp
-	 */
-	Long queryRunningCount();
+     * 查询正在进行任务个数 @Title: queryCount @Description: TODO @param @return @return
+     * Long @throws
+     * myp
+     */
+    Long queryRunningCount();
+
+
+    /**
+     * 根据id关闭任务 @Title: queryCount @Description: TODO @param @return @return
+     * Long @throws
+     * myp
+     */
+    Long updateStatus(Long id);
+
+    /**
+     * 根据id关闭任务，修改为异常状态 @Title: queryCount @Description: TODO @param @return @return
+     * Long @throws
+     * myp
+     */
+    Long updateAbnormal_Status(Long id);
+
+
+
+
 	
 	/**
 	 * 查询延期任务信息详情
@@ -131,5 +151,20 @@ public interface TaskMapper {
 	int queryOverdueTaskUserId(String userId);
 	
 	
+
+	Task selectTaskById(Long id);
+
+	/**
+	 * 查询已完成的任务，根据时间和优先级进行排序
+	 * myp
+	 * */
+	List<Map<String,Object>> listTaskAlready(@Param(value = "page") Pager page);
+
+	/**
+	 * 查询已完成任务总个数 @Title: queryCount @Description: TODO @param @return @return
+	 * Long @throws
+	 * myp
+	 */
+	Long queryAlreadyCount();
 
 }

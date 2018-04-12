@@ -2,9 +2,11 @@ package com.camelot.pmt.task.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.camelot.pmt.task.service.TaskManagerService;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -13,6 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
  */
 
 @RestController
+@RequestMapping(value = "/task/taskManager")
+@Api(value = "任务管理接口", description = "任务管理接口")
 public class TaskManagerController {
     @Autowired
     private TaskManagerService taskManagerService;
