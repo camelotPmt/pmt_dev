@@ -7,6 +7,7 @@ import com.camelot.pmt.platform.utils.Pager;
 import com.camelot.pmt.task.mapper.TaskLogMapper;
 import com.camelot.pmt.task.mapper.TaskMapper;
 import com.camelot.pmt.task.model.Task;
+import com.camelot.pmt.task.model.TaskLog;
 import com.camelot.pmt.task.service.TaskRunningService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -119,6 +120,30 @@ public class TaskRunningServiceImpl implements TaskRunningService{
         try {
             if (!id.equals("") && !id.equals("0")) {
                 Task queryResult = taskMapper.selectTaskById(id);
+                result.setResult(queryResult);
+                return result;
+            }
+            result.addErrorMessage("查询失败！");
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage());
+            throw new RuntimeException(e);
+        }
+        return result;
+    }
+
+    /**
+     * <p>
+     * Description:[根据id获取单个任务的历史记录]
+     * <p>
+     *
+     * @return ExecuteResult<List<TaskLog>>
+     */
+    @Override
+    public ExecuteResult<List<TaskLog>> queryTaskLogById(Long id) {
+        ExecuteResult<List<TaskLog>> result = new ExecuteResult<List<TaskLog>>();
+        try {
+            if (!id.equals("") && !id.equals("0")) {
+                List<TaskLog> queryResult = taskMapper.queryTaskLogById(id);
                 result.setResult(queryResult);
                 return result;
             }
