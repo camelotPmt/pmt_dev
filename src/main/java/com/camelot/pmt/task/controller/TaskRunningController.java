@@ -33,7 +33,7 @@ public class TaskRunningController {
 
     /**
      *
-     * @Title: queryUserAll @Description: TODO查询所有任务 @param @return @return
+     * @Title: queryUserAll @Description: TODO查询所有正在进行的任务 @param @return @return
      *         JSONObject @throws
      *         myp
      */
@@ -71,7 +71,7 @@ public class TaskRunningController {
     @ApiOperation(value = "实现根据id关闭任务功能", notes = "实现根据id关闭任务功能")
     @RequestMapping(value = "/updateStatus", method = RequestMethod.POST)
     public JSONObject updateStatus(
-            @ApiParam(name = "id", value = "任务id", required = true) @RequestParam(required = true) String id) {
+            @ApiParam(name = "id", value = "任务id", required = true) @RequestParam(required = true) Long id) {
         ExecuteResult<Long> result = new ExecuteResult<Long>();
         try {
             result = taskRunningService.updateStatus(id);
@@ -96,7 +96,7 @@ public class TaskRunningController {
     @ApiOperation(value = "实现任务完成功能", notes = "实现任务完成功能")
     @RequestMapping(value = "/updateStatusFinish", method = RequestMethod.POST)
     public JSONObject updateStatusFinish(
-            @ApiParam(name = "id", value = "任务id", required = true) @RequestParam(required = true) String id) {
+            @ApiParam(name = "id", value = "任务id", required = true) @RequestParam(required = true) Long id) {
         ExecuteResult<Long> result = new ExecuteResult<Long>();
         try {
             result = taskRunningService.updateStatusFinish(id);
@@ -121,7 +121,7 @@ public class TaskRunningController {
     @ApiOperation(value = "根据id查询单个任务明细", notes = "根据id查询单个任务明细")
     @RequestMapping(value = "user/queryTaskById", method = RequestMethod.POST)
     public JSONObject queryTaskById(
-            @ApiParam(name = "id", value = "任务id", required = true) @RequestParam(required = true) String id) {
+            @ApiParam(name = "id", value = "任务id", required = true) @RequestParam(required = true) Long id) {
         ExecuteResult<Task> result = new ExecuteResult<Task>();
         try {
             result = taskRunningService.queryTaskById(id);
