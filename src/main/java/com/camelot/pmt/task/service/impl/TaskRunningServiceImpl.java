@@ -6,6 +6,7 @@ import com.camelot.pmt.platform.utils.ExecuteResult;
 import com.camelot.pmt.platform.utils.Pager;
 import com.camelot.pmt.task.mapper.TaskLogMapper;
 import com.camelot.pmt.task.mapper.TaskMapper;
+import com.camelot.pmt.task.model.Task;
 import com.camelot.pmt.task.service.TaskRunningService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,6 +30,7 @@ public class TaskRunningServiceImpl implements TaskRunningService{
 
     @Autowired
     private TaskLogMapper taskLogMapper;
+
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TaskRunningServiceImpl.class);
 
@@ -68,9 +70,7 @@ public class TaskRunningServiceImpl implements TaskRunningService{
         try {
             if (!id.equals("") && !id.equals("0")) {
                 Long updateStatusResult = taskMapper.updateStatus(id);
-                Long updateAbnormal_StatusResult = taskMapper.updateAbnormal_Status(id);
                 result.setResult(updateStatusResult);
-                result.setResult(updateAbnormal_StatusResult);
                 return result;
             }
             result.addErrorMessage("关闭失败！");
@@ -99,6 +99,30 @@ public class TaskRunningServiceImpl implements TaskRunningService{
                 return result;
             }
             result.addErrorMessage("完成失败！");
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage());
+            throw new RuntimeException(e);
+        }
+        return result;
+    }
+
+    /**
+     * <p>
+     * Description:[根据id获取单个任务明细]
+     * <p>
+     *
+     * @return ExecuteResult<Task>
+     */
+    @Override
+    public ExecuteResult<Task> queryTaskById(String id) {
+        ExecuteResult<Task> result = new ExecuteResult<Task>();
+        try {
+            if (!id.equals("") && !id.equals("0")) {
+                Task queryResult = taskMapper.selectTaskById(id);
+                result.setResult(queryResult);
+                return result;
+            }
+            result.addErrorMessage("查询失败！");
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
             throw new RuntimeException(e);
