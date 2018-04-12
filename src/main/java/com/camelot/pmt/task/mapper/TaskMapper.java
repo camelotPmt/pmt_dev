@@ -5,6 +5,7 @@ import com.camelot.pmt.platform.user.model.UserModel;
 import com.camelot.pmt.platform.utils.ExecuteResult;
 import com.camelot.pmt.platform.utils.Pager;
 import com.camelot.pmt.task.model.Task;
+import com.camelot.pmt.task.model.TaskDetail;
 
 import java.util.List;
 import java.util.Map;
@@ -102,16 +103,85 @@ public interface TaskMapper {
 	List<Task> queryAllTaskList();
 
 	/**
-	 * 查询正在进行的任务
+	 * 查询正在进行的任务，根据时间和优先级进行排序
 	 * myp
 	 * */
 	List<Map<String,Object>> listTaskRunning(@Param(value = "page") Pager page);
 
 	/**
-	 * 查询正在进行任务个数 @Title: queryCount @Description: TODO @param @return @return
+     * 查询正在进行任务个数 @Title: queryCount @Description: TODO @param @return @return
+     * Long @throws
+     * myp
+     */
+    Long queryRunningCount();
+
+
+    /**
+     * 根据id关闭任务 @Title: queryCount @Description: TODO @param @return @return
+     * Long @throws
+     * myp
+     */
+    Long updateStatus(Long id);
+
+    /**
+     * 根据id关闭任务，修改为异常状态 @Title: queryCount @Description: TODO @param @return @return
+     * Long @throws
+     * myp
+     */
+    Long updateAbnormal_Status(Long id);
+
+
+
+
+	
+	/**
+	 * 查询延期任务信息详情
+	* @Title: queryOverdueTaskDetailByTaskId
+	* @Description: TODO
+	* @param @param taskId
+	* @param @return
+	* @return TaskDetail 
+	* @throws
+	 */
+	TaskDetail queryOverdueTaskDetailByTaskId(String taskId);
+	
+	/**
+	 * 添加延期信息与预定开始时间
+	* @Title: insertOverduMessage
+	* @Description: TODO
+	* @param @param task
+	* @param @return
+	* @return Integer 
+	* @throws
+	 */
+	Integer insertOverduMessage(Task task);
+	
+	/**
+	 * 根据userId查询个人是否有延期任务
+	* @Title: queryOverdueTaskUserId
+	* @Description: TODO
+	* @param @param userId
+	* @param @return
+	* @return int 
+	* @throws
+	 */
+	int queryOverdueTaskUserId(String userId);
+	
+	
+
+	Task selectTaskById(Long id);
+
+	/**
+	 * 查询已完成的任务，根据时间和优先级进行排序
+	 * myp
+	 * */
+	List<Map<String,Object>> listTaskAlready(@Param(value = "page") Pager page);
+
+	/**
+	 * 查询已完成任务总个数 @Title: queryCount @Description: TODO @param @return @return
 	 * Long @throws
 	 * myp
 	 */
-	Long queryRunningCount();
+	Long queryAlreadyCount();
 
 }

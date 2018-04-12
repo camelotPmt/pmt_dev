@@ -1,10 +1,12 @@
 package com.camelot.pmt.task.service.impl;
 
+import com.camelot.pmt.platform.user.model.UserModel;
 import com.camelot.pmt.platform.utils.DataGrid;
 import com.camelot.pmt.platform.utils.ExecuteResult;
 import com.camelot.pmt.platform.utils.Pager;
 import com.camelot.pmt.task.mapper.TaskLogMapper;
 import com.camelot.pmt.task.mapper.TaskMapper;
+import com.camelot.pmt.task.model.Task;
 import com.camelot.pmt.task.service.TaskRunningService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,6 +31,7 @@ public class TaskRunningServiceImpl implements TaskRunningService{
     @Autowired
     private TaskLogMapper taskLogMapper;
 
+
     private static final Logger LOGGER = LoggerFactory.getLogger(TaskRunningServiceImpl.class);
 
 
@@ -49,6 +52,79 @@ public class TaskRunningServiceImpl implements TaskRunningService{
             dg.setTotal(total);
             result.setResult(dg);
         } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return result;
+    }
+
+    /**
+     * <p>
+     * Description:[根据id关闭任务]
+     * <p>
+     *
+     * @return ExecuteResult<long>
+     */
+    @Override
+    public ExecuteResult<Long> updateStatus(Long id) {
+        ExecuteResult<Long> result = new ExecuteResult<Long>();
+        try {
+            if (!id.equals("") && !id.equals("0")) {
+                Long updateStatusResult = taskMapper.updateStatus(id);
+                result.setResult(updateStatusResult);
+                return result;
+            }
+            result.addErrorMessage("关闭失败！");
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage());
+            throw new RuntimeException(e);
+        }
+        return result;
+    }
+
+
+    /**
+     * <p>
+     * Description:[完成任务完成功能]
+     * <p>
+     *
+     * @return ExecuteResult<long>
+     */
+    @Override
+    public ExecuteResult<Long> updateStatusFinish(Long id) {
+        ExecuteResult<Long> result = new ExecuteResult<Long>();
+        try {
+            if (!id.equals("") && !id.equals("0")) {
+                Long updateStatusResult = taskMapper.updateStatus(id);
+                result.setResult(updateStatusResult);
+                return result;
+            }
+            result.addErrorMessage("完成失败！");
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage());
+            throw new RuntimeException(e);
+        }
+        return result;
+    }
+
+    /**
+     * <p>
+     * Description:[根据id获取单个任务明细]
+     * <p>
+     *
+     * @return ExecuteResult<Task>
+     */
+    @Override
+    public ExecuteResult<Task> queryTaskById(Long id) {
+        ExecuteResult<Task> result = new ExecuteResult<Task>();
+        try {
+            if (!id.equals("") && !id.equals("0")) {
+                Task queryResult = taskMapper.selectTaskById(id);
+                result.setResult(queryResult);
+                return result;
+            }
+            result.addErrorMessage("查询失败！");
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage());
             throw new RuntimeException(e);
         }
         return result;
