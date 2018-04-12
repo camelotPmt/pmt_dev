@@ -4,6 +4,7 @@ import com.camelot.pmt.platform.user.model.UserModel;
 import com.camelot.pmt.platform.utils.DataGrid;
 import com.camelot.pmt.platform.utils.ExecuteResult;
 import com.camelot.pmt.platform.utils.Pager;
+import com.camelot.pmt.task.model.Task;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
@@ -34,6 +35,14 @@ public interface TaskRunningService {
      * page @param @return @return ExecuteResult<DataGrid<Long>> @throws
      */
     ExecuteResult<Long> updateStatusFinish(String id);
+
+
+    /**
+     *
+     * @Title: updateStatusFinish @Description: TODO @param @param
+     * page @param @return @return ExecuteResult<DataGrid<Long>> @throws
+     */
+    ExecuteResult<Task> queryTaskById(String id);
 
 
 }
