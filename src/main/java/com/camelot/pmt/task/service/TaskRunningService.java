@@ -20,7 +20,7 @@ public interface TaskRunningService {
      * @Title: queryoverdueTaskRunning @Description: TODO @param @param
      * page @param @return @return ExecuteResult<DataGrid<Map<String, Object>>> @throws
      */
-    ExecuteResult<DataGrid<Map<String, Object>>> queryoverdueTaskRunning(Pager page);
+    ExecuteResult<DataGrid<Map<String, Object>>> queryoverdueTaskRunning(Pager page, Long id);
 
     /**
      *
