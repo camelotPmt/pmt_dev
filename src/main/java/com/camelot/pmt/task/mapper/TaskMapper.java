@@ -85,7 +85,7 @@ public interface TaskMapper {
 	List<Task> queryAllTaskList();
 
 	/**
-	 * 查询正在进行的任务
+	 * 查询正在进行的任务，根据时间和优先级进行排序
 	 * myp
 	 * */
 	List<Map<String,Object>> listTaskRunning(@Param(value = "page") Pager page);
@@ -103,13 +103,34 @@ public interface TaskMapper {
      * Long @throws
      * myp
      */
-    Long updateStatus(String id);
+    Long updateStatus(Long id);
 
     /**
      * 根据id关闭任务，修改为异常状态 @Title: queryCount @Description: TODO @param @return @return
      * Long @throws
      * myp
      */
-    Long updateAbnormal_Status(String id);
+    Long updateAbnormal_Status(Long id);
+
+
+	/**
+	 * 根据id查询任务明细 @Title: queryCount @Description: TODO @param @return @return
+	 * Long @throws
+	 * myp
+	 */
+	Task selectTaskById(Long id);
+
+	/**
+	 * 查询已完成的任务，根据时间和优先级进行排序
+	 * myp
+	 * */
+	List<Map<String,Object>> listTaskAlready(@Param(value = "page") Pager page);
+
+	/**
+	 * 查询已完成任务总个数 @Title: queryCount @Description: TODO @param @return @return
+	 * Long @throws
+	 * myp
+	 */
+	Long queryAlreadyCount();
 
 }
