@@ -32,14 +32,14 @@ public class Scheduler {
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());  
 	
 	/**
-	 * 发送已经到达日期的任务预警
+	 * 发送已经到达日期的任务预警(每天9点)
 	* @Title: schedulerSendWaringEmail
 	* @Description: TODO
 	* @param @return
 	* @return JSONObject 
 	* @throws
 	 */
-    @Scheduled(cron="0 0/1 * * * ?") //每分钟执行一次  
+    @Scheduled(cron="0 0 9 * * ?") //每天9点执行一次
     public void schedulerSendWaringEmail() {      
 		
 		try {

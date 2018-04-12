@@ -130,7 +130,7 @@ public interface TaskMapper {
 	 * 查询正在进行的任务，根据时间和优先级进行排序
 	 * myp
 	 * */
-	List<Map<String,Object>> listTaskRunning(@Param(value = "page") Pager page);
+    List<Map<String,Object>> listTaskRunning(@Param(value = "page") Pager page, @Param(value = "id") Long id);
 
 	/**
      * 查询正在进行任务个数 @Title: queryCount @Description: TODO @param @return @return
@@ -155,9 +155,33 @@ public interface TaskMapper {
     Long updateAbnormal_Status(Long id);
 
 
+	/**
+	 * 根据id查询任务明细
+	 * myp
+	 * */
+	Task selectTaskById(Long id);
+
+	/**
+	 * 查询已完成的任务，根据时间和优先级进行排序
+	 * myp
+	 * */
+	List<Map<String,Object>> listTaskAlready(@Param(value = "page") Pager page, @Param(value = "id") Long id);
+
+	/**
+	 * 查询已完成任务总个数 @Title: queryCount @Description: TODO @param @return @return
+	 * Long @throws
+	 * myp
+	 */
+	Long queryAlreadyCount();
 
 
-	
+	/**
+	 * 根据id重做，修改任务状态 @Title: queryCount @Description: TODO @param @return @return
+	 * Long @throws
+	 * myp
+	 */
+	Long updateRepetitiveOperation(Long id);
+
 	/**
 	 * 查询延期任务信息详情
 	* @Title: queryOverdueTaskDetailByTaskId
@@ -190,22 +214,5 @@ public interface TaskMapper {
 	* @throws
 	 */
 	int queryOverdueTaskUserId(String userId);
-	
-	
-
-	Task selectTaskById(Long id);
-
-	/**
-	 * 查询已完成的任务，根据时间和优先级进行排序
-	 * myp
-	 * */
-	List<Map<String,Object>> listTaskAlready(@Param(value = "page") Pager page);
-
-	/**
-	 * 查询已完成任务总个数 @Title: queryCount @Description: TODO @param @return @return
-	 * Long @throws
-	 * myp
-	 */
-	Long queryAlreadyCount();
 
 }

@@ -7,6 +7,7 @@ import com.camelot.pmt.platform.utils.DataGrid;
 import com.camelot.pmt.platform.utils.ExecuteResult;
 import com.camelot.pmt.platform.utils.Pager;
 import com.camelot.pmt.task.model.Task;
+import com.camelot.pmt.task.model.TaskLog;
 import com.camelot.pmt.task.service.TaskRunningService;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import springfox.documentation.annotations.ApiIgnore;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -41,14 +43,15 @@ public class TaskRunningController {
     @RequestMapping(value = "/queryoverdueTaskRunning", method = RequestMethod.GET)
     @ApiImplicitParams({
             @ApiImplicitParam(name = "page", value = "页码", required = true, paramType = "query", dataType = "int"),
-            @ApiImplicitParam(name = "rows", value = "每页数量", required = true, paramType = "query", dataType = "int") })
-    public JSONObject queryoverdueTaskRunning(@ApiIgnore Pager page) {
+            @ApiImplicitParam(name = "rows", value = "每页数量", required = true, paramType = "query", dataType = "int"),
+            @ApiImplicitParam(name = "id", value = "用户id", required = true, paramType = "query", dataType = "Long")})
+    public JSONObject queryoverdueTaskRunning(@ApiIgnore Pager page, @ApiIgnore Long id) {
         ExecuteResult<DataGrid<Map<String, Object>>> result = new ExecuteResult<DataGrid<Map<String, Object>>>();
         try {
             if (page == null) {
                 return ApiResponse.errorPara();
             }
-            result = taskRunningService.queryoverdueTaskRunning(page);
+            result = taskRunningService.queryoverdueTaskRunning(page,id);
             if (result.isSuccess()) {
                 return ApiResponse.success(result.getResult());
             }
@@ -125,6 +128,31 @@ public class TaskRunningController {
         ExecuteResult<Task> result = new ExecuteResult<Task>();
         try {
             result = taskRunningService.queryTaskById(id);
+            if (result.isSuccess()) {
+                return ApiResponse.success(result.getResult());
+            }
+            return ApiResponse.error();
+        } catch (Exception e) {
+            return ApiResponse.error();
+        }
+    }
+
+    /**
+     * <p>
+     * Description:[查询单个任务的历史记录]
+     * </p>
+     *
+     * @param id
+     *            任务id
+     * @return {"status": {"message": "请求处理成功.","code": 200}, "data": {Task}]
+     */
+    @ApiOperation(value = "根据id查询单个任务的历史记录", notes = "根据id查询单个任务的历史记录")
+    @RequestMapping(value = "user/queryTaskLogById", method = RequestMethod.POST)
+    public JSONObject queryTaskLogById(
+            @ApiParam(name = "id", value = "任务id", required = true) @RequestParam(required = true) Long id) {
+        ExecuteResult<List<TaskLog>> result = new ExecuteResult<List<TaskLog>>();
+        try {
+            result = taskRunningService.queryTaskLogById(id);
             if (result.isSuccess()) {
                 return ApiResponse.success(result.getResult());
             }
