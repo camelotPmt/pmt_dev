@@ -38,11 +38,28 @@ public interface TaskMapper {
 
     /**
 	 * @author: zlh
-     * @param task 模糊查询的条件
+     * @param taskManager 模糊查询的条件
      * @description: 根据条件查询任务
      * @return
      */
-    List<Task> queryTaskByTask(Task task);
+    List<TaskManager> queryTaskByTask(TaskManager taskManager);
+
+    /**
+     * @author: zlh
+     * @param: taskManager 插入任务的数据
+     * @description: 新增任务
+     * @date: 9:07 2018/4/12
+     */
+    int insertTask(TaskManager taskManager);
+
+    /**
+     * @author: zlh
+     * @param: taskManager 需要修改的任务数据
+     * @description: 根据任务id修改任务
+     * @date: 10:18 2018/4/12
+     */
+    int updateTaskById(TaskManager taskManager);
+
     /**
      * 查询延期任务个数
     * @Title: queryCount
