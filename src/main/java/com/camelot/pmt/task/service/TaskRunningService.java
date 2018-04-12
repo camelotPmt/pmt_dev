@@ -27,14 +27,14 @@ public interface TaskRunningService {
      * @Title: updateStatus @Description: TODO @param @param
      * page @param @return @return ExecuteResult<DataGrid<Long>> @throws
      */
-    ExecuteResult<Long> updateStatus(String id);
+    ExecuteResult<Long> updateStatus(Long id);
 
     /**
      *
      * @Title: updateStatusFinish @Description: TODO @param @param
      * page @param @return @return ExecuteResult<DataGrid<Long>> @throws
      */
-    ExecuteResult<Long> updateStatusFinish(String id);
+    ExecuteResult<Long> updateStatusFinish(Long id);
 
 
     /**
@@ -42,7 +42,7 @@ public interface TaskRunningService {
      * @Title: updateStatusFinish @Description: TODO @param @param
      * page @param @return @return ExecuteResult<DataGrid<Long>> @throws
      */
-    ExecuteResult<Task> queryTaskById(String id);
+    ExecuteResult<Task> queryTaskById(Long id);
 
 
 }
