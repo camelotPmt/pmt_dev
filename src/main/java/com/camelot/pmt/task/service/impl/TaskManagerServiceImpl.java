@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 /**
  * @author zlh
  * @date 2018/4/9 16:27
@@ -75,7 +77,7 @@ public class TaskManagerServiceImpl implements TaskManagerService {
      * @date: 10:18 2018/4/12
      */
     @Override
-    public JSONObject updateTaskById(TaskManager taskManager) {
+    public JSONObject updateEstimateStartTimeById(TaskManager taskManager) {
         if (taskManager == null) {
             return ApiResponse.errorPara();
         }
@@ -84,5 +86,81 @@ public class TaskManagerServiceImpl implements TaskManagerService {
             return ApiResponse.success(updateTaskById);
         }
         return ApiResponse.error();
+    }
+
+    /**
+     * @author: zlh
+     * @param:  id 需要指派的任务id，userId 负责人id, isAssignAll 是否一并指派子任务
+     * @description: 给任务添加负责人——指派
+     * @date: 11:36 2018/4/12
+     */
+    @Override
+    public JSONObject updateBeAssignUserById(Long id, String userId, boolean isAssignAll) {
+        if (id == null && userId == null) {
+            return ApiResponse.errorPara();
+        }
+        /*if () {
+            //调用根据用户id 查询用户的接口,判断 返回结果！=null 则向下执行
+        }*/
+        TaskManager taskManager = new TaskManager();
+        taskManager.setId(id);
+        taskManager.getBeassignUser().setUserId(userId);
+        taskMapper.updateTaskById(taskManager);
+
+        if (isAssignAll) {
+            // 根据父id查询所有的子任务id
+            List<Long> ids = taskMapper.querySubTaskIdByParantId(id);
+            // 如果未查询到子任务则返回
+            if (ids.isEmpty()) {
+                return ApiResponse.success();
+            }
+            // 遍历所有子任务进行指派
+            for (Long subId : ids) {
+                // 递归查询子任务是否还有子任务
+                updateBeAssignUserById(subId, userId, isAssignAll);
+            }
+        }
+        return ApiResponse.success();
+    }
+
+    /**
+     * @author: zlh
+     * @param: id 任务id
+     * @description: 根据任务id查询任务详情
+     * @date: 17:08 2018/4/12
+     */
+    @Override
+    @Transactional(readOnly = true,propagation = Propagation.SUPPORTS)
+    public JSONObject queryTaskById(Long id) {
+        if (id == null) {
+            return ApiResponse.errorPara();
+        }
+        return ApiResponse.success(taskMapper.queryTaskById(id));
+    }
+
+    /**
+     * @author: zlh
+     * @param: id 需要删除的任务的id，isDeleteAll 是否删除子任务
+     * @description: 根据id删除任务
+     * @date: 17:24 2018/4/12
+     */
+    @Override
+    public JSONObject deleteTaskById(Long id, boolean isDeleteAll) {
+        if (id == null) {
+            return ApiResponse.errorPara();
+        }
+        int deleteTaskById = taskMapper.deleteTaskById(id);
+        if (isDeleteAll) {
+            // 根据父id查询所有的子任务id
+            List<Long> ids = taskMapper.querySubTaskIdByParantId(id);
+            if (ids.isEmpty()){
+            // 如果未查询到子任务则返回
+                return ApiResponse.success();
+            }
+            for (Long subId : ids) {
+                deleteTaskById(subId, isDeleteAll);
+            }
+        }
+        return ApiResponse.success(deleteTaskById);
     }
 }

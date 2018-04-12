@@ -37,8 +37,32 @@ public interface TaskManagerService {
     /**
      * @author: zlh
      * @param: taskManager 需要修改的任务数据
-     * @description: 根据任务id修改任务
+     * @description: 任务延期
      * @date: 10:18 2018/4/12
      */
-    JSONObject updateTaskById(TaskManager taskManager);
+    JSONObject updateEstimateStartTimeById(TaskManager taskManager);
+
+    /**
+     * @author: zlh
+     * @param:  taskManager 需要修改的任务数据
+     * @description: 指派
+     * @date: 11:36 2018/4/12
+     */
+    JSONObject updateBeAssignUserById(Long id, String userId, boolean isAssignAll);
+
+    /**
+     * @author: zlh
+     * @param: id 任务id
+     * @description: 根据任务id查询任务详情
+     * @date: 17:08 2018/4/12
+     */
+    JSONObject queryTaskById(Long id);
+
+    /**
+     * @author: zlh
+     * @param: id 需要删除的任务的id，isDeleteAll 是否删除子任务
+     * @description: 根据id删除任务
+     * @date: 17:24 2018/4/12
+     */
+    JSONObject deleteTaskById(Long id, boolean isDeleteAll);
 }

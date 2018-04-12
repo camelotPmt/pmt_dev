@@ -61,6 +61,30 @@ public interface TaskMapper {
     int updateTaskById(TaskManager taskManager);
 
     /**
+     * @author: zlh
+     * @param: id 任务id
+     * @description: 根据任务id查询任务详情
+     * @date: 17:08 2018/4/12
+     */
+    TaskManager queryTaskById(Long id);
+
+    /**
+     * @author: zlh
+     * @param:  id 父id
+     * @description: 根据父id查询所有的子任务id
+     * @date: 16:04 2018/4/12
+     */
+    List<Long> querySubTaskIdByParantId(Long id);
+
+    /**
+     * @author: zlh
+     * @param: id 需要删除的任务的id
+     * @description: 根据任务删除id
+     * @date: 17:22 2018/4/12
+     */
+    int deleteTaskById(Long id);
+
+    /**
      * 查询延期任务个数
     * @Title: queryCount
     * @Description: TODO

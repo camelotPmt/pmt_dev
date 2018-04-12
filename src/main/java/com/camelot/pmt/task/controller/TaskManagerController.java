@@ -52,9 +52,39 @@ public class TaskManagerController {
             return taskManagerService.insertTask(taskManager);
     }
 
-    @PostMapping(value = "/updateTask")
-    @ApiOperation(value = "修改任务接口", notes = "根据id修改任务")
-    public JSONObject updateTask(TaskManager taskManager){
-            return taskManagerService.updateTaskById(taskManager);
+    @PostMapping(value = "/updateEstimateStartTim")
+    @ApiOperation(value = "修改任务接口-延期", notes = "根据id修改任务预计开始时间")
+    public JSONObject updateEstimateStartTime(TaskManager taskManager){
+            return taskManagerService.updateEstimateStartTimeById(taskManager);
+    }
+
+    @PostMapping(value = "/updateEstimateStartTim")
+    @ApiOperation(value = "修改任务接口-指派", notes = "给任务添加负责人")
+    @ApiImplicitParams({
+            @ApiImplicitParam(dataType = "Long", name = "id", value = "任务id", required = true),
+            @ApiImplicitParam(dataType = "String", name = "userId", value = "被指派人id", required = true),
+            @ApiImplicitParam(dataType = "boolean", name = "isAssignAll", value = "是否一并指派子任务", required = true)
+    })
+    public JSONObject updateBeAssignUserById(Long id, String userId, boolean isAssignAll){
+        return taskManagerService.updateBeAssignUserById(id, userId, isAssignAll);
+    }
+
+    @PostMapping(value = "/queryTaskById")
+    @ApiOperation(value = "查询任务详情接口", notes = "根据id查询任务详情")
+    @ApiImplicitParams({
+            @ApiImplicitParam(dataType = "Long", name = "id", value = "任务id", required = true),
+    })
+    public JSONObject queryTaskById(Long id){
+        return taskManagerService.queryTaskById(id);
+    }
+
+    @PostMapping(value = "/deleteTaskById")
+    @ApiOperation(value = "删除任务接口", notes = "根据id删除任务")
+    @ApiImplicitParams({
+            @ApiImplicitParam(dataType = "Long", name = "id", value = "任务id", required = true),
+            @ApiImplicitParam(dataType = "boolean", name = "isDeleteAll", value = "是否一并删除子任务", required = true)
+    })
+    public JSONObject deleteTaskById(Long id, boolean isDeleteAll) {
+        return taskManagerService.deleteTaskById(id, isDeleteAll);
     }
 }
