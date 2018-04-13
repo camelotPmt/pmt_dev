@@ -120,10 +120,10 @@ public class TaskOverdueController {
 	}
 	
 	/**
-	 * 根据UserId查询用户是否有延期任务
+	 * 根据UserId查询用户是否有延期任务(弹框提示)
 	* @Title: queryOverdueTaskDetailByUserId
 	* @Description: TODO
-	* @param @param userId
+	* @param @param userId 
 	* @param @return
 	* @return JSONObject 
 	* @throws

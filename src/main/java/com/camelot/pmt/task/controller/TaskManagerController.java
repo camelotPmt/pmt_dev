@@ -27,7 +27,7 @@ public class TaskManagerController {
 
     @PostMapping(value = "/queryAllTask")
     @ApiOperation(value = "查询所有任务列表接口", notes = "查询所有任务列表")
-    public JSONObject queryAllTask(){
+    public JSONObject queryAllTask() {
         return taskManagerService.queryAllTask();
     }
 
@@ -42,30 +42,30 @@ public class TaskManagerController {
             @ApiImplicitParam(dataType = "String", name = "abnormalStatus", value = "任务异常状态", required = false),
             @ApiImplicitParam(dataType = "UserModel", name = "beassignUser.userId", value = "负责人", required = false),
     })
-    public JSONObject queryTaskByTask(TaskManager taskManager){
-            return taskManagerService.queryTaskByTask(taskManager);
+    public JSONObject queryTaskByTask(TaskManager taskManager) {
+        return taskManagerService.queryTaskByTask(taskManager);
     }
 
     @PostMapping(value = "/insertTask")
     @ApiOperation(value = "新增任务接口", notes = "新增任务")
-    public JSONObject insertTask(TaskManager taskManager){
-            return taskManagerService.insertTask(taskManager);
+    public JSONObject insertTask(TaskManager taskManager) {
+        return taskManagerService.insertTask(taskManager);
     }
 
     @PostMapping(value = "/updateEstimateStartTim")
     @ApiOperation(value = "修改任务接口-延期", notes = "根据id修改任务预计开始时间")
-    public JSONObject updateEstimateStartTime(TaskManager taskManager){
-            return taskManagerService.updateEstimateStartTimeById(taskManager);
+    public JSONObject updateEstimateStartTime(TaskManager taskManager) {
+        return taskManagerService.updateEstimateStartTimeById(taskManager);
     }
 
-    @PostMapping(value = "/updateEstimateStartTim")
+    @PostMapping(value = "/updateBeAssignUserById")
     @ApiOperation(value = "修改任务接口-指派", notes = "给任务添加负责人")
     @ApiImplicitParams({
             @ApiImplicitParam(dataType = "Long", name = "id", value = "任务id", required = true),
             @ApiImplicitParam(dataType = "String", name = "userId", value = "被指派人id", required = true),
             @ApiImplicitParam(dataType = "boolean", name = "isAssignAll", value = "是否一并指派子任务", required = true)
     })
-    public JSONObject updateBeAssignUserById(Long id, String userId, boolean isAssignAll){
+    public JSONObject updateBeAssignUserById(Long id, String userId, boolean isAssignAll) {
         return taskManagerService.updateBeAssignUserById(id, userId, isAssignAll);
     }
 
@@ -74,7 +74,7 @@ public class TaskManagerController {
     @ApiImplicitParams({
             @ApiImplicitParam(dataType = "Long", name = "id", value = "任务id", required = true),
     })
-    public JSONObject queryTaskById(Long id){
+    public JSONObject queryTaskById(Long id) {
         return taskManagerService.queryTaskById(id);
     }
 

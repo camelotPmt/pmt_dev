@@ -87,12 +87,13 @@ public class TaskOverdueServiceImpl implements TaskOverdueService {
 		 ExecuteResult<String> result = new ExecuteResult<String>();
 		     try{
 			     if( task.getId() == 0 || task.getId() == null){
-			     result.setResult("该用户不存在!");
+			     result.setResult("该任务不存在!");
 			     return result;
 			     }
+			     //进行任务的更改(根据id去更改,修改延期描述,修改)
 			     Integer count = taskMapper.insertOverduMessage(task);
 			      if(count == 0){
-			      result.setResult("更新用户失败!");
+			      result.setResult("更新任务失败!");
 			      return result;
 			      }
 		     }
@@ -100,17 +101,18 @@ public class TaskOverdueServiceImpl implements TaskOverdueService {
 			     LOGGER.error(e.getMessage());
 			     throw new RuntimeException(e);
 		     }
-		     result.setResult("更新用户成功!");
+		     result.setResult("更新任务成功!");
 		     return result;
 	}
 	/**
-	 * 根据userId查询个人是否有延期任务
+	 * 根据userId查询个人是否有延期任务(弹框显示)
 	 */
 	@Override
 	public ExecuteResult<Integer> queryOverdueTaskUserId(String userId) {
 		ExecuteResult<Integer> result = new ExecuteResult<Integer>();
         try {
             if (!userId.equals("") && !userId.equals("0")) {
+            	//查看个人是否有延期任务
             	int count = taskMapper.queryOverdueTaskUserId(userId);
                 result.setResult(count);
                 return result;
