@@ -431,7 +431,7 @@ public class TaskPendingServiceImpl implements TaskPendingService{
 			if(TaskType.PENDINHG.getValue().equals(taskType)){
 				//格式化日期格式为yyyy-mm-dd HH:mm:ss,根据id更新待办任务状态为延期
 				//sql:update task set t.status = #{taskType,jdbcType=VARCHAR},t.delay_describe = #{delayDescribe,jdbcType=VARCHAR},t.estimate_start_time = #{estimateStartTime,jdbcType=TIMESTAMP} where t.id = #{id,jdbcType=BIGINT}
-				if(!TaskType.ALREADY.getValue().equals(taskType)){
+				if(!TaskType.CLOSE.getValue().equals(taskType)){
 					taskMapper.updateTaskPendingToDelay(id,taskType,delayDescribe,DateUtils.format(estimateStartTime,DateUtils.DATE_TIME_PATTERN));
 				}
 				//查询taskId下的所有子节点
