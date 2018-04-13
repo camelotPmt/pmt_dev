@@ -1,5 +1,6 @@
 package com.camelot.pmt.task.service;
 
+import java.sql.Date;
 import java.util.List;
 
 import com.camelot.pmt.platform.utils.ExecuteResult;
@@ -69,6 +70,17 @@ public interface TaskPendingService {
 	
 	/**
 	 * 
+	* @Title: queryMyTaskListNodeByParentId 
+	* @Description: TODO(查询taskId下的一级子节点) 
+	* @param @param taskId
+	* @param @return    设定文件 
+	* @return ExecuteResult<List<Task>>    返回类型 
+	* @throws
+	 */
+	ExecuteResult<List<Task>> queryMyTaskListNodeByParentId(Long taskId,String taskType,Long beassignUserId);
+	
+	/**
+	 * 
 	* @Title: queryTaskListNodeByParentId 
 	* @Description: TODO(查询taskId下的一级子节点) 
 	* @param @param taskId
@@ -76,18 +88,29 @@ public interface TaskPendingService {
 	* @return ExecuteResult<List<Task>>    返回类型 
 	* @throws
 	 */
-	public ExecuteResult<List<Task>> queryTaskListNodeByParentId(Long taskId,String taskType,Long beassignUserId);
+	ExecuteResult<List<Task>> queryTaskListNodeByParentId(Long taskId,String taskType);
+	
+	/**
+	 * 如果taskId不为空，查询当前节点的父节点和祖宗节点
+	* @Title: recursiveTree 
+	* @Description: TODO(通过递归获取Task任务树) 
+	* @param @param taskId
+	* @param @return    设定文件 
+	* @return Task    返回类型 
+	* @throws
+	 */
+	ExecuteResult<List<Task>> queryTopAllTaskTreeByTaskId(Long id);
 	
 	/**
 	 * 
 	* @Title: delete 
 	* @Description: TODO(根据Id删除该任务及以下的所有node节点，调用递归方法) 
-	* @param @param task
+	* @param @param taskId taskType
 	* @param @return    设定文件 
 	* @return ExecuteResult<String>    返回类型 
 	* @throws
 	 */
-	ExecuteResult<List<Task>> deleteTaskTreeById(Long id,String taskType,Long beassignUserId);
+	ExecuteResult<String> deletePendingTaskTreeById(Long id,String taskType);
 	
 	/**
 	 * 
@@ -121,6 +144,20 @@ public interface TaskPendingService {
 	* @throws
 	 */
 	ExecuteResult<String> updateTaskPendingToRuning(Long id,String taskType);
+	
+	/**
+	 * 
+	* @Title: updateTaskPendingToDelay 
+	* @Description: TODO(我的待办任务状态转为正在进行) 
+	* @param @param id
+	* @param @param taskType 状态
+	* @param @param delayDescribe 描述
+	* @param @param estimateStartTime 预计开始时间
+	* @param @return    设定文件 
+	* @return ExecuteResult<String>    返回类型 
+	* @throws
+	 */
+	ExecuteResult<String> updateTaskPendingToDelay(Long id,String taskType,String delayDescribe,Date estimateStartTime);
 	
 	/**
 	 * 
