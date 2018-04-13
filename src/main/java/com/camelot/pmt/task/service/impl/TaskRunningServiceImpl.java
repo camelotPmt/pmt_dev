@@ -131,7 +131,7 @@ public class TaskRunningServiceImpl implements TaskRunningService{
             }
                 //根据id更新任务状态为关闭
                 //sql:update task set t.status = #{taskType,jdbcType=VARCHAR} where t.id = #{id,jdbcType=BIGINT}
-                taskMapper.updateTaskPendingToRuning(id,taskType);
+                taskMapper.updateTaskToClose(id,taskType);
                 //查询taskId下的所有子节点
                 //select * from task t where t.task_parent_id = #{id}
                 Task parentTaskNodes = taskMapper.queryParentTaskNodeById(id);
