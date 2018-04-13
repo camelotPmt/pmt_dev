@@ -65,7 +65,7 @@ public interface TaskPendingService {
 	* @return ExecuteResult<List<Task>>    返回类型 
 	* @throws
 	 */
-	ExecuteResult<List<Task>> queryAllTaskList();
+	ExecuteResult<List<Task>> queryAllTaskList(String taskType,Long beassignUserId);
 	
 	/**
 	 * 
@@ -76,7 +76,7 @@ public interface TaskPendingService {
 	* @return ExecuteResult<List<Task>>    返回类型 
 	* @throws
 	 */
-	public ExecuteResult<List<Task>> queryTaskListNodeByParentId(Long taskId);
+	public ExecuteResult<List<Task>> queryTaskListNodeByParentId(Long taskId,String taskType,Long beassignUserId);
 	
 	/**
 	 * 
@@ -87,17 +87,52 @@ public interface TaskPendingService {
 	* @return ExecuteResult<String>    返回类型 
 	* @throws
 	 */
-	ExecuteResult<List<Task>> deleteTaskTreeById(Long taskId);
+	ExecuteResult<List<Task>> deleteTaskTreeById(Long id,String taskType,Long beassignUserId);
 	
 	/**
 	 * 
 	* @Title: queryTaskTreeByTaskId 
-	* @Description: TODO(这里用一句话描述这个方法的作用) 
+	* @Description: TODO(通过递归获取Task任务树) 
 	* @param @param taskId
 	* @param @return    设定文件 
 	* @return ExecuteResult<Task>    返回类型 
 	* @throws
 	 */
-	ExecuteResult<Task> queryTaskTreeByTaskId(Long taskId);
+	ExecuteResult<Task> queryTaskTreeByTaskId(Long id,String taskType,Long beassignUserId);
+	
+	/**
+	 * 
+	* @Title: queryTopTaskNameList 
+	* @Description: TODO(查询我的顶级待办任务) 
+	* @param @return    设定文件 
+	* @return ExecuteResult<List<Task>>    返回类型 
+	* @throws
+	 */
+	ExecuteResult<List<Task>> queryTopTaskNameList(String taskType,Long beassignUserId);
+	
+	/**
+	 * 
+	* @Title: updateTaskPendingToRuning 
+	* @Description: TODO(我的待办任务状态转为正在进行) 
+	* @param @param id
+	* @param @param taskType
+	* @param @return    设定文件 
+	* @return ExecuteResult<String>    返回类型 
+	* @throws
+	 */
+	ExecuteResult<String> updateTaskPendingToRuning(Long id,String taskType);
+	
+	/**
+	 * 
+	* @Title: updateTaskToAssign 
+	* @Description: TODO(更新指派人和被指派人标识号) 
+	* @param @param id
+	* @param @param assignUserId
+	* @param @param beassignUserId
+	* @param @return    设定文件 
+	* @return ExecuteResult<String>    返回类型 
+	* @throws
+	 */
+	ExecuteResult<String> updateTaskToAssign(Long id,Long assignUserId,Long beassignUserId);
 	
 }
