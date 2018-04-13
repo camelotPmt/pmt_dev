@@ -1,11 +1,11 @@
 package com.camelot.pmt.task.service.impl;
 
-import com.camelot.pmt.platform.common.APIStatus;
-import com.camelot.pmt.platform.common.ApiResponse;
 import com.camelot.pmt.platform.utils.ExecuteResult;
 import com.camelot.pmt.task.mapper.TaskMapper;
 import com.camelot.pmt.task.model.Task;
 import com.camelot.pmt.task.service.TaskPendingService;
+import com.camelot.pmt.task.utils.Constant.TaskType;
+import com.camelot.pmt.task.utils.DateUtils;
 import com.camelot.pmt.task.utils.RRException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,8 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -423,22 +423,30 @@ public class TaskPendingServiceImpl implements TaskPendingService{
 	public ExecuteResult<String> updateTaskPendingToDelay(Long id,String taskType,String delayDescribe,Date estimateStartTime) {
 		ExecuteResult<String> result = new ExecuteResult<String>();
 		try{
-			if(id==null){
-				result.addErrorMessage("传入的任务Id有误!");
+			if(id==null || StringUtils.isEmpty(delayDescribe) || estimateStartTime == null){
+				result.addErrorMessage("传入的参数有误!");
 				return result;
 			}
 			//判断状态是否为待办，如果是待办更新为正在进行
-			if("0".equals(taskType)){
-				//根据id更新待办任务状态为延期
+			if(TaskType.PENDINHG.getValue().equals(taskType)){
+				//格式化日期格式为yyyy-mm-dd HH:mm:ss,根据id更新待办任务状态为延期
 				//sql:update task set t.status = #{taskType,jdbcType=VARCHAR},t.delay_describe = #{delayDescribe,jdbcType=VARCHAR},t.estimate_start_time = #{estimateStartTime,jdbcType=TIMESTAMP} where t.id = #{id,jdbcType=BIGINT}
-				taskMapper.updateTaskPendingToDelay(id,taskType,delayDescribe,estimateStartTime);
+				if(!TaskType.ALREADY.getValue().equals(taskType)){
+					taskMapper.updateTaskPendingToDelay(id,taskType,delayDescribe,DateUtils.format(estimateStartTime,DateUtils.DATE_TIME_PATTERN));
+				}
 				//查询taskId下的所有子节点
-				//select * from task t where t.task_parent_id = #{id}
-				Task parentTaskNodes = taskMapper.queryParentTaskNodeById(id);
-				//判断是否有父节点
-				if(parentTaskNodes!=null){
-					//递归
-					return updateTaskPendingToDelay(parentTaskNodes.getId(),parentTaskNodes.getStatus(),delayDescribe,estimateStartTime);
+				//select * from task t where <if test="id != null" >t.task_parent_id = #{id}</if> <if test="taskType != null" > and t.task_type = #{taskType,jdbcType=BIGINT} </if>
+				List<Task> childTaskNodes = taskMapper.queryTaskListNodeByParentId(id,null); 
+				//遍历子节点
+				if(childTaskNodes!=null && childTaskNodes.size()>0){
+					for(Task child : childTaskNodes){
+						//递归
+						//sql需要修改
+						//<if test="taskType != null" > and t.task_type = #{taskType,jdbcType=BIGINT} </if>
+						//<if test="beassignUserId != null" > and t.beassign_user_id = #{beassignUserId,jdbcType=BIGINT} </if>
+						//非关闭需要改为延期
+						updateTaskPendingToDelay(child.getId(),taskType,delayDescribe,estimateStartTime);
+					}
 				}
 			}
 			result.setResult("修改任务状态成功！");
