@@ -30,18 +30,18 @@ public class TaskManagerServiceImpl implements TaskManagerService {
      * @date: 16:54 2018/4/9
      */
     @Override
-    @Transactional(readOnly = true,propagation = Propagation.SUPPORTS)
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     public JSONObject queryAllTask() {
         return ApiResponse.success(taskMapper.queryAllTask());
     }
 
     /**
-     * @author: zlh
      * @param taskManager 模糊查询的条件
+     * @author: zlh
      * @description: 根据条件查询任务
      */
     @Override
-    @Transactional(readOnly = true,propagation = Propagation.SUPPORTS)
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     public JSONObject queryTaskByTask(TaskManager taskManager) {
         if (taskManager == null) {
             return ApiResponse.errorPara();
@@ -51,7 +51,7 @@ public class TaskManagerServiceImpl implements TaskManagerService {
 
     /**
      * @author: zlh
-     * @param:  taskManager 插入任务的数据
+     * @param: taskManager 插入任务的数据
      * @description: 新增任务
      * @date: 9:10 2018/4/12
      */
@@ -90,7 +90,7 @@ public class TaskManagerServiceImpl implements TaskManagerService {
 
     /**
      * @author: zlh
-     * @param:  id 需要指派的任务id，userId 负责人id, isAssignAll 是否一并指派子任务
+     * @param: id 需要指派的任务id，userId 负责人id, isAssignAll 是否一并指派子任务
      * @description: 给任务添加负责人——指派
      * @date: 11:36 2018/4/12
      */
@@ -130,7 +130,7 @@ public class TaskManagerServiceImpl implements TaskManagerService {
      * @date: 17:08 2018/4/12
      */
     @Override
-    @Transactional(readOnly = true,propagation = Propagation.SUPPORTS)
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     public JSONObject queryTaskById(Long id) {
         if (id == null) {
             return ApiResponse.errorPara();
@@ -141,26 +141,38 @@ public class TaskManagerServiceImpl implements TaskManagerService {
     /**
      * @author: zlh
      * @param: id 需要删除的任务的id，isDeleteAll 是否删除子任务
-     * @description: 根据id删除任务
+     * @description: 根据id删除任务（只有自己创建的任务才可以删除，已经指派的任务只能关闭不能删除）
      * @date: 17:24 2018/4/12
      */
     @Override
     public JSONObject deleteTaskById(Long id, boolean isDeleteAll) {
+        // 判断参数
         if (id == null) {
             return ApiResponse.errorPara();
         }
-        int deleteTaskById = taskMapper.deleteTaskById(id);
-        if (isDeleteAll) {
-            // 根据父id查询所有的子任务id
-            List<Long> ids = taskMapper.querySubTaskIdByParantId(id);
-            if (ids.isEmpty()){
-            // 如果未查询到子任务则返回
-                return ApiResponse.success();
+        // 调用根据id查询任务创建人与当前登录用户比对，只有自己创建的任务才可以删除
+        TaskManager taskManager = taskMapper.queryTaskById(id);
+        String createUserName = taskManager.getCreateUser().getUsername();
+
+        // 已经指派的任务只能关闭不能删除
+        if (taskManager.getBeassignUser() != null) { /*不能删除已经指派的任务*/ }
+        if ("当前登录用户名".equals(createUserName)) {
+            taskMapper.deleteTaskById(id);
+            if (isDeleteAll) {
+                // 根据父id查询所有的子任务id
+                List<Long> ids = taskMapper.querySubTaskIdByParantId(id);
+                if (ids.isEmpty()) {
+                    return ApiResponse.success();
+                }
+                // 递归删除所有子任务
+                for (Long subId : ids) {
+                    deleteTaskById(subId, isDeleteAll);
+                }
             }
-            for (Long subId : ids) {
-                deleteTaskById(subId, isDeleteAll);
-            }
+        } else {
+            /*返回没有对应权限*/
         }
-        return ApiResponse.success(deleteTaskById);
+
+        return ApiResponse.success();
     }
 }
