@@ -1,8 +1,11 @@
 package com.camelot.pmt.task.service;
 
 import com.alibaba.fastjson.JSONObject;
+import com.camelot.pmt.platform.utils.ExecuteResult;
 import com.camelot.pmt.task.model.Task;
 import com.camelot.pmt.task.model.TaskManager;
+
+import java.util.List;
 
 /**
  * @author zlh
@@ -16,7 +19,7 @@ public interface TaskManagerService {
      * @description: 查询所有任务列表
      * @date: 16:54 2018/4/9
      */
-    JSONObject queryAllTask();
+    ExecuteResult<List<TaskManager>> queryAllTask();
 
     /**
      * @author: zlh
@@ -24,7 +27,7 @@ public interface TaskManagerService {
      * @description: 根据条件查询任务
      * @return
      */
-    JSONObject queryTaskByTask(TaskManager taskManager);
+    ExecuteResult<List<TaskManager>> queryTaskByTask(TaskManager taskManager);
 
     /**
      * @author: zlh
@@ -32,7 +35,7 @@ public interface TaskManagerService {
      * @description: 新增任务
      * @date: 9:10 2018/4/12
      */
-    JSONObject insertTask(TaskManager taskManager);
+    ExecuteResult<String> insertTask(TaskManager taskManager);
 
     /**
      * @author: zlh
@@ -40,7 +43,7 @@ public interface TaskManagerService {
      * @description: 任务延期
      * @date: 10:18 2018/4/12
      */
-    JSONObject updateEstimateStartTimeById(TaskManager taskManager);
+    ExecuteResult<String> updateEstimateStartTimeById(TaskManager taskManager);
 
     /**
      * @author: zlh
@@ -48,7 +51,7 @@ public interface TaskManagerService {
      * @description: 指派
      * @date: 11:36 2018/4/12
      */
-    JSONObject updateBeAssignUserById(Long id, String userId, boolean isAssignAll);
+    ExecuteResult<String> updateBeAssignUserById(Long id, String userId, boolean isAssignAll);
 
     /**
      * @author: zlh
@@ -56,7 +59,7 @@ public interface TaskManagerService {
      * @description: 根据任务id查询任务详情
      * @date: 17:08 2018/4/12
      */
-    JSONObject queryTaskById(Long id);
+    ExecuteResult<TaskManager> queryTaskById(Long id);
 
     /**
      * @author: zlh
@@ -64,5 +67,5 @@ public interface TaskManagerService {
      * @description: 根据id删除任务
      * @date: 17:24 2018/4/12
      */
-    JSONObject deleteTaskById(Long id, boolean isDeleteAll);
+    ExecuteResult<String> deleteTaskById(Long id, boolean isDeleteAll);
 }

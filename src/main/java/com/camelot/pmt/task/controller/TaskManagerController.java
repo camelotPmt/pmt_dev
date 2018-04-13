@@ -1,7 +1,9 @@
 package com.camelot.pmt.task.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.camelot.pmt.platform.common.APIStatus;
 import com.camelot.pmt.platform.common.ApiResponse;
+import com.camelot.pmt.platform.utils.ExecuteResult;
 import com.camelot.pmt.task.model.TaskManager;
 import com.camelot.pmt.task.service.TaskManagerService;
 import io.swagger.annotations.Api;
@@ -12,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /**
  * @author zlh
@@ -28,7 +32,16 @@ public class TaskManagerController {
     @PostMapping(value = "/queryAllTask")
     @ApiOperation(value = "查询所有任务列表接口", notes = "查询所有任务列表")
     public JSONObject queryAllTask() {
-        return taskManagerService.queryAllTask();
+        ExecuteResult<List<TaskManager>> result = null;
+        try {
+            result = taskManagerService.queryAllTask();
+            if (result.isSuccess()) {
+                return ApiResponse.success(result.getResult());
+            }
+            return ApiResponse.error();
+        } catch (Exception e) {
+            return ApiResponse.jsonData(APIStatus.ERROR_500, e.getMessage());
+        }
     }
 
     @PostMapping(value = "/queryTaskByTask")
@@ -43,19 +56,46 @@ public class TaskManagerController {
             @ApiImplicitParam(dataType = "UserModel", name = "beassignUser.userId", value = "负责人", required = false),
     })
     public JSONObject queryTaskByTask(TaskManager taskManager) {
-        return taskManagerService.queryTaskByTask(taskManager);
+        ExecuteResult<List<TaskManager>> result = null;
+        try {
+            result = taskManagerService.queryTaskByTask(taskManager);
+            if (result.isSuccess()) {
+                return ApiResponse.success(result.getResult());
+            }
+            return ApiResponse.error();
+        } catch (Exception e) {
+            return ApiResponse.jsonData(APIStatus.ERROR_500, e.getMessage());
+        }
     }
 
     @PostMapping(value = "/insertTask")
     @ApiOperation(value = "新增任务接口", notes = "新增任务")
     public JSONObject insertTask(TaskManager taskManager) {
-        return taskManagerService.insertTask(taskManager);
+        ExecuteResult<String> result = null;
+        try {
+            result = taskManagerService.insertTask(taskManager);
+            if (result.isSuccess()) {
+                return ApiResponse.success(result.getResult());
+            }
+            return ApiResponse.error();
+        } catch (Exception e) {
+            return ApiResponse.jsonData(APIStatus.ERROR_500, e.getMessage());
+        }
     }
 
     @PostMapping(value = "/updateEstimateStartTim")
     @ApiOperation(value = "修改任务接口-延期", notes = "根据id修改任务预计开始时间")
     public JSONObject updateEstimateStartTime(TaskManager taskManager) {
-        return taskManagerService.updateEstimateStartTimeById(taskManager);
+        ExecuteResult<String> result = new ExecuteResult<String>();
+        try {
+            result = taskManagerService.updateEstimateStartTimeById(taskManager);
+            if (result.isSuccess()) {
+                return ApiResponse.success();
+            }
+            return ApiResponse.error();
+        } catch (Exception e) {
+            return ApiResponse.jsonData(APIStatus.ERROR_500, e.getMessage());
+        }
     }
 
     @PostMapping(value = "/updateBeAssignUserById")
@@ -66,7 +106,16 @@ public class TaskManagerController {
             @ApiImplicitParam(dataType = "boolean", name = "isAssignAll", value = "是否一并指派子任务", required = true)
     })
     public JSONObject updateBeAssignUserById(Long id, String userId, boolean isAssignAll) {
-        return taskManagerService.updateBeAssignUserById(id, userId, isAssignAll);
+        ExecuteResult<String> result = new ExecuteResult<String>();
+        try {
+            result = taskManagerService.updateBeAssignUserById(id, userId, isAssignAll);
+            if (result.isSuccess()) {
+                return ApiResponse.success(result.getResult());
+            }
+            return ApiResponse.error();
+        } catch (Exception e) {
+            return ApiResponse.jsonData(APIStatus.ERROR_500, e.getMessage());
+        }
     }
 
     @PostMapping(value = "/queryTaskById")
@@ -75,7 +124,16 @@ public class TaskManagerController {
             @ApiImplicitParam(dataType = "Long", name = "id", value = "任务id", required = true),
     })
     public JSONObject queryTaskById(Long id) {
-        return taskManagerService.queryTaskById(id);
+        ExecuteResult<TaskManager> result = new ExecuteResult<TaskManager>();
+        try {
+            result = taskManagerService.queryTaskById(id);
+            if (result.isSuccess()) {
+                return ApiResponse.success(result.getResult());
+            }
+            return ApiResponse.error();
+        } catch (Exception e) {
+            return ApiResponse.jsonData(APIStatus.ERROR_500, e.getMessage());
+        }
     }
 
     @PostMapping(value = "/deleteTaskById")
@@ -85,6 +143,15 @@ public class TaskManagerController {
             @ApiImplicitParam(dataType = "boolean", name = "isDeleteAll", value = "是否一并删除子任务", required = true)
     })
     public JSONObject deleteTaskById(Long id, boolean isDeleteAll) {
-        return taskManagerService.deleteTaskById(id, isDeleteAll);
+        ExecuteResult<String> result = new ExecuteResult<String>();
+        try {
+            result = taskManagerService.deleteTaskById(id, isDeleteAll);
+            if (result.isSuccess()) {
+                return ApiResponse.success(result.getResult());
+            }
+            return ApiResponse.error();
+        } catch (Exception e) {
+            return ApiResponse.jsonData(APIStatus.ERROR_500, e.getMessage());
+        }
     }
 }
