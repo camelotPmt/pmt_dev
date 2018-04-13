@@ -72,7 +72,7 @@ public interface TaskMapper {
 	* @return List<Task>    返回类型 
 	* @throws
 	 */
-	List<Task> queryTaskListNodeByParentId(Long taskId);
+	List<Task> queryTaskListNodeByParentId(Long taskId,String taskType,Long beassignUserId);
 	
 	/**
 	 * 
@@ -82,7 +82,41 @@ public interface TaskMapper {
 	* @return List<Task>    返回类型 
 	* @throws
 	 */
-	List<Task> queryAllTaskList();
+	List<Task> queryAllTaskList(String taskType,Long beassignUserId);
+	
+	/**
+	 * 
+	* @Title: queryTopTaskNameList 
+	* @Description: TODO(查询顶级我的待办任务) 
+	* @param @return    设定文件 
+	* @return List<Task>    返回类型 
+	* @throws
+	 */
+	List<Task> queryTopTaskNameList(String taskType,Long beassignUserId);
+	
+	/**
+	 * 
+	* @Title: updateTaskPendingToRuning 
+	* @Description: TODO(我的待办任务转为正在进行) 
+	* @param @param taskId
+	* @param @return    设定文件 
+	* @return int    返回类型 
+	* @throws
+	 */
+	void updateTaskPendingToRuning(Long id,String taskType);
+	
+	/**
+	 * 
+	* @Title: updateTaskToAssign 
+	* @Description: TODO(更新指派人和被指派人标识号) 
+	* @param @param id
+	* @param @param assignUserId
+	* @param @param beassignUserId
+	* @param @return    设定文件 
+	* @return int    返回类型 
+	* @throws
+	 */
+	void updateTaskToAssign(Long id,Long assignUserId,Long beassignUserId);
 
 	/**
 	 * 查询正在进行的任务
