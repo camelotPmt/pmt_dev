@@ -1,6 +1,6 @@
 package com.camelot.pmt.task.service;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 
 import com.camelot.pmt.platform.utils.ExecuteResult;

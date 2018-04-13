@@ -2,10 +2,15 @@ package com.camelot.pmt.task.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
 import com.camelot.pmt.platform.common.ApiResponse;
+import com.camelot.pmt.platform.role.service.impl.RoleServiceImpl;
+import com.camelot.pmt.platform.utils.ExecuteResult;
 import com.camelot.pmt.task.mapper.TaskMapper;
 import com.camelot.pmt.task.model.Task;
 import com.camelot.pmt.task.model.TaskManager;
 import com.camelot.pmt.task.service.TaskManagerService;
+import com.sun.mail.imap.protocol.ID;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -20,6 +25,8 @@ import java.util.List;
 @Service
 public class TaskManagerServiceImpl implements TaskManagerService {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(TaskManagerServiceImpl.class);
+
     @Autowired
     private TaskMapper taskMapper;
 
@@ -31,8 +38,16 @@ public class TaskManagerServiceImpl implements TaskManagerService {
      */
     @Override
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-    public JSONObject queryAllTask() {
-        return ApiResponse.success(taskMapper.queryAllTask());
+    public ExecuteResult<List<TaskManager>> queryAllTask() {
+        ExecuteResult<List<TaskManager>> result = new ExecuteResult<List<TaskManager>>();
+        try {
+            List<TaskManager> taskManagers = taskMapper.queryAllTask();
+            result.setResult(taskManagers);
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage());
+            throw new RuntimeException(e);
+        }
+        return result;
     }
 
     /**
@@ -42,11 +57,21 @@ public class TaskManagerServiceImpl implements TaskManagerService {
      */
     @Override
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-    public JSONObject queryTaskByTask(TaskManager taskManager) {
-        if (taskManager == null) {
-            return ApiResponse.errorPara();
+    public ExecuteResult<List<TaskManager>> queryTaskByTask(TaskManager taskManager) {
+        ExecuteResult<List<TaskManager>> result = new ExecuteResult<List<TaskManager>>();
+        try {
+            // 检查参数
+            if (taskManager == null) {
+                result.addErrorMessage("参数有误");
+                return result;
+            }
+            List<TaskManager> taskManagers = taskMapper.queryTaskByTask(taskManager);
+            result.setResult(taskManagers);
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage());
+            throw new RuntimeException(e);
         }
-        return ApiResponse.success(taskMapper.queryTaskByTask(taskManager));
+        return result;
     }
 
     /**
@@ -56,36 +81,59 @@ public class TaskManagerServiceImpl implements TaskManagerService {
      * @date: 9:10 2018/4/12
      */
     @Override
-    public JSONObject insertTask(TaskManager taskManager) {
-        if (taskManager == null) {
-            return ApiResponse.errorPara();
-        }
-        //默认状态下任务状态为未开始
-        taskManager.setStatus("未开始");
+    public ExecuteResult<String> insertTask(TaskManager taskManager) {
+        ExecuteResult<String> result = new ExecuteResult<String>();
+        try {
+            if (taskManager == null) {
+                result.addErrorMessage("传入信息有误");
+                return result;
+            }
+            // 默认状态下任务状态为未开始
+            taskManager.setStatus("未开始的状态码");
 
-        int insertTask = taskMapper.insertTask(taskManager);
-        if (insertTask == 1) {
-            return ApiResponse.success();
+            int insertTask = taskMapper.insertTask(taskManager);
+            result.setResult("插入成功");
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage());
+            throw new RuntimeException(e);
         }
-        return ApiResponse.error();
+        return result;
     }
 
     /**
      * @author: zlh
      * @param: taskManager 需要修改的任务数据
      * @description: 修改任务-任务延期
+     * 权限：任务负责人和任务创建人操作
      * @date: 10:18 2018/4/12
      */
     @Override
-    public JSONObject updateEstimateStartTimeById(TaskManager taskManager) {
-        if (taskManager == null) {
-            return ApiResponse.errorPara();
+    public ExecuteResult<String> updateEstimateStartTimeById(TaskManager taskManager) {
+        ExecuteResult<String> result = new ExecuteResult<String>();
+        try {
+            // check参数
+            if (taskManager == null) {
+                result.addErrorMessage("传入信息有误");
+                return result;
+            }
+
+            //检查权限
+            TaskManager taskManager2 = taskMapper.queryTaskById(taskManager.getId());
+            String createUserName = taskManager2.getCreateUser().getUsername();
+            String beAssignUserName = taskManager2.getBeassignUser().getUsername();
+            if (!"当前登录用户name".equals(createUserName)
+                    && !"当前登录用户name".equals(beAssignUserName)) {
+                /*return 没有权限*/
+            }
+
+            // 业务操作
+            int updateTaskById = taskMapper.updateTaskById(taskManager);
+            result.setResult("修改成功");
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage());
+            throw new RuntimeException(e);
         }
-        int updateTaskById = taskMapper.updateTaskById(taskManager);
-        if (updateTaskById == 1) {
-            return ApiResponse.success(updateTaskById);
-        }
-        return ApiResponse.error();
+        return result;
     }
 
     /**
@@ -97,37 +145,46 @@ public class TaskManagerServiceImpl implements TaskManagerService {
      * @date: 11:36 2018/4/12
      */
     @Override
-    public JSONObject updateBeAssignUserById(Long id, String userId, boolean isAssignAll) {
-        // check参数
-        if (id == null && userId == null) {
-            return ApiResponse.errorPara();
-        }
-        // 检测权限
-        TaskManager taskManager = taskMapper.queryTaskById(id);
-        String createUserName = taskManager.getCreateUser().getUsername();
-        String beAssignUsername = taskManager.getBeassignUser().getUsername();
-        if (!"当前登录用户name".equals(createUserName) && !"当前登录用户name".equals(beAssignUsername)
-                && !"当前登录用户角色".equals("项目经理")) {
-            /*return 没有权限*/
-        }
-        // 指派父任务
-        taskManager.getBeassignUser().setUserId(userId);
-        taskMapper.updateTaskById(taskManager);
-        // 一并指派子任务
-        if (isAssignAll) {
-            // 根据父id查询所有的子任务id
-            List<Long> ids = taskMapper.querySubTaskIdByParantId(id);
-            // 如果未查询到子任务则返回
-            if (ids.isEmpty()) {
-                return ApiResponse.success();
+    public ExecuteResult<String> updateBeAssignUserById(Long id, String userId, boolean isAssignAll) {
+        ExecuteResult<String> result = new ExecuteResult<String>();
+        try {
+            // check参数
+            if (id == null && userId == null) {
+                result.addErrorMessage("参数传入有误");
+                return result;
             }
-            // 遍历所有子任务进行指派
-            for (Long subId : ids) {
-                // 递归查询子任务是否还有子任务
-                updateBeAssignUserById(subId, userId, isAssignAll);
+
+            // 检测权限
+            TaskManager taskManager = taskMapper.queryTaskById(id);
+            String createUserName = taskManager.getCreateUser().getUsername();
+            String beAssignUsername = taskManager.getBeassignUser().getUsername();
+            if (!"当前登录用户name".equals(createUserName) && !"当前登录用户name".equals(beAssignUsername)
+                    && !"当前登录用户角色".equals("项目经理")) {
+                /*return 没有权限*/
             }
+
+            // 指派父任务
+            taskManager.getBeassignUser().setUserId(userId);
+            taskMapper.updateTaskById(taskManager);
+            // 一并指派子任务
+            if (isAssignAll) {
+                // 根据父id查询所有的子任务id
+                List<Long> ids = taskMapper.querySubTaskIdByParantId(id);
+                // 如果未查询到子任务则返回
+                if (ids.isEmpty()) {
+                    return result;
+                }
+                // 遍历所有子任务进行指派
+                for (Long subId : ids) {
+                    // 递归查询子任务是否还有子任务
+                    updateBeAssignUserById(subId, userId, isAssignAll);
+                }
+            }
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage());
+            throw new RuntimeException(e);
         }
-        return ApiResponse.success();
+        return result;
     }
 
     /**
@@ -138,12 +195,20 @@ public class TaskManagerServiceImpl implements TaskManagerService {
      */
     @Override
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-    public JSONObject queryTaskById(Long id) {
-        // check参数
-        if (id == null) {
-            return ApiResponse.errorPara();
+    public ExecuteResult<TaskManager> queryTaskById(Long id) {
+        ExecuteResult<TaskManager> result = new ExecuteResult<TaskManager>();
+        try {
+            // check参数
+            if (id == null) {
+                result.addErrorMessage("参数传入有误");
+                return result;
+            }
+            result.setResult(taskMapper.queryTaskById(id));
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage());
+            throw new RuntimeException(e);
         }
-        return ApiResponse.success(taskMapper.queryTaskById(id));
+        return result;
     }
 
     /**
@@ -153,42 +218,48 @@ public class TaskManagerServiceImpl implements TaskManagerService {
      * @date: 17:24 2018/4/12
      */
     @Override
-    public JSONObject deleteTaskById(Long id, boolean isDeleteAll) {
-        // check参数
-        if (id == null) {
-            return ApiResponse.errorPara();
-        }
-
-        // 检查权限
-        TaskManager taskManager = taskMapper.queryTaskById(id);
-        String createUserName = taskManager.getCreateUser().getUsername();
-        String status = taskManager.getStatus();
-        if (!"当前登录用户名".equals(createUserName)) {
-            /*return 没有权限*/
-        }
-        // 已经指派的任务只能关闭不能删除
-        if (taskManager.getBeassignUser() != null) {
-            /*return 不能删除已经指派的任务*/
-        }
-        // 已经开始的任务不能删除
-        if ("开始任务状态码".equals(status)) {
-            /*return 已经开始的任务不能删除*/
-        }
-
-        // 删除父任务
-        taskMapper.deleteTaskById(id);
-        if (isDeleteAll) {
-            // 根据父id查询所有的子任务id
-            List<Long> ids = taskMapper.querySubTaskIdByParantId(id);
-            if (ids.isEmpty()) {
-                return ApiResponse.success();
+    public ExecuteResult<String> deleteTaskById(Long id, boolean isDeleteAll) {
+        ExecuteResult<String> result = new ExecuteResult<String>();
+        try {
+            // check参数
+            if (id == null) {
+                result.addErrorMessage("参数传入有误");
+                return result;
             }
-            // 递归删除所有子任务
-            for (Long subId : ids) {
-                deleteTaskById(subId, isDeleteAll);
-            }
-        }
 
-        return ApiResponse.success();
+            // 检查权限
+            TaskManager taskManager = taskMapper.queryTaskById(id);
+            String createUserName = taskManager.getCreateUser().getUsername();
+            String status = taskManager.getStatus();
+            if (!"当前登录用户名".equals(createUserName)) {
+                /*return 没有权限*/
+            }
+            // 已经指派的任务只能关闭不能删除
+            if (taskManager.getBeassignUser() != null) {
+                /*return 不能删除已经指派的任务*/
+            }
+            // 已经开始的任务不能删除
+            if ("开始任务状态码".equals(status)) {
+                /*return 已经开始的任务不能删除*/
+            }
+
+            // 删除父任务
+            taskMapper.deleteTaskById(id);
+            if (isDeleteAll) {
+                // 根据父id查询所有的子任务id
+                List<Long> ids = taskMapper.querySubTaskIdByParantId(id);
+                if (ids.isEmpty()) {
+                    return result;
+                }
+                // 递归删除所有子任务
+                for (Long subId : ids) {
+                    deleteTaskById(subId, isDeleteAll);
+                }
+            }
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage());
+            throw new RuntimeException(e);
+        }
+        return result;
     }
 }

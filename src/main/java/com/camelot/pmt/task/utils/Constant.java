@@ -15,7 +15,9 @@ public class Constant {
         /**已办 */
         ALREADY("2"),
         /**延期*/
-    	OVERDUE("3");
+    	OVERDUE("3"),
+    	/**关闭*/
+    	CLOSE("4");
 
         private String value;
         TaskType(String value) {

@@ -158,7 +158,7 @@ public interface TaskMapper {
 	* @return JSONObject    返回类型 
 	* @throws
 	 */
-	void updateTaskPendingToDelay(Long id,String taskType,String delayDescribe,Date estimateStartTime);
+	void updateTaskPendingToDelay(Long id,String taskType,String delayDescribe,String estimateStartTime);
 	
 	/**
 	 * 
