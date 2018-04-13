@@ -11,6 +11,7 @@ import java.sql.Date;
 import java.util.List;
 import java.util.Map;
 
+import com.camelot.pmt.task.model.TaskLog;
 import com.camelot.pmt.task.model.TaskManager;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -249,6 +250,13 @@ public interface TaskMapper {
 	 * myp
 	 */
 	Long updateRepetitiveOperation(Long id);
+
+	/**
+	 * 根据id关闭任务 @Title: queryCount @Description: TODO @param @return @return
+	 * Long @throws
+	 * myp
+	 */
+	Long saveHistoryLog(TaskLog taskLog);
 
 	/**
 	 * 查询延期任务信息详情
