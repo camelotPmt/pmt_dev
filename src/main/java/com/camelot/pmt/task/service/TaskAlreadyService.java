@@ -17,10 +17,4 @@ public interface TaskAlreadyService {
     ExecuteResult<DataGrid<Map<String, Object>>> queryoverdueTaskAlready(Pager page,Long id);
 
 
-    /**
-     *
-     * @Title: updateRepetitiveOperation @Description: TODO @param @param
-     * page @param @return @return ExecuteResult<DataGrid<Long>> @throws
-     */
-    ExecuteResult<Long> updateRepetitiveOperation(Long id);
 }

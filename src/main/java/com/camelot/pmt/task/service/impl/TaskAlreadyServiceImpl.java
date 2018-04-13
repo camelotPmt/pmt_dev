@@ -49,27 +49,4 @@ public class TaskAlreadyServiceImpl implements TaskAlreadyService {
         return result;
     }
 
-    /**
-     * <p>
-     * Description:[重做任务功能]
-     * <p>
-     *
-     * @return ExecuteResult<long>
-     */
-    @Override
-    public ExecuteResult<Long> updateRepetitiveOperation(Long id) {
-        ExecuteResult<Long> result = new ExecuteResult<Long>();
-        try {
-            if (!id.equals("") && !id.equals("0")) {
-                Long updateStatusResult = taskMapper.updateRepetitiveOperation(id);
-                result.setResult(updateStatusResult);
-                return result;
-            }
-            result.addErrorMessage("完成失败！");
-        } catch (Exception e) {
-            LOGGER.error(e.getMessage());
-            throw new RuntimeException(e);
-        }
-        return result;
-    }
 }

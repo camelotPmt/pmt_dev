@@ -1,5 +1,6 @@
 package com.camelot.pmt.task.controller;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -237,7 +238,9 @@ public class TaskPendingController {
 	@ApiOperation(value = "我的待办任务转为延期", notes = "我的待办任务转为延期")
 	@RequestMapping(value = "/updateTaskPendingToDelay", method = RequestMethod.POST)
 	public JSONObject updateTaskPendingToDelay(
-			@ApiParam(name = "id", value = "任务标识号", required = true) @RequestParam(required = true) Long taskId){
+			@ApiParam(name = "id", value = "任务标识号", required = true) @RequestParam(required = true) Long taskId,
+			@ApiParam(name = "delayDescribe", value = "任务描述", required = true) @RequestParam(required = true) String delayDescribe,
+			@ApiParam(name = "estimateStartTime", value = "任务预计开始时间", required = true) @RequestParam(required = true) Date estimateStartTime){
 		ExecuteResult<String> result = new ExecuteResult<String>();
 		try {
 		    Long userLoginId = Long.valueOf(1);
@@ -246,7 +249,7 @@ public class TaskPendingController {
 				return ApiResponse.jsonData(APIStatus.UNAUTHORIZED_401);
             }
 			//更新我的待办任务为正在进行中
-			result = taskPendingService.updateTaskPendingToDelay(taskId,TaskType.OVERDUE.getValue(),null,null);
+			result = taskPendingService.updateTaskPendingToDelay(taskId,TaskType.OVERDUE.getValue(),delayDescribe,estimateStartTime);
 			//判断是否成功
 			if(result.isSuccess()){
 				return ApiResponse.jsonData(APIStatus.OK_200,result.getResult());
