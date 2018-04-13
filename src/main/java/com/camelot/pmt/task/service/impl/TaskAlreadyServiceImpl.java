@@ -27,10 +27,10 @@ public class TaskAlreadyServiceImpl implements TaskAlreadyService {
     private static final Logger LOGGER = LoggerFactory.getLogger(TaskAlreadyServiceImpl.class);
 
 
-    public ExecuteResult<DataGrid<Map<String, Object>>> queryoverdueTaskAlready(Pager page) {
+    public ExecuteResult<DataGrid<Map<String, Object>>> queryoverdueTaskAlready(Pager page, Long id) {
         ExecuteResult<DataGrid<Map<String, Object>>> result = new ExecuteResult<DataGrid<Map<String, Object>>>();
         try {
-            List<Map<String, Object>> list = taskMapper.listTaskAlready(page);
+            List<Map<String, Object>> list = taskMapper.listTaskAlready(page, id);
             // 如果没有查询到数据，不继续进行
             if (CollectionUtils.isEmpty(list)) {
                 DataGrid<Map<String, Object>> dg = new DataGrid<Map<String, Object>>();
@@ -44,6 +44,30 @@ public class TaskAlreadyServiceImpl implements TaskAlreadyService {
             dg.setTotal(total);
             result.setResult(dg);
         } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return result;
+    }
+
+    /**
+     * <p>
+     * Description:[重做任务功能]
+     * <p>
+     *
+     * @return ExecuteResult<long>
+     */
+    @Override
+    public ExecuteResult<Long> updateRepetitiveOperation(Long id) {
+        ExecuteResult<Long> result = new ExecuteResult<Long>();
+        try {
+            if (!id.equals("") && !id.equals("0")) {
+                Long updateStatusResult = taskMapper.updateRepetitiveOperation(id);
+                result.setResult(updateStatusResult);
+                return result;
+            }
+            result.addErrorMessage("完成失败！");
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage());
             throw new RuntimeException(e);
         }
         return result;

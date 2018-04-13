@@ -61,6 +61,30 @@ public interface TaskMapper {
     int updateTaskById(TaskManager taskManager);
 
     /**
+     * @author: zlh
+     * @param: id 任务id
+     * @description: 根据任务id查询任务详情
+     * @date: 17:08 2018/4/12
+     */
+    TaskManager queryTaskById(Long id);
+
+    /**
+     * @author: zlh
+     * @param:  id 父id
+     * @description: 根据父id查询所有的子任务id
+     * @date: 16:04 2018/4/12
+     */
+    List<Long> querySubTaskIdByParantId(Long id);
+
+    /**
+     * @author: zlh
+     * @param: id 需要删除的任务的id
+     * @description: 根据任务删除id
+     * @date: 17:22 2018/4/12
+     */
+    int deleteTaskById(Long id);
+
+    /**
      * 查询延期任务个数
     * @Title: queryCount
     * @Description: TODO
@@ -90,7 +114,7 @@ public interface TaskMapper {
 	* @return List<Task>    返回类型 
 	* @throws
 	 */
-	List<Task> queryTaskListNodeByParentId(Long taskId);
+	List<Task> queryTaskListNodeByParentId(Long taskId,String taskType,Long beassignUserId);
 	
 	/**
 	 * 
@@ -100,13 +124,47 @@ public interface TaskMapper {
 	* @return List<Task>    返回类型 
 	* @throws
 	 */
-	List<Task> queryAllTaskList();
+	List<Task> queryAllTaskList(String taskType,Long beassignUserId);
+	
+	/**
+	 * 
+	* @Title: queryTopTaskNameList 
+	* @Description: TODO(查询顶级我的待办任务) 
+	* @param @return    设定文件 
+	* @return List<Task>    返回类型 
+	* @throws
+	 */
+	List<Task> queryTopTaskNameList(String taskType,Long beassignUserId);
+	
+	/**
+	 * 
+	* @Title: updateTaskPendingToRuning 
+	* @Description: TODO(我的待办任务转为正在进行) 
+	* @param @param taskId
+	* @param @return    设定文件 
+	* @return int    返回类型 
+	* @throws
+	 */
+	void updateTaskPendingToRuning(Long id,String taskType);
+	
+	/**
+	 * 
+	* @Title: updateTaskToAssign 
+	* @Description: TODO(更新指派人和被指派人标识号) 
+	* @param @param id
+	* @param @param assignUserId
+	* @param @param beassignUserId
+	* @param @return    设定文件 
+	* @return int    返回类型 
+	* @throws
+	 */
+	void updateTaskToAssign(Long id,Long assignUserId,Long beassignUserId);
 
 	/**
 	 * 查询正在进行的任务，根据时间和优先级进行排序
 	 * myp
 	 * */
-	List<Map<String,Object>> listTaskRunning(@Param(value = "page") Pager page);
+    List<Map<String,Object>> listTaskRunning(@Param(value = "page") Pager page, @Param(value = "id") Long id);
 
 	/**
      * 查询正在进行任务个数 @Title: queryCount @Description: TODO @param @return @return
@@ -131,9 +189,33 @@ public interface TaskMapper {
     Long updateAbnormal_Status(Long id);
 
 
+	/**
+	 * 根据id查询任务明细
+	 * myp
+	 * */
+	Task selectTaskById(Long id);
+
+	/**
+	 * 查询已完成的任务，根据时间和优先级进行排序
+	 * myp
+	 * */
+	List<Map<String,Object>> listTaskAlready(@Param(value = "page") Pager page, @Param(value = "id") Long id);
+
+	/**
+	 * 查询已完成任务总个数 @Title: queryCount @Description: TODO @param @return @return
+	 * Long @throws
+	 * myp
+	 */
+	Long queryAlreadyCount();
 
 
-	
+	/**
+	 * 根据id重做，修改任务状态 @Title: queryCount @Description: TODO @param @return @return
+	 * Long @throws
+	 * myp
+	 */
+	Long updateRepetitiveOperation(Long id);
+
 	/**
 	 * 查询延期任务信息详情
 	* @Title: queryOverdueTaskDetailByTaskId
@@ -166,22 +248,4 @@ public interface TaskMapper {
 	* @throws
 	 */
 	int queryOverdueTaskUserId(String userId);
-	
-	
-
-	Task selectTaskById(Long id);
-
-	/**
-	 * 查询已完成的任务，根据时间和优先级进行排序
-	 * myp
-	 * */
-	List<Map<String,Object>> listTaskAlready(@Param(value = "page") Pager page);
-
-	/**
-	 * 查询已完成任务总个数 @Title: queryCount @Description: TODO @param @return @return
-	 * Long @throws
-	 * myp
-	 */
-	Long queryAlreadyCount();
-
 }
