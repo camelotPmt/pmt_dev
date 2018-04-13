@@ -99,9 +99,6 @@ public class TaskRunningController {
      * <p>
      * Description:[添加历史记录]
      * </p>
-     *
-     * @param id
-     *          任务id
      * @return {"status": {"message": "请求处理成功.","code": 200}]
      */
     @ApiOperation(value = "添加历史记录功能", notes = "添加历史记录功能")

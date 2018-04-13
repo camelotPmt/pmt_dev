@@ -99,9 +99,6 @@ public class TaskRunningServiceImpl implements TaskRunningService{
     public ExecuteResult<Long> saveHistoryLog(TaskLog taskLog) {
         ExecuteResult<Long> result = new ExecuteResult<Long>();
         try {
-            //获取系统时间
-            Date date = new Date();
-            taskLog.setModifyTime(date);
             Long updateStatusResult = taskMapper.saveHistoryLog(taskLog);
             result.setResult(updateStatusResult);
             return result;
