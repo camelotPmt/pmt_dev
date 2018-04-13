@@ -175,4 +175,19 @@ public class TaskManagerController {
             return ApiResponse.jsonData(APIStatus.ERROR_500, e.getMessage());
         }
     }
+
+    @PostMapping(value = "/updateDemandChangeByTask")
+    @ApiOperation(value = "确认变更接口", notes = "确认变更接口")
+    public JSONObject updateDemandChangeByTask(TaskManager taskManager) {
+        ExecuteResult<String> result = new ExecuteResult<String>();
+        try {
+            result = taskManagerService.updateDemandChangeByTask(taskManager);
+            if (result.isSuccess()) {
+                return ApiResponse.success();
+            }
+            return ApiResponse.error();
+        } catch (Exception e) {
+            return ApiResponse.jsonData(APIStatus.ERROR_500, e.getMessage());
+        }
+    }
 }

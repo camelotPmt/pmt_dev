@@ -76,4 +76,12 @@ public interface TaskManagerService {
      * @date: 17:05 2018/4/13
      */
     ExecuteResult<String> updateTaskByTask(TaskManager taskManager);
+
+    /**
+     * @author: zlh
+     * @param: taskManager 任务修改内容
+     * @description: 需求是否变更
+     * @date: 17:37 2018/4/13
+     */
+    ExecuteResult<String> updateDemandChangeByTask(TaskManager taskManager);
 }

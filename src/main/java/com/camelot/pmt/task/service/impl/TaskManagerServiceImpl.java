@@ -258,7 +258,7 @@ public class TaskManagerServiceImpl implements TaskManagerService {
 
     /**
      * @author: zlh
-     * @param:  taskManager 任务修改内容
+     * @param: taskManager 任务修改内容
      * @description: 编辑任务
      * 权限：只有任务的创建人可以进行编辑；
      * @date: 17:05 2018/4/13
@@ -278,6 +278,30 @@ public class TaskManagerServiceImpl implements TaskManagerService {
             String createUserName = taskManager2.getCreateUser().getUsername();
             if (!"当前登录用户名".equals(createUserName)) {
                 /*return 没有权限*/
+            }
+            taskMapper.updateTaskById(taskManager);
+            result.setResult("修改成功");
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage());
+            throw new RuntimeException(e);
+        }
+        return result;
+    }
+
+    /**
+     * @author: zlh
+     * @param: taskManager 任务修改内容
+     * @description: 需求是否变更
+     * @date: 17:37 2018/4/13
+     */
+    @Override
+    public ExecuteResult<String> updateDemandChangeByTask(TaskManager taskManager) {
+        ExecuteResult<String> result = new ExecuteResult<String>();
+        try {
+            // check参数
+            if (taskManager == null) {
+                result.addErrorMessage("参数传入有误");
+                return result;
             }
             taskMapper.updateTaskById(taskManager);
             result.setResult("修改成功");
