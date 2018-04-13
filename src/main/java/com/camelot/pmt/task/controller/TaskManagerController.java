@@ -58,7 +58,7 @@ public class TaskManagerController {
         return taskManagerService.updateEstimateStartTimeById(taskManager);
     }
 
-    /*@PostMapping(value = "/updateEstimateStartTim")
+    @PostMapping(value = "/updateBeAssignUserById")
     @ApiOperation(value = "修改任务接口-指派", notes = "给任务添加负责人")
     @ApiImplicitParams({
             @ApiImplicitParam(dataType = "Long", name = "id", value = "任务id", required = true),
@@ -67,7 +67,7 @@ public class TaskManagerController {
     })
     public JSONObject updateBeAssignUserById(Long id, String userId, boolean isAssignAll) {
         return taskManagerService.updateBeAssignUserById(id, userId, isAssignAll);
-    }*/
+    }
 
     @PostMapping(value = "/queryTaskById")
     @ApiOperation(value = "查询任务详情接口", notes = "根据id查询任务详情")
