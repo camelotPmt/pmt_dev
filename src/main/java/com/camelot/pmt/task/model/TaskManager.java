@@ -1,6 +1,8 @@
 package com.camelot.pmt.task.model;
 
 import com.camelot.pmt.platform.user.model.UserModel;
+import com.camelot.pmt.pro.model.Project;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -17,7 +19,7 @@ public class TaskManager implements Serializable{
 
     private Long taskParentId;
 
-    private Long projectId;
+    private Project project;
 
     private Long demandId;
 
@@ -31,6 +33,7 @@ public class TaskManager implements Serializable{
 
     private Date estimateStartTime;
 
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date estimateEndTime;
 
     private Date actualStartTime;
@@ -116,12 +119,12 @@ public class TaskManager implements Serializable{
 		this.taskParentId = taskParentId;
 	}
 
-	public Long getProjectId() {
-		return projectId;
+	public Project getProject() {
+		return project;
 	}
 
-	public void setProjectId(Long projectId) {
-		this.projectId = projectId;
+	public void setProject(Project project) {
+		this.project = project;
 	}
 
 	public Long getDemandId() {
@@ -394,7 +397,7 @@ public class TaskManager implements Serializable{
 				"id=" + id +
 				", taskName='" + taskName + '\'' +
 				", taskParentId=" + taskParentId +
-				", projectId=" + projectId +
+				", project=" + project +
 				", demandId=" + demandId +
 				", priority='" + priority + '\'' +
 				", assignUser=" + assignUser +
@@ -432,11 +435,11 @@ public class TaskManager implements Serializable{
 				'}';
 	}
 
-	public TaskManager(Long id, String taskName, Long taskParentId, Long projectId, Long demandId, String priority, UserModel assignUser, UserModel beassignUser, Date assignTime, Date estimateStartTime, Date estimateEndTime, Date actualStartTime, Date actualEndTime, String taskType, String taskSpeed, String status, String abnormalStatus, String taskDescribe, String abnormalDescribe, Integer estimateHour, Integer consumeHour, Integer remainHour, String taskMileage, UserModel createUser, String modifyUserId, Date createTime, Date modifyTime, Integer warningHour, Integer warningStatus, String comment, String filepath, String filename, String column1, String column2, String column3, String column4, String column5, List<TaskManager> children) {
+	public TaskManager(Long id, String taskName, Long taskParentId, Project project, Long demandId, String priority, UserModel assignUser, UserModel beassignUser, Date assignTime, Date estimateStartTime, Date estimateEndTime, Date actualStartTime, Date actualEndTime, String taskType, String taskSpeed, String status, String abnormalStatus, String taskDescribe, String abnormalDescribe, Integer estimateHour, Integer consumeHour, Integer remainHour, String taskMileage, UserModel createUser, String modifyUserId, Date createTime, Date modifyTime, Integer warningHour, Integer warningStatus, String comment, String filepath, String filename, String column1, String column2, String column3, String column4, String column5, List<TaskManager> children) {
 		this.id = id;
 		this.taskName = taskName;
 		this.taskParentId = taskParentId;
-		this.projectId = projectId;
+		this.project = project;
 		this.demandId = demandId;
 		this.priority = priority;
 		this.assignUser = assignUser;

@@ -1,8 +1,12 @@
 package com.camelot.pmt.task.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.camelot.pmt.platform.common.ApiResponse;
+import com.camelot.pmt.task.model.TaskManager;
 import com.camelot.pmt.task.service.TaskManagerService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,8 +26,65 @@ public class TaskManagerController {
     private TaskManagerService taskManagerService;
 
     @PostMapping(value = "/queryAllTask")
-    @ApiOperation(value = "查询所有任务列表", notes = "查询所有任务列表")
+    @ApiOperation(value = "查询所有任务列表接口", notes = "查询所有任务列表")
     public JSONObject queryAllTask(){
         return taskManagerService.queryAllTask();
+    }
+
+    @PostMapping(value = "/queryTaskByTask")
+    @ApiOperation(value = "条件查询任务接口", notes = "根据项目、类型、截止日期、名称、状态、异常状态、负责人查询任务")
+    @ApiImplicitParams({
+            @ApiImplicitParam(dataType = "Project", name = "project.proName", value = "项目名称", required = false),
+            @ApiImplicitParam(dataType = "String", name = "taskType", value = "任务类型", required = false),
+            @ApiImplicitParam(dataType = "java.util.Date", name = "estimateEndTime", value = "截止日期格式0000-00-00", required = false),
+            @ApiImplicitParam(dataType = "String", name = "taskName", value = "任务名称", required = false),
+            @ApiImplicitParam(dataType = "String", name = "status", value = "任务状态", required = false),
+            @ApiImplicitParam(dataType = "String", name = "abnormalStatus", value = "任务异常状态", required = false),
+            @ApiImplicitParam(dataType = "UserModel", name = "beassignUser.userId", value = "负责人", required = false),
+    })
+    public JSONObject queryTaskByTask(TaskManager taskManager){
+            return taskManagerService.queryTaskByTask(taskManager);
+    }
+
+    @PostMapping(value = "/insertTask")
+    @ApiOperation(value = "新增任务接口", notes = "新增任务")
+    public JSONObject insertTask(TaskManager taskManager){
+            return taskManagerService.insertTask(taskManager);
+    }
+
+    @PostMapping(value = "/updateEstimateStartTim")
+    @ApiOperation(value = "修改任务接口-延期", notes = "根据id修改任务预计开始时间")
+    public JSONObject updateEstimateStartTime(TaskManager taskManager){
+            return taskManagerService.updateEstimateStartTimeById(taskManager);
+    }
+
+    @PostMapping(value = "/updateEstimateStartTim")
+    @ApiOperation(value = "修改任务接口-指派", notes = "给任务添加负责人")
+    @ApiImplicitParams({
+            @ApiImplicitParam(dataType = "Long", name = "id", value = "任务id", required = true),
+            @ApiImplicitParam(dataType = "String", name = "userId", value = "被指派人id", required = true),
+            @ApiImplicitParam(dataType = "boolean", name = "isAssignAll", value = "是否一并指派子任务", required = true)
+    })
+    public JSONObject updateBeAssignUserById(Long id, String userId, boolean isAssignAll){
+        return taskManagerService.updateBeAssignUserById(id, userId, isAssignAll);
+    }
+
+    @PostMapping(value = "/queryTaskById")
+    @ApiOperation(value = "查询任务详情接口", notes = "根据id查询任务详情")
+    @ApiImplicitParams({
+            @ApiImplicitParam(dataType = "Long", name = "id", value = "任务id", required = true),
+    })
+    public JSONObject queryTaskById(Long id){
+        return taskManagerService.queryTaskById(id);
+    }
+
+    @PostMapping(value = "/deleteTaskById")
+    @ApiOperation(value = "删除任务接口", notes = "根据id删除任务")
+    @ApiImplicitParams({
+            @ApiImplicitParam(dataType = "Long", name = "id", value = "任务id", required = true),
+            @ApiImplicitParam(dataType = "boolean", name = "isDeleteAll", value = "是否一并删除子任务", required = true)
+    })
+    public JSONObject deleteTaskById(Long id, boolean isDeleteAll) {
+        return taskManagerService.deleteTaskById(id, isDeleteAll);
     }
 }
