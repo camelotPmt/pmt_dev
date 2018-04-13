@@ -8,6 +8,7 @@ import com.camelot.pmt.task.model.Task;
 import com.camelot.pmt.task.model.TaskLog;
 import org.springframework.stereotype.Service;
 
+import java.sql.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -24,20 +25,6 @@ public interface TaskRunningService {
      */
     ExecuteResult<DataGrid<Map<String, Object>>> queryoverdueTaskRunning(Pager page, Long id);
 
-    /**
-     *
-     * @Title: updateStatus @Description: TODO @param @param
-     * page @param @return @return ExecuteResult<DataGrid<Long>> @throws
-     */
-    ExecuteResult<Long> updateStatus(Long id);
-
-    /**
-     *
-     * @Title: updateStatusFinish @Description: TODO @param @param
-     * page @param @return @return ExecuteResult<DataGrid<Long>> @throws
-     */
-    ExecuteResult<Long> updateStatusFinish(Long id);
-
 
     /**
      *
@@ -46,6 +33,41 @@ public interface TaskRunningService {
      */
     ExecuteResult<Task> queryTaskById(Long id);
 
+    /**
+     *
+     * @Title: updateStatusFinish @Description: TODO @param @param
+     * page @param @return @return ExecuteResult<DataGrid<Long>> @throws
+     * 添加历史记录
+     * myp
+     */
+    ExecuteResult<Long> saveHistoryLog(TaskLog taskLog);
+
+    /**
+     *
+     * @Title: updateTaskPendingToDelay
+     * @Description: TODO(我的任务状态转为关闭)
+     * @param @param id
+     * @param @param taskType 状态
+     * @param @param delayDescribe 描述
+     * @param @param estimateStartTime 预计开始时间
+     * @param @return    设定文件
+     * @return ExecuteResult<String>    返回类型
+     * @throws
+     */
+    ExecuteResult<String> updateTaskToClose(Long id,String taskType);
 
 
+    /**
+     *
+     * @Title: updateTaskPendingToDelay
+     * @Description: TODO(我的任务状态转为关闭)
+     * @param @param id
+     * @param @param taskType 状态
+     * @param @param delayDescribe 描述
+     * @param @param estimateStartTime 预计开始时间
+     * @param @return    设定文件
+     * @return ExecuteResult<String>    返回类型
+     * @throws
+     */
+    ExecuteResult<String> updateTaskAlreadyToRunning(Long id, String taskType, String delayDescribe, java.util.Date estimateStartTime);
 }
