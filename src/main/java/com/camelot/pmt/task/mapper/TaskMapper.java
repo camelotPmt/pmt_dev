@@ -209,21 +209,6 @@ public interface TaskMapper {
     Long queryRunningCount();
 
 
-    /**
-     * 根据id关闭任务 @Title: queryCount @Description: TODO @param @return @return
-     * Long @throws
-     * myp
-     */
-    Long updateStatus(Long id);
-
-    /**
-     * 根据id关闭任务，修改为异常状态 @Title: queryCount @Description: TODO @param @return @return
-     * Long @throws
-     * myp
-     */
-    Long updateAbnormal_Status(Long id);
-
-
 	/**
 	 * 根据id查询任务明细
 	 * myp
@@ -243,20 +228,34 @@ public interface TaskMapper {
 	 */
 	Long queryAlreadyCount();
 
-
 	/**
-	 * 根据id重做，修改任务状态 @Title: queryCount @Description: TODO @param @return @return
-	 * Long @throws
-	 * myp
-	 */
-	Long updateRepetitiveOperation(Long id);
-
-	/**
-	 * 根据id关闭任务 @Title: queryCount @Description: TODO @param @return @return
+	 * 添加历史记录 @Title: queryCount @Description: TODO @param @return @return
 	 * Long @throws
 	 * myp
 	 */
 	Long saveHistoryLog(TaskLog taskLog);
+
+	/**
+	 *
+	 * @Title: updateTaskPendingToDelay
+	 * @Description: TODO(我的待办任务转为延期,会将该节点及节点下的所有子节点变为延期状态)
+	 * @param @param taskId taskType
+	 * @param @return    设定文件
+	 * @return JSONObject    返回类型
+	 * @throws
+	 */
+	void updateTaskAlreadyToRunning(Long id,String taskType,String delayDescribe,String estimateStartTime);
+
+	/**
+	 *
+	 * @Title: updateTaskPendingToRuning
+	 * @Description: TODO(我的待办任务转为正在进行)
+	 * @param @param taskId
+	 * @param @return    设定文件
+	 * @return int    返回类型
+	 * @throws
+	 */
+	void updateTaskToClose(Long id,String taskType);
 
 	/**
 	 * 查询延期任务信息详情
