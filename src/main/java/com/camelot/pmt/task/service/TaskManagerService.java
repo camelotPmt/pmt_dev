@@ -67,5 +67,13 @@ public interface TaskManagerService {
      * @description: 根据id删除任务
      * @date: 17:24 2018/4/12
      */
-    ExecuteResult<String> deleteTaskById(Long id, boolean isDeleteAll);
+    ExecuteResult<String> deleteTaskById(Long id);
+
+    /**
+     * @author: zlh
+     * @param:  taskManager 任务修改内容
+     * @description: 编辑任务
+     * @date: 17:05 2018/4/13
+     */
+    ExecuteResult<String> updateTaskByTask(TaskManager taskManager);
 }

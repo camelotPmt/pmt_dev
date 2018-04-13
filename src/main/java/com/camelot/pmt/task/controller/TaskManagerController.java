@@ -11,9 +11,11 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.List;
 
@@ -29,7 +31,7 @@ public class TaskManagerController {
     @Autowired
     private TaskManagerService taskManagerService;
 
-    @PostMapping(value = "/queryAllTask")
+    @GetMapping(value = "/queryAllTask")
     @ApiOperation(value = "查询所有任务列表接口", notes = "查询所有任务列表")
     public JSONObject queryAllTask() {
         ExecuteResult<List<TaskManager>> result = null;
@@ -44,7 +46,7 @@ public class TaskManagerController {
         }
     }
 
-    @PostMapping(value = "/queryTaskByTask")
+    @GetMapping(value = "/queryTaskByTask")
     @ApiOperation(value = "条件查询任务接口", notes = "根据项目、类型、截止日期、名称、状态、异常状态、负责人查询任务")
     @ApiImplicitParams({
             @ApiImplicitParam(dataType = "Project", name = "project.proName", value = "项目名称", required = false),
@@ -54,8 +56,9 @@ public class TaskManagerController {
             @ApiImplicitParam(dataType = "String", name = "status", value = "任务状态", required = false),
             @ApiImplicitParam(dataType = "String", name = "abnormalStatus", value = "任务异常状态", required = false),
             @ApiImplicitParam(dataType = "UserModel", name = "beassignUser.userId", value = "负责人", required = false),
+            @ApiImplicitParam(dataType = "String", name = "还有好多", value = "还有好多参数未定", required = false)
     })
-    public JSONObject queryTaskByTask(TaskManager taskManager) {
+    public JSONObject queryTaskByTask(@ApiIgnore TaskManager taskManager) {
         ExecuteResult<List<TaskManager>> result = null;
         try {
             result = taskManagerService.queryTaskByTask(taskManager);
@@ -85,7 +88,11 @@ public class TaskManagerController {
 
     @PostMapping(value = "/updateEstimateStartTim")
     @ApiOperation(value = "修改任务接口-延期", notes = "根据id修改任务预计开始时间")
-    public JSONObject updateEstimateStartTime(TaskManager taskManager) {
+    @ApiImplicitParams({
+            @ApiImplicitParam(dataType = "Long", name = "id", value = "任务id", required = true),
+            @ApiImplicitParam(dataType = "Date", name = "estimateEndTime", value = "预计开始时间格式yyyy-MM-dd", required = true)
+    })
+    public JSONObject updateEstimateStartTime(@ApiIgnore TaskManager taskManager) {
         ExecuteResult<String> result = new ExecuteResult<String>();
         try {
             result = taskManagerService.updateEstimateStartTimeById(taskManager);
@@ -118,7 +125,7 @@ public class TaskManagerController {
         }
     }
 
-    @PostMapping(value = "/queryTaskById")
+    @GetMapping(value = "/queryTaskById")
     @ApiOperation(value = "查询任务详情接口", notes = "根据id查询任务详情")
     @ApiImplicitParams({
             @ApiImplicitParam(dataType = "Long", name = "id", value = "任务id", required = true),
@@ -139,15 +146,29 @@ public class TaskManagerController {
     @PostMapping(value = "/deleteTaskById")
     @ApiOperation(value = "删除任务接口", notes = "根据id删除任务")
     @ApiImplicitParams({
-            @ApiImplicitParam(dataType = "Long", name = "id", value = "任务id", required = true),
-            @ApiImplicitParam(dataType = "boolean", name = "isDeleteAll", value = "是否一并删除子任务", required = true)
+            @ApiImplicitParam(dataType = "Long", name = "id", value = "任务id", required = true)
     })
-    public JSONObject deleteTaskById(Long id, boolean isDeleteAll) {
+    public JSONObject deleteTaskById(Long id) {
         ExecuteResult<String> result = new ExecuteResult<String>();
         try {
-            result = taskManagerService.deleteTaskById(id, isDeleteAll);
+            result = taskManagerService.deleteTaskById(id);
             if (result.isSuccess()) {
                 return ApiResponse.success(result.getResult());
+            }
+            return ApiResponse.error();
+        } catch (Exception e) {
+            return ApiResponse.jsonData(APIStatus.ERROR_500, e.getMessage());
+        }
+    }
+
+    @PostMapping(value = "/editTask")
+    @ApiOperation(value = "编辑任务接口", notes = "编辑任务接口")
+    public JSONObject editTask(TaskManager taskManager) {
+        ExecuteResult<String> result = new ExecuteResult<String>();
+        try {
+            result = taskManagerService.updateTaskByTask(taskManager);
+            if (result.isSuccess()) {
+                return ApiResponse.success();
             }
             return ApiResponse.error();
         } catch (Exception e) {
