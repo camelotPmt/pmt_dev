@@ -112,29 +112,5 @@ public class TaskAlreadyController {
         }
     }
 
-    /**
-     * <p>
-     * Description:[查询单个任务的历史记录]
-     * </p>
-     *
-     * @param id
-     *            任务id
-     * @return {"status": {"message": "请求处理成功.","code": 200}, "data": {Task}]
-     */
-    @ApiOperation(value = "根据id查询单个任务的历史记录", notes = "根据id查询单个任务的历史记录")
-    @RequestMapping(value = "user/queryTaskLogById", method = RequestMethod.POST)
-    public JSONObject queryTaskLogById(
-            @ApiParam(name = "id", value = "任务id", required = true) @RequestParam(required = true) Long id) {
-        ExecuteResult<List<TaskLog>> result = new ExecuteResult<List<TaskLog>>();
-        try {
-            result = taskRunningService.queryTaskLogById(id);
-            if (result.isSuccess()) {
-                return ApiResponse.success(result.getResult());
-            }
-            return ApiResponse.error();
-        } catch (Exception e) {
-            return ApiResponse.error();
-        }
-    }
 
 }

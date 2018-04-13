@@ -131,28 +131,4 @@ public class TaskRunningServiceImpl implements TaskRunningService{
         return result;
     }
 
-    /**
-     * <p>
-     * Description:[根据id获取单个任务的历史记录]
-     * <p>
-     *
-     * @return ExecuteResult<List<TaskLog>>
-     */
-    @Override
-    public ExecuteResult<List<TaskLog>> queryTaskLogById(Long id) {
-        ExecuteResult<List<TaskLog>> result = new ExecuteResult<List<TaskLog>>();
-        try {
-            if (!id.equals("") && !id.equals("0")) {
-                List<TaskLog> queryResult = taskMapper.queryTaskLogById(id);
-                result.setResult(queryResult);
-                return result;
-            }
-            result.addErrorMessage("查询失败！");
-        } catch (Exception e) {
-            LOGGER.error(e.getMessage());
-            throw new RuntimeException(e);
-        }
-        return result;
-    }
-
 }

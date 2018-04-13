@@ -46,12 +46,6 @@ public interface TaskRunningService {
      */
     ExecuteResult<Task> queryTaskById(Long id);
 
-    /**
-     *
-     * @Title: updateStatusFinish @Description: TODO @param @param
-     * page @param @return @return ExecuteResult<DataGrid<List<TaskLog>>> @throws
-     */
-    ExecuteResult<List<TaskLog>> queryTaskLogById(Long id);
 
 
 }
