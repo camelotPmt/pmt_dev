@@ -107,14 +107,25 @@ public interface TaskMapper {
 	
 	/**
 	 * 
-	* @Title: queryTaskTreeByTaskId 
+	* @Title: queryMyTaskTreeByTaskId 
 	* @Description: TODO(查询taskId下的一级子节点) 
-	* @param @param taskId
+	* @param @param taskId taskType beassignUserId
 	* @param @return    设定文件 
 	* @return List<Task>    返回类型 
 	* @throws
 	 */
-	List<Task> queryTaskListNodeByParentId(Long taskId,String taskType,Long beassignUserId);
+	List<Task> queryMyTaskListNodeByParentId(Long taskId,String taskType,Long beassignUserId);
+	
+	/**
+	 * 
+	* @Title: queryTaskListNodeByParentId 
+	* @Description: TODO(查询taskId下的一级子节点) 
+	* @param @param taskId taskType
+	* @param @return    设定文件 
+	* @return List<Task>    返回类型 
+	* @throws
+	 */
+	List<Task> queryTaskListNodeByParentId(Long taskId,String taskType);
 	
 	/**
 	 * 
@@ -159,6 +170,17 @@ public interface TaskMapper {
 	* @throws
 	 */
 	void updateTaskToAssign(Long id,Long assignUserId,Long beassignUserId);
+	
+	/**
+	 * 
+	* @Title: queryParentTaskNodeById 
+	* @Description: TODO(查询根据任务Id查询父级任务对象) 
+	* @param @param id
+	* @param @return    设定文件 
+	* @return Task    返回类型 
+	* @throws
+	 */
+	Task queryParentTaskNodeById(Long id);
 
 	/**
 	 * 查询正在进行的任务，根据时间和优先级进行排序

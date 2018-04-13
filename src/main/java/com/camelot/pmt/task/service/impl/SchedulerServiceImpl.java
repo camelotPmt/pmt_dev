@@ -66,7 +66,7 @@ public class SchedulerServiceImpl implements SchedulerService {
 	 */
 	public void sendRedayTaskOverdueEmail() {
 
-		// 查询已经到达延期时间(剩余工时),并开启预警提示,
+		// 查询已经到达延期时间当前时间大于预期的时间,并开启提示,
 		//List<Task> list = taskMapper.queryIsWarningTaskList();
 
 		//for (Task task : list) {
