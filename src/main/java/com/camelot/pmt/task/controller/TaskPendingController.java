@@ -75,6 +75,38 @@ public class TaskPendingController {
 	
 	/**
 	 * 
+	* @Title: queryMyTaskListNodeByParentId 
+	* @Description: TODO(查询taskId下的所有一级子节点) 
+	* @param @param taskId
+	* @param @return    设定文件 
+	* @return JSONObject    返回类型 
+	* @throws
+	 */
+	@ApiOperation(value = "查询我的待办任务taskId下的所有一级子节点", notes = "查询我的待办任务taskId下的所有一级子节点")
+	@RequestMapping(value = "/queryMyTaskListNodeByParentId", method = RequestMethod.POST)
+	public JSONObject queryMyTaskListNodeByParentId(
+			@ApiParam(name = "taskId", value = "任务标识号", required = true) @RequestParam(required = true) Long taskId){
+		ExecuteResult<List<Task>> result = new ExecuteResult<List<Task>>();
+		try {
+			Long userLoginId = Long.valueOf(1);
+			//检查用户是否登录，需要去session中获取用户登录信息
+			if(StringUtils.isEmpty(userLoginId)){
+				return ApiResponse.jsonData(APIStatus.UNAUTHORIZED_401);
+            }
+			result = taskPendingService.queryMyTaskListNodeByParentId(taskId,TaskType.PENDINHG.getValue(),userLoginId);
+			//判断是否成功
+			if(result.isSuccess()){
+				return ApiResponse.jsonData(APIStatus.OK_200,result.getResult());
+			}
+			return ApiResponse.jsonData(APIStatus.ERROR_500, result.getResult());
+		}catch (Exception e) {
+			//异常
+			return ApiResponse.jsonData(APIStatus.ERROR_500,e.getMessage());
+		}
+	}
+	
+	/**
+	 * 
 	* @Title: queryTaskListNodeByParentId 
 	* @Description: TODO(查询taskId下的所有一级子节点) 
 	* @param @param taskId
@@ -93,7 +125,6 @@ public class TaskPendingController {
 			if(StringUtils.isEmpty(userLoginId)){
 				return ApiResponse.jsonData(APIStatus.UNAUTHORIZED_401);
             }
-			result = taskPendingService.queryTaskListNodeByParentId(taskId,TaskType.PENDINHG.getValue(),userLoginId);
 			//判断是否成功
 			if(result.isSuccess()){
 				return ApiResponse.jsonData(APIStatus.OK_200,result.getResult());
@@ -138,6 +169,40 @@ public class TaskPendingController {
 	
 	/**
 	 * 
+	* @Title: queryTopAllTaskTreeByTaskId 
+	* @Description: TODO(查询该任务的父级节点以及祖宗节点，不包含本身，接口用来判断层级结构是否可以拆分子任务) 
+	* @param @param taskId
+	* @param @return    设定文件 
+	* @return JSONObject    返回类型 
+	* @throws
+	 */
+	@ApiOperation(value = "查询该任务的父级节点以及祖宗节点", notes = "查询该任务的父级节点以及祖宗节点，list中不包含本身")
+	@RequestMapping(value = "/queryTopAllTaskTreeByTaskId", method = RequestMethod.POST)
+	public JSONObject queryTopAllTaskTreeByTaskId(
+			@ApiParam(name = "id", value = "任务标识号", required = true) @RequestParam(required = true) Long taskId){
+		ExecuteResult<List<Task>> result = new ExecuteResult<List<Task>>();
+		try {
+		    Long userLoginId = Long.valueOf(1);
+			//检查用户是否登录，需要去session中获取用户登录信息
+			if(StringUtils.isEmpty(userLoginId)){
+				return ApiResponse.jsonData(APIStatus.UNAUTHORIZED_401);
+            }
+			//查询父级任务树
+			result = taskPendingService.queryTopAllTaskTreeByTaskId(taskId);
+			//判断是否成功
+			if(result.isSuccess()){
+				//判断是否达到四层结构
+				return ApiResponse.jsonData(APIStatus.OK_200, result.getResult());
+			}
+			return ApiResponse.jsonData(APIStatus.ERROR_500, result.getResult());
+		}catch (Exception e) {
+			//异常
+			return ApiResponse.jsonData(APIStatus.ERROR_500,e.getMessage());
+		}
+	}
+	
+	/**
+	 * 
 	* @Title: updateTaskPendingToRuning 
 	* @Description: TODO(我的待办任务转为正在进行) 
 	* @param @param taskId
@@ -146,8 +211,9 @@ public class TaskPendingController {
 	* @throws
 	 */
 	@ApiOperation(value = "我的待办任务转为正在进行", notes = "我的待办任务转为正在进行")
-	@RequestMapping(value = "/updateTaskPendingToRuning", method = RequestMethod.GET)
-	public JSONObject updateTaskPendingToRuning(Long taskId){
+	@RequestMapping(value = "/updateTaskPendingToRuning", method = RequestMethod.POST)
+	public JSONObject updateTaskPendingToRuning(
+			@ApiParam(name = "id", value = "任务标识号", required = true) @RequestParam(required = true) Long taskId){
 		ExecuteResult<String> result = new ExecuteResult<String>();
 		try {
 		    Long userLoginId = Long.valueOf(1);
@@ -168,6 +234,30 @@ public class TaskPendingController {
 		}
 	}
 	
+	@ApiOperation(value = "我的待办任务转为延期", notes = "我的待办任务转为延期")
+	@RequestMapping(value = "/updateTaskPendingToDelay", method = RequestMethod.POST)
+	public JSONObject updateTaskPendingToDelay(
+			@ApiParam(name = "id", value = "任务标识号", required = true) @RequestParam(required = true) Long taskId){
+		ExecuteResult<String> result = new ExecuteResult<String>();
+		try {
+		    Long userLoginId = Long.valueOf(1);
+			//检查用户是否登录，需要去session中获取用户登录信息
+			if(StringUtils.isEmpty(userLoginId)){
+				return ApiResponse.jsonData(APIStatus.UNAUTHORIZED_401);
+            }
+			//更新我的待办任务为正在进行中
+			result = taskPendingService.updateTaskPendingToDelay(taskId,TaskType.OVERDUE.getValue(),null,null);
+			//判断是否成功
+			if(result.isSuccess()){
+				return ApiResponse.jsonData(APIStatus.OK_200,result.getResult());
+			}
+			return ApiResponse.jsonData(APIStatus.ERROR_500, result.getResult());
+		}catch (Exception e) {
+			//异常
+			return ApiResponse.jsonData(APIStatus.ERROR_500,e.getMessage());
+		}
+	}
+	
 	/**
 	 * 无用接口
 	* @Title: addUser 
@@ -177,7 +267,7 @@ public class TaskPendingController {
 	* @return JSONObject    返回类型 
 	* @throws
 	 */
-	@ApiOperation(value = "添加任务单元", notes = "添加任务单元")
+	@ApiOperation(value = "添加子任务", notes = "添加子任务")
 	@ApiImplicitParams({
         @ApiImplicitParam(name = "id", value = "任务标识号", required = true, paramType = "form", dataType = "String"),
         @ApiImplicitParam(name = "taskName", value = "任务名称", required = true, paramType = "form", dataType = "String"),
@@ -213,10 +303,6 @@ public class TaskPendingController {
 			//检查用户是否登录，需要去session中获取用户登录信息
 			if(StringUtils.isEmpty(userLoginId)){
                return ApiResponse.jsonData(APIStatus.UNAUTHORIZED_401);
-            }
-			//对象检查是否为空
-            if (task == null) {
-                return ApiResponse.jsonData(APIStatus.ERROR_400, result.getResult());
             }
 			result = taskPendingService.save(task);
 			//判断是否成功
@@ -275,10 +361,6 @@ public class TaskPendingController {
 			//检查用户是否登录，需要去session中获取用户登录信息
 			if(StringUtils.isEmpty(userLoginId)){
 				return ApiResponse.jsonData(APIStatus.UNAUTHORIZED_401);
-            }
-			//对象检查是否为空
-            if (task == null) {
-                return ApiResponse.jsonData(APIStatus.ERROR_400, result.getResult());
             }
 			result = taskPendingService.saveOrUpdate(task);
 			//判断是否成功
@@ -347,10 +429,6 @@ public class TaskPendingController {
 			if(StringUtils.isEmpty(userLoginId)){
 				return ApiResponse.jsonData(APIStatus.UNAUTHORIZED_401);
             }
-			//对象检查是否为空
-            if (StringUtils.isEmpty(taskId)) {
-                return ApiResponse.jsonData(APIStatus.ERROR_400, result.getResult());
-            }
             result = taskPendingService.delete(taskId);
             //判断是否成功
             if(result.isSuccess()){
@@ -365,25 +443,25 @@ public class TaskPendingController {
 	
 	/**
 	 * 无用接口
-	* @Title: deleteTaskTreeById 
-	* @Description: TODO(删除taskId下的所有子节点) 
+	* @Title: deletePendingTaskTreeById 
+	* @Description: TODO(删除待办任务) 
 	* @param @param taskId
 	* @param @return    设定文件 
 	* @return JSONObject    返回类型 
 	* @throws
 	 */
-	/*@ApiOperation(value = "删除taskId下的所有子节点", notes = "删除taskId下的所有子节点")
-	@RequestMapping(value = "/deleteTaskTreeById", method = RequestMethod.POST)
-	public JSONObject deleteTaskTreeById(
+	@ApiOperation(value = "删除待办任务", notes = "删除待办任务")
+	@RequestMapping(value = "/deletePendingTaskTreeById", method = RequestMethod.POST)
+	public JSONObject deletePendingTaskTreeById(
 			@ApiParam(name = "taskId", value = "任务标识号", required = true) @RequestParam(required = true) String taskId){
-		ExecuteResult<List<Task>> result = new ExecuteResult<List<Task>>();
+		ExecuteResult<String> result = new ExecuteResult<String>();
 		try {
 			Long userLoginId = Long.valueOf(1);
 			//检查用户是否登录，需要去session中获取用户登录信息
 			if(StringUtils.isEmpty(userLoginId)){
 				return ApiResponse.jsonData(APIStatus.UNAUTHORIZED_401);
             }
-			result = taskPendingService.deleteTaskTreeById(Long.valueOf(taskId),TaskType.PENDINHG.getValue(),userLoginId);
+			result = taskPendingService.deletePendingTaskTreeById(Long.valueOf(taskId),TaskType.PENDINHG.getValue());
 			//判断是否成功
 			if(result.isSuccess()){
 				return ApiResponse.jsonData(APIStatus.OK_200,result.getResult());
@@ -393,7 +471,7 @@ public class TaskPendingController {
 			//异常
 			return ApiResponse.jsonData(APIStatus.ERROR_500,e.getMessage());
 		}
-	}*/
+	}
 	
 	/**
 	 * 无用接口

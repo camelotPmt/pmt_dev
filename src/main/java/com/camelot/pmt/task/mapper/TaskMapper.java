@@ -7,6 +7,7 @@ import com.camelot.pmt.platform.utils.Pager;
 import com.camelot.pmt.task.model.Task;
 import com.camelot.pmt.task.model.TaskDetail;
 
+import java.sql.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -146,6 +147,17 @@ public interface TaskMapper {
 	* @throws
 	 */
 	List<Task> queryTopTaskNameList(String taskType,Long beassignUserId);
+	
+	/**
+	 * 
+	* @Title: updateTaskPendingToDelay
+	* @Description: TODO(我的待办任务转为延期,会将该节点及节点下的所有子节点变为延期状态) 
+	* @param @param taskId taskType
+	* @param @return    设定文件 
+	* @return JSONObject    返回类型 
+	* @throws
+	 */
+	void updateTaskPendingToDelay(Long id,String taskType,String delayDescribe,Date estimateStartTime);
 	
 	/**
 	 * 

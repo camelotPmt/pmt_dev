@@ -6,7 +6,6 @@ package com.camelot.pmt.task.utils;
 public class Constant {
     /** 超级管理员ID */
     public static final int SUPER_ADMIN = 1;
-
     /** 任务类型  */
     public enum TaskType {
         /**待办*/
@@ -15,7 +14,7 @@ public class Constant {
         RUNING("1"),
         /**已办 */
         ALREADY("2"),
-        /**逾期*/
+        /**延期*/
     	OVERDUE("3");
 
         private String value;
