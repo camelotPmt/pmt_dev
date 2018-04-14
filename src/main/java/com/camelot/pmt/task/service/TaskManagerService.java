@@ -24,7 +24,7 @@ public interface TaskManagerService {
     /**
      * @author: zlh
      * @param taskManager 模糊查询的条件
-     * @description: 根据条件查询任务
+     * @description: 根据条件查询任务222
      * @return
      */
     ExecuteResult<List<TaskManager>> queryTaskByTask(TaskManager taskManager);
