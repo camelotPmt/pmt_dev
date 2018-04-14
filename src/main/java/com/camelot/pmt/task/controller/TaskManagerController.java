@@ -125,7 +125,7 @@ public class TaskManagerController {
         }
     }
 
-    @GetMapping(value = "/queryTaskById")
+    @GetMapping(value = "/queryTaskById")//zlh
     @ApiOperation(value = "查询任务详情接口", notes = "根据id查询任务详情")
     @ApiImplicitParams({
             @ApiImplicitParam(dataType = "Long", name = "id", value = "任务id", required = true),
