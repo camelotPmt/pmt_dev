@@ -469,7 +469,7 @@
       Column_5 = #{column5,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
-  
+
 
   <!--zlh-->
   <!--映射TaskMagager实体-->
@@ -504,9 +504,9 @@
   <!--zlh-->
   <!--任务管理展示字段-->
   <sql id="TaskManager_Column_List" >
-    t.id, t.task_name, u2.user_id, u2.user_name, t.estimate_start_time, t.estimate_end_time,
+    t.id, t.task_num, t.task_name, u2.user_id, u2.user_name, t.estimate_start_time, t.estimate_end_time,
     t.actual_start_time, t.actual_end_time, t.task_speed, t.status,
-    t.abnormal_status, t.task_type, t.task_mileage, t.priority, u3.user_id, u3.user_name,
+    t.task_type, t.task_mileage, t.priority, u3.user_id, u3.user_name,
     u1.user_id, u1.user_name, t.assign_time
   </sql>
 
