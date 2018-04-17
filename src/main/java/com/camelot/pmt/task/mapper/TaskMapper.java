@@ -2,6 +2,7 @@ package com.camelot.pmt.task.mapper;
 
 
 import com.camelot.pmt.platform.utils.Pager;
+import com.camelot.pmt.task.model.Task;
 import com.camelot.pmt.task.model.TaskDetail;
 
 import java.util.List;
