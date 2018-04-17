@@ -1,5 +1,6 @@
 package com.camelot.pmt.task.service.impl;
 
+import com.baomidou.mybatisplus.plugins.pagination.PageHelper;
 import com.camelot.pmt.platform.user.model.UserModel;
 import com.camelot.pmt.platform.utils.DataGrid;
 import com.camelot.pmt.platform.utils.ExecuteResult;
@@ -12,6 +13,7 @@ import com.camelot.pmt.task.service.TaskRunningService;
 import com.camelot.pmt.task.utils.Constant;
 import com.camelot.pmt.task.utils.DateUtils;
 import com.camelot.pmt.task.utils.RRException;
+import com.github.pagehelper.PageInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
+import javax.print.Doc;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -42,25 +45,12 @@ public class TaskRunningServiceImpl implements TaskRunningService{
     private static final Logger LOGGER = LoggerFactory.getLogger(TaskRunningServiceImpl.class);
 
 
-    public ExecuteResult<DataGrid<Map<String, Object>>> queryoverdueTaskRunning(Pager page, Long id) {
-        ExecuteResult<DataGrid<Map<String, Object>>> result = new ExecuteResult<DataGrid<Map<String, Object>>>();
-        try {
-            List<Map<String, Object>> list = taskMapper.listTaskRunning(page, id);
-            // 如果没有查询到数据，不继续进行
-            if (CollectionUtils.isEmpty(list)) {
-                DataGrid<Map<String, Object>> dg = new DataGrid<Map<String, Object>>();
-                result.setResult(dg);
-                return result;
-            }
-            DataGrid<Map<String, Object>> dg = new DataGrid<Map<String, Object>>();
-            dg.setRows(list);
-            // 查询总条数
-            Long total = taskMapper.queryRunningCount();
-            dg.setTotal(total);
-            result.setResult(dg);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+    public ExecuteResult<PageInfo<Map<String, Object>>> queryoverdueTaskRunning(int page , int rows, String id) {
+        ExecuteResult<PageInfo<Map<String, Object>>> result = new ExecuteResult<PageInfo<Map<String, Object>>>();
+        PageHelper.startPage(page, rows);
+        List<Map<String, Object>> list = taskMapper.listTaskRunning(id);
+        PageInfo<Map<String, Object>> clist = new PageInfo<Map<String, Object>>(list);
+        result.setResult(clist);
         return result;
     }
 

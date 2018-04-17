@@ -3,14 +3,12 @@ package com.camelot.pmt.task.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.camelot.pmt.platform.common.APIStatus;
 import com.camelot.pmt.platform.common.ApiResponse;
-import com.camelot.pmt.platform.user.model.UserModel;
-import com.camelot.pmt.platform.utils.DataGrid;
 import com.camelot.pmt.platform.utils.ExecuteResult;
-import com.camelot.pmt.platform.utils.Pager;
 import com.camelot.pmt.task.model.Task;
 import com.camelot.pmt.task.model.TaskLog;
 import com.camelot.pmt.task.service.TaskRunningService;
 import com.camelot.pmt.task.utils.Constant;
+import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
@@ -18,15 +16,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.Date;
-import java.util.List;
 import java.util.Map;
 
 /**
  * @author muyuanpei
- * @date 2018/4/10    15:18
+ * @date 2018/4/10
  */
 
 @RestController
@@ -48,18 +44,11 @@ public class TaskRunningController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "page", value = "页码", required = true, paramType = "query", dataType = "int"),
             @ApiImplicitParam(name = "rows", value = "每页数量", required = true, paramType = "query", dataType = "int")})
-    public JSONObject queryoverdueTaskRunning(@ApiIgnore Pager page) {
-        ExecuteResult<DataGrid<Map<String, Object>>> result = new ExecuteResult<DataGrid<Map<String, Object>>>();
+    public JSONObject queryoverdueTaskRunning(int page , int rows) {
+        String userLoginId = String.valueOf(1);
+        ExecuteResult<PageInfo<Map<String, Object>>> result = new ExecuteResult<PageInfo<Map<String, Object>>>();
         try {
-            Long userLoginId = Long.valueOf(1);
-            //检查用户是否登录，需要去session中获取用户登录信息
-            if(StringUtils.isEmpty(userLoginId)){
-                return ApiResponse.jsonData(APIStatus.UNAUTHORIZED_401);
-            }
-            if (page == null) {
-                return ApiResponse.errorPara();
-            }
-            result = taskRunningService.queryoverdueTaskRunning(page,userLoginId);
+            result = taskRunningService.queryoverdueTaskRunning(page, rows, userLoginId);
             if (result.isSuccess()) {
                 return ApiResponse.success(result.getResult());
             }

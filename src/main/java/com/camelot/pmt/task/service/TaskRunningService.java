@@ -6,6 +6,7 @@ import com.camelot.pmt.platform.utils.ExecuteResult;
 import com.camelot.pmt.platform.utils.Pager;
 import com.camelot.pmt.task.model.Task;
 import com.camelot.pmt.task.model.TaskLog;
+import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
 
 import java.sql.Date;
@@ -23,7 +24,7 @@ public interface TaskRunningService {
      * @Title: queryoverdueTaskRunning @Description: TODO @param @param
      * page @param @return @return ExecuteResult<DataGrid<Map<String, Object>>> @throws
      */
-    ExecuteResult<DataGrid<Map<String, Object>>> queryoverdueTaskRunning(Pager page, Long id);
+    ExecuteResult<PageInfo<Map<String, Object>>> queryoverdueTaskRunning(int page , int rows, String id);
 
 
     /**
