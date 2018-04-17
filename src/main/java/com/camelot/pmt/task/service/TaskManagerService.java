@@ -24,7 +24,7 @@ public interface TaskManagerService {
     /**
      * @author: zlh
      * @param taskManager 模糊查询的条件
-     * @description: 根据条件查询任务
+     * @description: 根据条件查询任务222
      * @return
      */
     ExecuteResult<List<TaskManager>> queryTaskByTask(TaskManager taskManager);
@@ -67,5 +67,21 @@ public interface TaskManagerService {
      * @description: 根据id删除任务
      * @date: 17:24 2018/4/12
      */
-    ExecuteResult<String> deleteTaskById(Long id, boolean isDeleteAll);
+    ExecuteResult<String> deleteTaskById(Long id);
+
+    /**
+     * @author: zlh
+     * @param:  taskManager 任务修改内容
+     * @description: 编辑任务
+     * @date: 17:05 2018/4/13
+     */
+    ExecuteResult<String> updateTaskByTask(TaskManager taskManager);
+
+    /**
+     * @author: zlh
+     * @param: taskManager 任务修改内容
+     * @description: 需求是否变更
+     * @date: 17:37 2018/4/13
+     */
+    ExecuteResult<String> updateDemandChangeByTask(TaskManager taskManager);
 }

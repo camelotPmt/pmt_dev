@@ -1,14 +1,9 @@
 package com.camelot.pmt.task.service.impl;
 
-import com.alibaba.fastjson.JSONObject;
-import com.camelot.pmt.platform.common.ApiResponse;
-import com.camelot.pmt.platform.role.service.impl.RoleServiceImpl;
 import com.camelot.pmt.platform.utils.ExecuteResult;
 import com.camelot.pmt.task.mapper.TaskMapper;
-import com.camelot.pmt.task.model.Task;
 import com.camelot.pmt.task.model.TaskManager;
 import com.camelot.pmt.task.service.TaskManagerService;
-import com.sun.mail.imap.protocol.ID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -218,7 +213,7 @@ public class TaskManagerServiceImpl implements TaskManagerService {
      * @date: 17:24 2018/4/12
      */
     @Override
-    public ExecuteResult<String> deleteTaskById(Long id, boolean isDeleteAll) {
+    public ExecuteResult<String> deleteTaskById(Long id) {
         ExecuteResult<String> result = new ExecuteResult<String>();
         try {
             // check参数
@@ -245,17 +240,71 @@ public class TaskManagerServiceImpl implements TaskManagerService {
 
             // 删除父任务
             taskMapper.deleteTaskById(id);
-            if (isDeleteAll) {
-                // 根据父id查询所有的子任务id
-                List<Long> ids = taskMapper.querySubTaskIdByParantId(id);
-                if (ids.isEmpty()) {
-                    return result;
-                }
-                // 递归删除所有子任务
-                for (Long subId : ids) {
-                    deleteTaskById(subId, isDeleteAll);
-                }
+            // 根据父id查询所有的子任务id
+            List<Long> ids = taskMapper.querySubTaskIdByParantId(id);
+            if (ids.isEmpty()) {
+                return result;
             }
+            // 递归删除所有子任务
+            for (Long subId : ids) {
+                deleteTaskById(subId);
+            }
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage());
+            throw new RuntimeException(e);
+        }
+        return result;
+    }
+
+    /**
+     * @author: zlh
+     * @param: taskManager 任务修改内容
+     * @description: 编辑任务
+     * 权限：只有任务的创建人可以进行编辑；
+     * @date: 17:05 2018/4/13
+     */
+    @Override
+    public ExecuteResult<String> updateTaskByTask(TaskManager taskManager) {
+        ExecuteResult<String> result = new ExecuteResult<String>();
+        try {
+            // check参数
+            if (taskManager == null) {
+                result.addErrorMessage("参数传入有误");
+                return result;
+            }
+
+            // 检查权限
+            TaskManager taskManager2 = taskMapper.queryTaskById(taskManager.getId());
+            String createUserName = taskManager2.getCreateUser().getUsername();
+            if (!"当前登录用户名".equals(createUserName)) {
+                /*return 没有权限*/
+            }
+            taskMapper.updateTaskById(taskManager);
+            result.setResult("修改成功");
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage());
+            throw new RuntimeException(e);
+        }
+        return result;
+    }
+
+    /**
+     * @author: zlh
+     * @param: taskManager 任务修改内容
+     * @description: 需求是否变更
+     * @date: 17:37 2018/4/13
+     */
+    @Override
+    public ExecuteResult<String> updateDemandChangeByTask(TaskManager taskManager) {
+        ExecuteResult<String> result = new ExecuteResult<String>();
+        try {
+            // check参数
+            if (taskManager == null) {
+                result.addErrorMessage("参数传入有误");
+                return result;
+            }
+            taskMapper.updateTaskById(taskManager);
+            result.setResult("修改成功");
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
             throw new RuntimeException(e);
