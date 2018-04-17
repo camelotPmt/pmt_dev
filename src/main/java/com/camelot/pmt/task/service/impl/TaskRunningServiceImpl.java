@@ -82,11 +82,13 @@ public class TaskRunningServiceImpl implements TaskRunningService{
         try{
             //遍历此任务下是否有引用--->查询所有任务父id为id的记录
             List<Task> taskList = taskMapper.selectByPId(id);
+            System.out.println(id);
             List<Long> list = new ArrayList<Long>();
             if(taskList.size()>0){
                 for (Task task : taskList) {
                     List<Task> tempList = taskMapper.selectByPId(task.getId());
                     if(tempList.size()>0){
+                        System.out.println(tempList.size());
                         for (Task task2 : tempList) {
                             List<Task> tempList2 = taskMapper.selectByPId(task2.getId());
                             if(tempList2.size()>0){
