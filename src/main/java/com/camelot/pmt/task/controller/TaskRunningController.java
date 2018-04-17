@@ -117,9 +117,9 @@ public class TaskRunningController {
      * @throws
      */
     @ApiOperation(value = "我的任务转为关闭", notes = "我的任务转为关闭")
-    @RequestMapping(value = "/updateTaskToClose", method = RequestMethod.POST)
+    @RequestMapping(value = "/updateTaskToClose", method = RequestMethod.GET)
     public JSONObject updateTaskToClose(
-            @ApiParam(name = "id", value = "任务标识号", required = true) @RequestParam(required = true) Long taskId){
+            @ApiParam(name = "id", value = "任务标识号", required = true) @RequestParam(required = true) Long id){
         ExecuteResult<String> result = new ExecuteResult<String>();
         try {
             Long userLoginId = Long.valueOf(1);
@@ -128,7 +128,7 @@ public class TaskRunningController {
                 return ApiResponse.jsonData(APIStatus.UNAUTHORIZED_401);
             }
             //更新我的任务为关闭
-            result = taskRunningService.runningtoclose(taskId);
+            result = taskRunningService.runningtoclose(id);
             //判断是否成功
             if(result.isSuccess()){
                 return ApiResponse.jsonData(APIStatus.OK_200,result.getResult());
