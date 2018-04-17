@@ -221,7 +221,7 @@ public interface TaskMapper {
      * 根据任务id查询所有的次id的子任务
      * myp
      * */
-    List<Task> selectByPId(Long id);
+    List<Task> selectByPId(Long pid);
 
 
 
