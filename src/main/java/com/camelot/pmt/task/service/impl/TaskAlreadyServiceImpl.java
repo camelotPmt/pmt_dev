@@ -40,8 +40,8 @@ public class TaskAlreadyServiceImpl implements TaskAlreadyService {
             DataGrid<Map<String, Object>> dg = new DataGrid<Map<String, Object>>();
             dg.setRows(list);
             // 查询总条数
-            Long total = taskMapper.queryAlreadyCount();
-            dg.setTotal(total);
+            //Long total = taskMapper.queryAlreadyCount();
+           // dg.setTotal(total);
             result.setResult(dg);
         } catch (Exception e) {
             throw new RuntimeException(e);
