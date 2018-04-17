@@ -2,7 +2,6 @@ package com.camelot.pmt.task.service.impl;
 
 import com.camelot.pmt.platform.utils.ExecuteResult;
 import com.camelot.pmt.task.mapper.TaskMapper;
-import com.camelot.pmt.task.model.Task;
 import com.camelot.pmt.task.service.TaskPendingService;
 import com.camelot.pmt.task.utils.Constant.TaskType;
 import com.camelot.pmt.task.utils.DateUtils;

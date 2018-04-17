@@ -3,7 +3,6 @@ package com.camelot.pmt.task.service.impl;
 import java.util.List;
 
 import com.camelot.pmt.task.mapper.TaskMapper;
-import com.camelot.pmt.task.model.Task;
 import com.camelot.pmt.task.model.TaskDetail;
 
 import org.slf4j.Logger;
@@ -12,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
-import com.camelot.pmt.platform.user.model.UserModel;
 import com.camelot.pmt.platform.utils.DataGrid;
 import com.camelot.pmt.platform.utils.ExecuteResult;
 import com.camelot.pmt.platform.utils.Pager;

@@ -1,465 +1,434 @@
 package com.camelot.pmt.task.model;
 
+import com.camelot.pmt.platform.model.User;
+import com.camelot.pmt.project.model.Demand;
+import com.camelot.pmt.project.model.Project;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 public class Task implements Serializable{
-
-    private static final long serialVersionUID = -4807200873251253588L;
-
+	
+	private static final long serialVersionUID = 1L;
+	/**
+	 * 任务ID（主键）
+	 */
     private Long id;
-
+    /**
+     * 任务编号
+     */
+    private String taskNum;
+    /**
+     * 任务名称
+     */
     private String taskName;
-
+    /**
+     * 父级任务ID
+     */
     private Long taskParentId;
-
-    private Long projectId;
-
-    private Long demandId;
-
+    /**
+     * 项目
+     */
+    private Project project;
+    /**
+     * 需求
+     */
+    private Demand demand;
+    /**
+     * 优先级
+     */
     private String priority;
-
-    private String assignUserId;
-
-    private String beassignUserId;
-
+    /**
+     * 指派人ID
+     */
+    private User assignUser;
+    /**
+     * 负责人ID
+     */
+    private User beassignUser;
+    /**
+     * 任务指派时间
+     */
     private Date assignTime;
-
+    /**
+     * 任务预计开始时间
+     */
     private Date estimateStartTime;
-
+    /**
+     * 任务预计结束时间
+     */
     private Date estimateEndTime;
-
+    /**
+     * 任务实际开始时间
+     */
     private Date actualStartTime;
-
+    /**
+     * 任务实际结束时间
+     */
     private Date actualEndTime;
-
+    /**
+     * 任务类型
+     */
     private String taskType;
-
+    /**
+     * 任务进度
+     */
     private String taskSpeed;
-
+    /**
+     * 任务状态（0 未开始 1 正在进行 2 已完成 3 延期 4 关闭）
+     */
     private String status;
-
-    private String abnormalStatus;
-
+    /**
+     * 节点等级（1，2，3，4）
+     */
+    private String nodeLv;
+    /**
+     * 任务描述
+     */
     private String taskDescribe;
-
-    private String abnormalDescribe;
-
-    private Integer estimateHour;
-
-    private Integer consumeHour;
-
-    private Integer remainHour;
-
+    /**
+     * 需求是否变更
+     */
+    private String demandChange;
+    /**
+     * 延期原因
+     */
+    private String delayDescribe;
+    /**
+     * 任务预计工时
+     */
+    private Long estimateHour;
+    /**
+     * 任务实际工时
+     */
+    private Long infactHour;
+    /**
+     * 任务里程
+     */
     private String taskMileage;
-
-    private String createUserId;
-
+    /**
+     * 创建人ID
+     */
+    private User createUser;
+    /**
+     * 修改人ID
+     */
     private String modifyUserId;
-
+    /**
+     * 创建时间
+     */
     private Date createTime;
-
+    /**
+     * 修改时间
+     */
     private Date modifyTime;
-
-    private Integer warningHour;
-
-    private Integer warningStatus;
-
-    private String comment;
-
-    private String filepath;
-
-    private String filename;
-
-    private String column1;
-
-    private String column2;
-
-    private String column3;
-
-    private String column4;
-
-    private String column5;
-    
+    /**
+     * 子任务集合
+     */
     private List<Task> children = new ArrayList<Task>();
 
-   
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getTaskName() {
-		return taskName;
-	}
-
-	public void setTaskName(String taskName) {
-		this.taskName = taskName;
-	}
-
-	public Long getTaskParentId() {
-		return taskParentId;
-	}
-
-	public void setTaskParentId(Long taskParentId) {
-		this.taskParentId = taskParentId;
-	}
-
-	public Long getProjectId() {
-		return projectId;
-	}
-
-	public void setProjectId(Long projectId) {
-		this.projectId = projectId;
-	}
-
-	public Long getDemandId() {
-		return demandId;
-	}
-
-	public void setDemandId(Long demandId) {
-		this.demandId = demandId;
-	}
-
-	public String getPriority() {
-		return priority;
-	}
-
-	public void setPriority(String priority) {
-		this.priority = priority;
-	}
-
-	public String getAssignUserId() {
-		return assignUserId;
-	}
-
-	public void setAssignUserId(String assignUserId) {
-		this.assignUserId = assignUserId;
-	}
-
-	public String getBeassignUserId() {
-		return beassignUserId;
-	}
-
-	public void setBeassignUserId(String beassignUserId) {
-		this.beassignUserId = beassignUserId;
-	}
-
-	public Date getAssignTime() {
-		return assignTime;
-	}
-
-	public void setAssignTime(Date assignTime) {
-		this.assignTime = assignTime;
-	}
-
-	public Date getEstimateStartTime() {
-		return estimateStartTime;
-	}
-
-	public void setEstimateStartTime(Date estimateStartTime) {
-		this.estimateStartTime = estimateStartTime;
-	}
-
-	public Date getEstimateEndTime() {
-		return estimateEndTime;
-	}
-
-	public void setEstimateEndTime(Date estimateEndTime) {
-		this.estimateEndTime = estimateEndTime;
-	}
-
-	public Date getActualStartTime() {
-		return actualStartTime;
-	}
-
-	public void setActualStartTime(Date actualStartTime) {
-		this.actualStartTime = actualStartTime;
-	}
-
-	public Date getActualEndTime() {
-		return actualEndTime;
-	}
-
-	public void setActualEndTime(Date actualEndTime) {
-		this.actualEndTime = actualEndTime;
-	}
-
-	public String getTaskType() {
-		return taskType;
-	}
-
-	public void setTaskType(String taskType) {
-		this.taskType = taskType;
-	}
-
-	public String getTaskSpeed() {
-		return taskSpeed;
-	}
-
-	public void setTaskSpeed(String taskSpeed) {
-		this.taskSpeed = taskSpeed;
-	}
-
-	public String getStatus() {
-		return status;
-	}
-
-	public void setStatus(String status) {
-		this.status = status;
-	}
-
-	public String getAbnormalStatus() {
-		return abnormalStatus;
-	}
-
-	public void setAbnormalStatus(String abnormalStatus) {
-		this.abnormalStatus = abnormalStatus;
-	}
-
-	public String getTaskDescribe() {
-		return taskDescribe;
-	}
-
-	public void setTaskDescribe(String taskDescribe) {
-		this.taskDescribe = taskDescribe;
-	}
-
-	public String getAbnormalDescribe() {
-		return abnormalDescribe;
-	}
-
-	public void setAbnormalDescribe(String abnormalDescribe) {
-		this.abnormalDescribe = abnormalDescribe;
-	}
-
-	public Integer getEstimateHour() {
-		return estimateHour;
-	}
-
-	public void setEstimateHour(Integer estimateHour) {
-		this.estimateHour = estimateHour;
-	}
-
-	public Integer getConsumeHour() {
-		return consumeHour;
-	}
-
-	public void setConsumeHour(Integer consumeHour) {
-		this.consumeHour = consumeHour;
-	}
-
-	public Integer getRemainHour() {
-		return remainHour;
-	}
-
-	public void setRemainHour(Integer remainHour) {
-		this.remainHour = remainHour;
-	}
-
-	public String getTaskMileage() {
-		return taskMileage;
-	}
-
-	public void setTaskMileage(String taskMileage) {
-		this.taskMileage = taskMileage;
-	}
-
-	public String getCreateUserId() {
-		return createUserId;
-	}
-
-	public void setCreateUserId(String createUserId) {
-		this.createUserId = createUserId;
-	}
-
-	public String getModifyUserId() {
-		return modifyUserId;
-	}
-
-	public void setModifyUserId(String modifyUserId) {
-		this.modifyUserId = modifyUserId;
-	}
-
-	public Date getCreateTime() {
-		return createTime;
-	}
-
-	public void setCreateTime(Date createTime) {
-		this.createTime = createTime;
-	}
-
-	public Date getModifyTime() {
-		return modifyTime;
-	}
-
-	public void setModifyTime(Date modifyTime) {
-		this.modifyTime = modifyTime;
-	}
-
-	public Integer getWarningHour() {
-		return warningHour;
-	}
-
-	public void setWarningHour(Integer warningHour) {
-		this.warningHour = warningHour;
-	}
-
-	public Integer getWarningStatus() {
-		return warningStatus;
-	}
-
-	public void setWarningStatus(Integer warningStatus) {
-		this.warningStatus = warningStatus;
-	}
-
-	public String getComment() {
-		return comment;
-	}
-
-	public void setComment(String comment) {
-		this.comment = comment;
-	}
-
-	public String getFilepath() {
-		return filepath;
-	}
-
-	public void setFilepath(String filepath) {
-		this.filepath = filepath;
-	}
-
-	public String getFilename() {
-		return filename;
-	}
-
-	public void setFilename(String filename) {
-		this.filename = filename;
-	}
-
-	public String getColumn1() {
-		return column1;
-	}
-
-	public void setColumn1(String column1) {
-		this.column1 = column1;
-	}
-
-	public String getColumn2() {
-		return column2;
-	}
-
-	public void setColumn2(String column2) {
-		this.column2 = column2;
-	}
-
-	public String getColumn3() {
-		return column3;
-	}
-
-	public void setColumn3(String column3) {
-		this.column3 = column3;
-	}
-
-	public String getColumn4() {
-		return column4;
-	}
-
-	public void setColumn4(String column4) {
-		this.column4 = column4;
-	}
-
-	public String getColumn5() {
-		return column5;
-	}
-
-	public void setColumn5(String column5) {
-		this.column5 = column5;
-	}
-
-	@Override
-	public String toString() {
-		return "Task [id=" + id + ", taskName=" + taskName + ", taskParentId=" + taskParentId + ", projectId="
-				+ projectId + ", demandId=" + demandId + ", priority=" + priority + ", assignUserId=" + assignUserId
-				+ ", beassignUserId=" + beassignUserId + ", assignTime=" + assignTime + ", estimateStartTime="
-				+ estimateStartTime + ", estimateEndTime=" + estimateEndTime + ", actualStartTime=" + actualStartTime
-				+ ", actualEndTime=" + actualEndTime + ", taskType=" + taskType + ", taskSpeed=" + taskSpeed
-				+ ", status=" + status + ", abnormalStatus=" + abnormalStatus + ", taskDescribe=" + taskDescribe
-				+ ", abnormalDescribe=" + abnormalDescribe + ", estimateHour=" + estimateHour + ", consumeHour="
-				+ consumeHour + ", remainHour=" + remainHour + ", taskMileage=" + taskMileage + ", createUserId="
-				+ createUserId + ", modifyUserId=" + modifyUserId + ", createTime=" + createTime + ", modifyTime="
-				+ modifyTime + ", warningHour=" + warningHour + ", warningStatus=" + warningStatus + ", column1="
-				+ column1 + ", column2=" + column2 + ", column3=" + column3 + ", column4=" + column4 + ", column5="
-				+ column5 + "]";
-	}
-
-	public Task(Long id, String taskName, Long taskParentId, Long projectId, Long demandId, String priority,
-			String assignUserId, String beassignUserId, Date assignTime, Date estimateStartTime, Date estimateEndTime,
-			Date actualStartTime, Date actualEndTime, String taskType, String taskSpeed, String status,
-			String abnormalStatus, String taskDescribe, String abnormalDescribe, Integer estimateHour,
-			Integer consumeHour, Integer remainHour, String taskMileage, String createUserId, String modifyUserId,
-			Date createTime, Date modifyTime, Integer warningHour, Integer warningStatus, String column1,
-			String column2, String column3, String column4, String column5) {
-		super();
-		this.id = id;
-		this.taskName = taskName;
-		this.taskParentId = taskParentId;
-		this.projectId = projectId;
-		this.demandId = demandId;
-		this.priority = priority;
-		this.assignUserId = assignUserId;
-		this.beassignUserId = beassignUserId;
-		this.assignTime = assignTime;
-		this.estimateStartTime = estimateStartTime;
-		this.estimateEndTime = estimateEndTime;
-		this.actualStartTime = actualStartTime;
-		this.actualEndTime = actualEndTime;
-		this.taskType = taskType;
-		this.taskSpeed = taskSpeed;
-		this.status = status;
-		this.abnormalStatus = abnormalStatus;
-		this.taskDescribe = taskDescribe;
-		this.abnormalDescribe = abnormalDescribe;
-		this.estimateHour = estimateHour;
-		this.consumeHour = consumeHour;
-		this.remainHour = remainHour;
-		this.taskMileage = taskMileage;
-		this.createUserId = createUserId;
-		this.modifyUserId = modifyUserId;
-		this.createTime = createTime;
-		this.modifyTime = modifyTime;
-		this.warningHour = warningHour;
-		this.warningStatus = warningStatus;
-		this.column1 = column1;
-		this.column2 = column2;
-		this.column3 = column3;
-		this.column4 = column4;
-		this.column5 = column5;
-	}
-
-
-
-
-	public List<Task> getChildren() {
-		return children;
-	}
-
-	public void setChildren(List<Task> children) {
-		this.children = children;
-	}
-
-
-
-	public Task() {
-		super();
-	}
-	
-	
-
+    public Task() {
+    }
+
+    public Task(Long id, String taskNum, String taskName, Long taskParentId, Project project, Demand demand, String priority, User assignUser, User beassignUser, Date assignTime, Date estimateStartTime, Date estimateEndTime, Date actualStartTime, Date actualEndTime, String taskType, String taskSpeed, String status, String nodeLv, String taskDescribe, String demandChange, String delayDescribe, Long estimateHour, Long infactHour, String taskMileage, User createUser, String modifyUserId, Date createTime, Date modifyTime, List<Task> children) {
+        this.id = id;
+        this.taskNum = taskNum;
+        this.taskName = taskName;
+        this.taskParentId = taskParentId;
+        this.project = project;
+        this.demand = demand;
+        this.priority = priority;
+        this.assignUser = assignUser;
+        this.beassignUser = beassignUser;
+        this.assignTime = assignTime;
+        this.estimateStartTime = estimateStartTime;
+        this.estimateEndTime = estimateEndTime;
+        this.actualStartTime = actualStartTime;
+        this.actualEndTime = actualEndTime;
+        this.taskType = taskType;
+        this.taskSpeed = taskSpeed;
+        this.status = status;
+        this.nodeLv = nodeLv;
+        this.taskDescribe = taskDescribe;
+        this.demandChange = demandChange;
+        this.delayDescribe = delayDescribe;
+        this.estimateHour = estimateHour;
+        this.infactHour = infactHour;
+        this.taskMileage = taskMileage;
+        this.createUser = createUser;
+        this.modifyUserId = modifyUserId;
+        this.createTime = createTime;
+        this.modifyTime = modifyTime;
+        this.children = children;
+    }
+
+    public Long getId() {
+
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getTaskNum() {
+        return taskNum;
+    }
+
+    public void setTaskNum(String taskNum) {
+        this.taskNum = taskNum;
+    }
+
+    public String getTaskName() {
+        return taskName;
+    }
+
+    public void setTaskName(String taskName) {
+        this.taskName = taskName;
+    }
+
+    public Long getTaskParentId() {
+        return taskParentId;
+    }
+
+    public void setTaskParentId(Long taskParentId) {
+        this.taskParentId = taskParentId;
+    }
+
+    public Project getProject() {
+        return project;
+    }
+
+    public void setProject(Project project) {
+        this.project = project;
+    }
+
+    public Demand getDemand() {
+        return demand;
+    }
+
+    public void setDemand(Demand demand) {
+        this.demand = demand;
+    }
+
+    public String getPriority() {
+        return priority;
+    }
+
+    public void setPriority(String priority) {
+        this.priority = priority;
+    }
+
+    public User getAssignUser() {
+        return assignUser;
+    }
+
+    public void setAssignUser(User assignUser) {
+        this.assignUser = assignUser;
+    }
+
+    public User getBeassignUser() {
+        return beassignUser;
+    }
+
+    public void setBeassignUser(User beassignUser) {
+        this.beassignUser = beassignUser;
+    }
+
+    public Date getAssignTime() {
+        return assignTime;
+    }
+
+    public void setAssignTime(Date assignTime) {
+        this.assignTime = assignTime;
+    }
+
+    public Date getEstimateStartTime() {
+        return estimateStartTime;
+    }
+
+    public void setEstimateStartTime(Date estimateStartTime) {
+        this.estimateStartTime = estimateStartTime;
+    }
+
+    public Date getEstimateEndTime() {
+        return estimateEndTime;
+    }
+
+    public void setEstimateEndTime(Date estimateEndTime) {
+        this.estimateEndTime = estimateEndTime;
+    }
+
+    public Date getActualStartTime() {
+        return actualStartTime;
+    }
+
+    public void setActualStartTime(Date actualStartTime) {
+        this.actualStartTime = actualStartTime;
+    }
+
+    public Date getActualEndTime() {
+        return actualEndTime;
+    }
+
+    public void setActualEndTime(Date actualEndTime) {
+        this.actualEndTime = actualEndTime;
+    }
+
+    public String getTaskType() {
+        return taskType;
+    }
+
+    public void setTaskType(String taskType) {
+        this.taskType = taskType;
+    }
+
+    public String getTaskSpeed() {
+        return taskSpeed;
+    }
+
+    public void setTaskSpeed(String taskSpeed) {
+        this.taskSpeed = taskSpeed;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getNodeLv() {
+        return nodeLv;
+    }
+
+    public void setNodeLv(String nodeLv) {
+        this.nodeLv = nodeLv;
+    }
+
+    public String getTaskDescribe() {
+        return taskDescribe;
+    }
+
+    public void setTaskDescribe(String taskDescribe) {
+        this.taskDescribe = taskDescribe;
+    }
+
+    public String getDemandChange() {
+        return demandChange;
+    }
+
+    public void setDemandChange(String demandChange) {
+        this.demandChange = demandChange;
+    }
+
+    public String getDelayDescribe() {
+        return delayDescribe;
+    }
+
+    public void setDelayDescribe(String delayDescribe) {
+        this.delayDescribe = delayDescribe;
+    }
+
+    public Long getEstimateHour() {
+        return estimateHour;
+    }
+
+    public void setEstimateHour(Long estimateHour) {
+        this.estimateHour = estimateHour;
+    }
+
+    public Long getInfactHour() {
+        return infactHour;
+    }
+
+    public void setInfactHour(Long infactHour) {
+        this.infactHour = infactHour;
+    }
+
+    public String getTaskMileage() {
+        return taskMileage;
+    }
+
+    public void setTaskMileage(String taskMileage) {
+        this.taskMileage = taskMileage;
+    }
+
+    public User getCreateUser() {
+        return createUser;
+    }
+
+    public void setCreateUser(User createUser) {
+        this.createUser = createUser;
+    }
+
+    public String getModifyUserId() {
+        return modifyUserId;
+    }
+
+    public void setModifyUserId(String modifyUserId) {
+        this.modifyUserId = modifyUserId;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public Date getModifyTime() {
+        return modifyTime;
+    }
+
+    public void setModifyTime(Date modifyTime) {
+        this.modifyTime = modifyTime;
+    }
+
+    public List<Task> getChildren() {
+        return children;
+    }
+
+    public void setChildren(List<Task> children) {
+        this.children = children;
+    }
+
+    @Override
+    public String toString() {
+        return "Task{" +
+                "id=" + id +
+                ", taskNum='" + taskNum + '\'' +
+                ", taskName='" + taskName + '\'' +
+                ", taskParentId=" + taskParentId +
+                ", project=" + project +
+                ", demand=" + demand +
+                ", priority='" + priority + '\'' +
+                ", assignUser=" + assignUser +
+                ", beassignUser=" + beassignUser +
+                ", assignTime=" + assignTime +
+                ", estimateStartTime=" + estimateStartTime +
+                ", estimateEndTime=" + estimateEndTime +
+                ", actualStartTime=" + actualStartTime +
+                ", actualEndTime=" + actualEndTime +
+                ", taskType='" + taskType + '\'' +
+                ", taskSpeed='" + taskSpeed + '\'' +
+                ", status='" + status + '\'' +
+                ", nodeLv='" + nodeLv + '\'' +
+                ", taskDescribe='" + taskDescribe + '\'' +
+                ", demandChange='" + demandChange + '\'' +
+                ", delayDescribe='" + delayDescribe + '\'' +
+                ", estimateHour=" + estimateHour +
+                ", infactHour=" + infactHour +
+                ", taskMileage='" + taskMileage + '\'' +
+                ", createUser=" + createUser +
+                ", modifyUserId='" + modifyUserId + '\'' +
+                ", createTime=" + createTime +
+                ", modifyTime=" + modifyTime +
+                ", children=" + children +
+                '}';
+    }
 }

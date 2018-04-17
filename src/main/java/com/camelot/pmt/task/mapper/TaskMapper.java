@@ -1,19 +1,14 @@
 package com.camelot.pmt.task.mapper;
 
 
-import com.camelot.pmt.platform.user.model.UserModel;
-import com.camelot.pmt.platform.utils.ExecuteResult;
 import com.camelot.pmt.platform.utils.Pager;
-import com.camelot.pmt.task.model.Task;
 import com.camelot.pmt.task.model.TaskDetail;
 
-import java.sql.Date;
 import java.util.List;
 import java.util.Map;
 
 import com.camelot.pmt.task.model.TaskLog;
 import com.camelot.pmt.task.model.TaskManager;
-import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 

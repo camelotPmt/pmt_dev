@@ -1,14 +1,9 @@
 package com.camelot.pmt.task.service.impl;
 
 import com.baomidou.mybatisplus.plugins.pagination.PageHelper;
-import com.camelot.pmt.platform.user.model.UserModel;
-import com.camelot.pmt.platform.utils.DataGrid;
 import com.camelot.pmt.platform.utils.ExecuteResult;
-import com.camelot.pmt.platform.utils.Pager;
-import com.camelot.pmt.pro.model.Demand;
 import com.camelot.pmt.task.mapper.TaskLogMapper;
 import com.camelot.pmt.task.mapper.TaskMapper;
-import com.camelot.pmt.task.model.Task;
 import com.camelot.pmt.task.model.TaskLog;
 import com.camelot.pmt.task.service.TaskRunningService;
 import com.camelot.pmt.task.utils.Constant;
@@ -19,11 +14,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
-import javax.print.Doc;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
