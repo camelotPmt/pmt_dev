@@ -1,4 +1,4 @@
-package com.camelot.pmt.platform.model;
+package com.camelot.pmt.platform.utils.model;
 
 import com.baomidou.mybatisplus.enums.IdType;
 import java.util.Date;

@@ -1,4 +1,4 @@
-package com.camelot.pmt.platform.model;
+package com.camelot.pmt.platform.utils.model;
 
 import java.io.Serializable;
 import java.util.Date;

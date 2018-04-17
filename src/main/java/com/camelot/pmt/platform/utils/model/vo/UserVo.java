@@ -1,4 +1,4 @@
-package com.camelot.pmt.platform.model.vo;
+package com.camelot.pmt.platform.utils.model.vo;
 
 import java.io.Serializable;
 
