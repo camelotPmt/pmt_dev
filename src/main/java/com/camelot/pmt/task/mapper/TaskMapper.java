@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Map;
 
 import com.camelot.pmt.task.model.TaskLog;
-import com.camelot.pmt.task.model.TaskManager;
 import org.apache.ibatis.annotations.Param;
 
 
@@ -31,40 +30,40 @@ public interface TaskMapper {
      * @param:
      * @description: 查询所有任务列表
      * @date: 16:54 2018/4/9
-     */
+     *//*
     List<TaskManager> queryAllTask();
 
-    /**
+    *//**
 	 * @author: zlh
      * @param taskManager 模糊查询的条件
      * @description: 根据条件查询任务
      * @return
-     */
+     *//*
     List<TaskManager> queryTaskByTask(TaskManager taskManager);
 
-    /**
+    *//**
      * @author: zlh
      * @param: taskManager 插入任务的数据
      * @description: 新增任务
      * @date: 9:07 2018/4/12
-     */
+     *//*
     int insertTask(TaskManager taskManager);
 
-    /**
+    *//**
      * @author: zlh
      * @param: taskManager 需要修改的任务数据
      * @description: 根据任务id修改任务
      * @date: 10:18 2018/4/12
-     */
+     *//*
     int updateTaskById(TaskManager taskManager);
-
+*/
     /**
      * @author: zlh
      * @param: id 任务id
      * @description: 根据任务id查询任务详情
      * @date: 17:08 2018/4/12
      */
-    TaskManager queryTaskById(Long id);
+    //TaskManager queryTaskById(Long id);
 
     /**
      * @author: zlh
