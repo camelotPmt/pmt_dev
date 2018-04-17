@@ -195,18 +195,52 @@ public interface TaskMapper {
 	 */
 	Task queryParentTaskNodeById(Long id);
 
+
+
+
+
+
+
+
+
+
 	/**
 	 * 查询正在进行的任务，根据时间和优先级进行排序
 	 * myp
 	 * */
     List<Map<String,Object>> listTaskRunning(String id);
 
-	/**
-     * 查询正在进行任务个数 @Title: queryCount @Description: TODO @param @return @return
-     * Long @throws
+
+    /**
+     *
+     * */
+    void runningtoclose(List<Long> alist);
+
+
+    /**
+     * 根据任务id查询所有的次id的子任务
      * myp
-     */
-    Long queryRunningCount();
+     * */
+    List<Task> selectByPId(Long id);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 	/**
@@ -221,12 +255,7 @@ public interface TaskMapper {
 	 * */
 	List<Map<String,Object>> listTaskAlready(@Param(value = "page") Pager page, @Param(value = "id") Long id);
 
-	/**
-	 * 查询已完成任务总个数 @Title: queryCount @Description: TODO @param @return @return
-	 * Long @throws
-	 * myp
-	 */
-	Long queryAlreadyCount();
+
 
 	/**
 	 * 添加历史记录 @Title: queryCount @Description: TODO @param @return @return

@@ -5,6 +5,7 @@ import com.camelot.pmt.platform.user.model.UserModel;
 import com.camelot.pmt.platform.utils.DataGrid;
 import com.camelot.pmt.platform.utils.ExecuteResult;
 import com.camelot.pmt.platform.utils.Pager;
+import com.camelot.pmt.pro.model.Demand;
 import com.camelot.pmt.task.mapper.TaskLogMapper;
 import com.camelot.pmt.task.mapper.TaskMapper;
 import com.camelot.pmt.task.model.Task;
@@ -23,6 +24,7 @@ import org.springframework.util.StringUtils;
 
 import javax.print.Doc;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -44,15 +46,81 @@ public class TaskRunningServiceImpl implements TaskRunningService{
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TaskRunningServiceImpl.class);
 
-
+    /**
+     * <p>
+     * Description:[根据用户id获取正在进行的任务列表]
+     * <p>
+     *
+     * @return ExecuteResult<PageInfo<Map<String, Object>>>
+     */
+    @Override
     public ExecuteResult<PageInfo<Map<String, Object>>> queryoverdueTaskRunning(int page , int rows, String id) {
         ExecuteResult<PageInfo<Map<String, Object>>> result = new ExecuteResult<PageInfo<Map<String, Object>>>();
+        //利用PageHelper进行分页
         PageHelper.startPage(page, rows);
+        //根据用户id查询全部的正在进行的任务
         List<Map<String, Object>> list = taskMapper.listTaskRunning(id);
+        //分页之后的结果集
         PageInfo<Map<String, Object>> clist = new PageInfo<Map<String, Object>>(list);
+        //返回结果集
         result.setResult(clist);
         return result;
     }
+
+    /**
+     *
+     * @Title: runningtoclose
+     * @Description: TODO(我的任务转为关闭)
+     * @param @param taskId
+     * @param @return    设定文件
+     * @return JSONObject    返回类型
+     * @throws
+     */
+    @Override
+    public ExecuteResult<String> runningtoclose(Long id) {
+        ExecuteResult<String> result=new ExecuteResult<>();
+        try{
+            //遍历此任务下是否有引用--->查询所有任务父id为id的记录
+            List<Task> taskList = taskMapper.selectByPId(id);
+            List<Long> list = new ArrayList<Long>();
+            if(taskList.size()>0){
+                for (Task task : taskList) {
+                    List<Task> tempList = taskMapper.selectByPId(task.getId());
+                    if(tempList.size()>0){
+                        for (Task task2 : tempList) {
+                            List<Task> tempList2 = taskMapper.selectByPId(task2.getId());
+                            if(tempList2.size()>0){
+                                for (Task task3 : tempList2) {
+                                    list.add(task3.getId());
+                                }
+                            }else{
+                                //说明没有子任务
+                                list.add(task2.getId());
+                            }
+                        }
+                    }else{
+                        //说明没有子任务
+                        list.add(task.getId());
+                    }
+                }
+                if(list.size() == taskList.size()){
+                    list.add(id);
+                }
+            }else{
+                //说明没有子任务
+                list.add(id);
+            }
+
+            taskMapper.runningtoclose(list);
+            result.setResult("关闭任务成功");
+        }catch (Exception e){
+            //logger.error("-------需求业务根据id删除------"+e.getMessage());
+            throw new RuntimeException(e);
+
+        }
+        return result;
+    }
+
 
     /**
      * <p>
@@ -99,42 +167,7 @@ public class TaskRunningServiceImpl implements TaskRunningService{
     }
 
 
-    /**
-     *
-     * @Title: updateTaskPendingToRuning
-     * @Description: TODO(我的任务转为关闭)
-     * @param @param taskId taskType
-     * @param @return    设定文件
-     * @return JSONObject    返回类型
-     * @throws
-     */
-    @Override
-    public ExecuteResult<String> updateTaskToClose(Long id,String taskType) {
-        ExecuteResult<String> result = new ExecuteResult<String>();
-        try{
-            if(id==null){
-                result.addErrorMessage("传入的任务Id有误!");
-                return result;
-            }
-                //根据id更新任务状态为关闭
-                //sql:update task set t.status = #{taskType,jdbcType=VARCHAR} where t.id = #{id,jdbcType=BIGINT}
-                taskMapper.updateTaskToClose(id,taskType);
-                //查询taskId下的所有子节点
-                //select * from task t where t.task_parent_id = #{id}
-                Task parentTaskNodes = taskMapper.queryParentTaskNodeById(id);
-                //判断是否有父节点
-                if(parentTaskNodes!=null){
-                    //递归
-                    return updateTaskToClose(parentTaskNodes.getId(),parentTaskNodes.getStatus());
-                }
-            result.setResult("关闭任务成功！");
-        }
-        catch (Exception e) {
-            LOGGER.error(e.getMessage());
-            throw new RRException(e.getMessage(),e);
-        }
-        return result;
-    }
+
 
     /**
      *

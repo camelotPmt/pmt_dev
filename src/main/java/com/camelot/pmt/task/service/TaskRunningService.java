@@ -55,7 +55,7 @@ public interface TaskRunningService {
      * @return ExecuteResult<String>    返回类型
      * @throws
      */
-    ExecuteResult<String> updateTaskToClose(Long id,String taskType);
+    ExecuteResult<String> runningtoclose(Long id);
 
 
     /**

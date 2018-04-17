@@ -128,7 +128,7 @@ public class TaskRunningController {
                 return ApiResponse.jsonData(APIStatus.UNAUTHORIZED_401);
             }
             //更新我的任务为关闭
-            result = taskRunningService.updateTaskToClose(taskId, Constant.TaskType.CLOSE.getValue());
+            result = taskRunningService.runningtoclose(taskId);
             //判断是否成功
             if(result.isSuccess()){
                 return ApiResponse.jsonData(APIStatus.OK_200,result.getResult());
