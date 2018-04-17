@@ -722,7 +722,7 @@
     ORDER BY ta.create_time DESC, ta.priority DESC
   </select>
 
-  <select id="selectByPId" parameterType="Long">
+  <select id="selectByPId" parameterType="Long" resultType="com.camelot.pmt.task.model.Task">
     SELECT * FROM task WHERE task_parent_id = #{pid}
   </select>
 
